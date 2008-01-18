@@ -7,11 +7,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Label;
 
+/**************************************************************************************************/
+
 public class Main {
 	private Shell shell;
 	private Display display;
-
-/**************************************************************************************************/
 
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
