@@ -101,7 +101,7 @@ public class Puzzle8 {
 		shell.addListener (SWT.Traverse, new Listener () {
 			public void handleEvent (Event event) {
 				// Si todavía no hay una solución, se puede mover el tablero
-				if (agent.getActions().size()==0) 
+				if (agent==null) 
 					switch (event.keyCode) {
 					case 119:
 						tab.moveGapUp();
@@ -123,8 +123,8 @@ public class Puzzle8 {
 			}
 		});
 		
-		Text ayuda = new Text(compDer, SWT.LEFT);
-		ayuda.setText("Usa las teclas WSAD");
+		Label ayuda = new Label(compDer, SWT.LEFT);
+		ayuda.setText("Usa las teclas WSAD para\nmover el puzzle. Después\npulsa el botón resolver.");
 		Button resolver = new Button(compDer, SWT.PUSH);
 		resolver.setText("Resolver");
 		
