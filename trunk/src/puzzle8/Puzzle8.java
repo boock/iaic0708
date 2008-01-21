@@ -3,6 +3,7 @@ package puzzle8;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -26,7 +27,6 @@ import aima.search.uninformed.DepthLimitedSearch;
 
 public class Puzzle8 {
 	private Shell shell;
-	private Display display;
 	
 	// Este entero es para saber por qué paso vamos de la solución
 	private int accion_actual = 0;
@@ -41,8 +41,7 @@ public class Puzzle8 {
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
-	public Puzzle8() {
-		display = new Display ();
+	public Puzzle8(Display display) {
 		shell = new Shell(display);
 		shell.setText("Puzzle-8");
 		shell.setLayout(new GridLayout(2,true));
@@ -80,7 +79,7 @@ public class Puzzle8 {
 		});
 		
 		Button botonReset = new Button(compIzq, SWT.PUSH);
-		botonReset.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		botonReset.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonReset.setText("Reiniciar puzzle");
 		botonReset.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -117,24 +116,39 @@ public class Puzzle8 {
 				if (agent==null) 
 					switch (event.keyCode) {
 					case 119:
-						tab.moveGapUp();
-						mostrarTablero();
-						break;
-					case 97:
-						tab.moveGapLeft();
-						mostrarTablero();
-						break;
-					case 115:
 						tab.moveGapDown();
 						mostrarTablero();
 						break;
-					case 100:
+					case 97:
 						tab.moveGapRight();
+						mostrarTablero();
+						break;
+					case 115:
+						tab.moveGapUp();
+						mostrarTablero();
+						break;
+					case 100:
+						tab.moveGapLeft();
 						mostrarTablero();
 						break;
 					}
 			}
 		});
+		
+		// Tab Intro
+		final Composite cIntro = new Composite(tabFolder, SWT.NONE);
+		final TabItem tabIntro = new TabItem(tabFolder, SWT.NONE);
+		tabIntro.setText("Puzzle-8");
+		tabIntro.setControl(cIntro);
+		cIntro.setLayout(new FillLayout());
+		final Label textoIntro = new Label(cIntro, SWT.WRAP);
+		textoIntro.setText("El objetivo es colocar los números del 1 al 8 en un tablero de 3x3, dejando el hueco en" +
+				"el centro. Las fichas se pueden mover hacia el hueco.\n\n" +
+				"Utiliza las teclas WASD como si fueran flechas para mover las fichas y descolocar el tablero.\n" +
+				"Selecciona una pestaña para elegir un método de resolución y pulsa el botón resolver.\n" +
+				"Si quieres ver cómo funciona la solución pulsa los botones siguiente y anterior.\n" +
+				"Si quieres volver a empezar, pulsa el botón reiniciar.\n");
+
 		
 		// Tab DSL
 		final Composite cTabDSL = new Composite(tabFolder, SWT.NONE);
@@ -148,11 +162,11 @@ public class Puzzle8 {
 		labelAyuda.setText("Usa las teclas WSAD para mover el puzzle. Después pulsa el botón resolver.");
 
 		final Label labelConfigDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
-		labelConfigDSL.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true, 1, 1));
-		labelConfigDSL.setText("Profundidad del árbol de\nresolución:");
+		labelConfigDSL.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, true, 1, 1));
+		labelConfigDSL.setText("Profundidad del árbol de resolución:");
 		
 		final Text textConfigDSL = new Text(cTabDSL, SWT.BORDER);
-		textConfigDSL.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		textConfigDSL.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, true, 1, 1));
 		textConfigDSL.setText("09");
 		textConfigDSL.setTextLimit(2);
 		
@@ -198,7 +212,7 @@ public class Puzzle8 {
 		});
 	
 		// Reducir tamaño de la ventana
-		shell.setSize(400, 200);
+		shell.setSize(400, 400);
 		// Centrar ventana
 		shell.setLocation(shell.getDisplay().getClientArea().width/2 - shell.getSize().x/2, shell.getDisplay().getClientArea().height/2 - shell.getSize().y/2);
 		shell.open();		
@@ -321,7 +335,7 @@ public class Puzzle8 {
 					String property = agent.getInstrumentation().getProperty(key);
 					salida += key + " : " + property + "\n";
 				}*/
-				salida += 	"Nodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
+				salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
 			}
 			tSolucion.setText(salida);
 			tabFolder.setSelection(tabFolder.getItemCount()-1);

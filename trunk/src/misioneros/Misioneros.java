@@ -8,6 +8,7 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -30,7 +31,6 @@ import aima.search.uninformed.DepthLimitedSearch;
 
 public class Misioneros {
 	private Shell shell;
-	private Display display;
 	
 	// Este entero es para saber por qué paso vamos de la solución
 	private int accion_actual = 0;
@@ -46,8 +46,7 @@ public class Misioneros {
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
-	public Misioneros() {
-		display = new Display ();
+	public Misioneros(Display display) {
 		shell = new Shell(display);
 		shell.setText("Misioneros");
 		shell.setLayout(new GridLayout(2,false));
@@ -124,7 +123,20 @@ public class Misioneros {
 
 		mostrarRio();
 
-	
+		// Tab Intro
+		final Composite cIntro = new Composite(tabFolder, SWT.NONE);
+		final TabItem tabIntro = new TabItem(tabFolder, SWT.NONE);
+		tabIntro.setText("Misioneros y caníbales");
+		tabIntro.setControl(cIntro);
+		cIntro.setLayout(new FillLayout());
+		final Label textoIntro = new Label(cIntro, SWT.WRAP);
+		textoIntro.setText("Tres misioneros y tres caníbales deben cruzar el río. Para ello tienen una barca " +
+				"en la que pueden ir una o dos personas. En ningún caso pueden quedar en una orilla más caníbales " +
+				"que misioneros, y la barca no puede viajar sola de un lado a otro.\n\n" +
+				"Selecciona una pestaña para elegir un método de resolución y pulsa el botón resolver.\n" +
+				"Si quieres ver cómo funciona la solución pulsa los botones siguiente y anterior.\n" +
+				"Si quieres volver a empezar, pulsa el botón reiniciar.");
+
 		// Tab DSL
 		final Composite cTabDSL = new Composite(tabFolder, SWT.NONE);
 		final TabItem tabDSL = new TabItem(tabFolder, SWT.NONE);
@@ -132,23 +144,20 @@ public class Misioneros {
 		tabDSL.setControl(cTabDSL);
 		cTabDSL.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		cTabDSL.setLayout(new GridLayout(2,false));
-		final Label labelAyuda = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
-		labelAyuda.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		labelAyuda.setText("Usa las teclas WSAD para mover el puzzle. Después pulsa el botón resolver.");
 
 		final Label labelConfigDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
-		labelConfigDSL.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, true, 1, 1));
-		labelConfigDSL.setText("Profundidad del árbol de\nresolución:");
+		labelConfigDSL.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, true, 1, 1));
+		labelConfigDSL.setText("Profundidad del árbol de resolución:");
 		
 		final Text textConfigDSL = new Text(cTabDSL, SWT.BORDER);
-		textConfigDSL.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		textConfigDSL.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, true, 1, 1));
 		textConfigDSL.setText("11");
 		textConfigDSL.setTextLimit(2);
 		
 		final Button botonResolverDSL = new Button(cTabDSL, SWT.PUSH);
 		botonResolverDSL.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonResolverDSL.setText("Resolver");
-		
+				
 		// Tab AStar
 		final Composite cAStar = new Composite(tabFolder, SWT.NONE);
 		final TabItem tabAStar = new TabItem(tabFolder, SWT.NONE);
@@ -191,11 +200,6 @@ public class Misioneros {
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
 				int i;
-				// Dibujar caníbales
-				for (i=0; i<rio.getNum_canibales_izq(); i++)
-					gc.drawImage(canibal, 40+15*i, 180+30*i);
-				for (; i<3; i++)
-					gc.drawImage(canibal, 240+20*i, 130+30*i);
 				// Dibujar misioneros
 				for (i=0; i<rio.getNum_misioneros_izq(); i++)
 					gc.drawImage(misionero, 20+15*i, 200+30*i);
@@ -206,7 +210,11 @@ public class Misioneros {
 					gc.drawImage(barco, 80, 250);
 				else
 					gc.drawImage(barco, 200, 200);
-
+				// Dibujar caníbales
+				for (i=0; i<rio.getNum_canibales_izq(); i++)
+					gc.drawImage(canibal, 40+15*i, 180+30*i);
+				for (; i<3; i++)
+					gc.drawImage(canibal, 240+20*i, 130+30*i);
 			}
 			
 		});
@@ -331,7 +339,7 @@ public class Misioneros {
 					salida += key + " : " + property + "\n";
 				}*/	
 			}
-			salida += 	"Nodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
+			salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
 			tSolucion.setText(salida);
 			tabFolder.setSelection(tabFolder.getItemCount()-1);
 			
