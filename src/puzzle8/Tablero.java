@@ -33,7 +33,7 @@ public class Tablero {
 	 * @see #EightPuzzleBoard(int[])
 	 */
 	public Tablero() {
-		board = new int[] { 5, 4, 0, 6, 1, 8, 7, 3, 2 };
+		board = new int[] { 1, 2, 3, 4, 0, 5, 6, 7, 8 };
 
 	}
 
@@ -44,6 +44,13 @@ public class Tablero {
 	 */
 	public Tablero(int[] aBoard) {
 		board = aBoard;
+	}
+	
+	/**
+	 * Coloca el tablero en configuración inicial
+	 */
+	public void reset() {
+		board = new int[] { 1, 2, 3, 4, 0, 5, 6, 7, 8 }; 
 	}
 
 	/**

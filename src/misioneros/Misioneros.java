@@ -1,18 +1,22 @@
-package puzzle8;
+package misioneros;
+
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.MessageBox;
@@ -24,44 +28,58 @@ import aima.search.uninformed.DepthLimitedSearch;
 
 /**************************************************************************************************/
 
-public class Puzzle8 {
+public class Misioneros {
 	private Shell shell;
 	private Display display;
 	
 	// Este entero es para saber por qué paso vamos de la solución
 	private int accion_actual = 0;
-	final Tablero tab;
+	final Rio rio;
 	private Search search;
 	private SearchAgent agent;
-	private final Label[] labels;
 	private final Button botonAnterior,botonSiguiente;
 	private final Text tSolucion;
 	private final TabFolder tabFolder;
+	private final Canvas canvas;
+	private final Image fondo, barco, misionero, canibal;
 	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
-	public Puzzle8() {
+	public Misioneros() {
 		display = new Display ();
 		shell = new Shell(display);
-		shell.setText("Puzzle-8");
-		shell.setLayout(new GridLayout(2,true));
+		shell.setText("Misioneros");
+		shell.setLayout(new GridLayout(2,false));
 
 		final Composite compIzq = new Composite(shell,SWT.NONE);
 		compIzq.setLayout(new GridLayout(2,true));
-		compIzq.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridData gdCompIzq = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gdCompIzq.minimumHeight = 300;
+		gdCompIzq.minimumWidth  = 300;
+		compIzq.setLayoutData(gdCompIzq);
 		
 		tabFolder = new TabFolder(shell,SWT.NONE);
 		tabFolder.setLayout(new GridLayout(1,true));
-		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		GridData gdTabFolder = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
+		gdTabFolder.widthHint  = 200;
+		gdTabFolder.minimumHeight = 200;
+		tabFolder.setLayoutData(gdTabFolder);
 		
-		final Composite compPuzzle = new Composite(compIzq,SWT.BORDER);
-		compPuzzle.setLayout(new GridLayout(3,true));
-		compPuzzle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		canvas = new Canvas(compIzq, SWT.NONE);
+		fondo = new Image(display, Misioneros.class.getResourceAsStream("rio.png"));
+		barco = new Image(display, Misioneros.class.getResourceAsStream("barca.png"));
+		misionero = new Image(display, Misioneros.class.getResourceAsStream("misionero.png"));
+		canibal = new Image(display, Misioneros.class.getResourceAsStream("canibal.png"));
+		canvas.setBackgroundImage(fondo);
+		GridData gdCanvas = new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1);
+		gdCanvas.minimumHeight = 300;
+		gdCanvas.minimumWidth  = 300;
+		canvas.setLayoutData(gdCanvas);
 
 		botonAnterior = new Button(compIzq, SWT.PUSH);
 		botonAnterior.setText("<- Anterior");
-		botonAnterior.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		botonAnterior.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		botonAnterior.setEnabled(false);
 		botonAnterior.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -70,7 +88,7 @@ public class Puzzle8 {
 		});
 
 		botonSiguiente = new Button(compIzq, SWT.PUSH);
-		botonSiguiente.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		botonSiguiente.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		botonSiguiente.setText("Siguiente ->");
 		botonSiguiente.setEnabled(false);
 		botonSiguiente.addSelectionListener(new SelectionAdapter() {
@@ -80,62 +98,33 @@ public class Puzzle8 {
 		});
 		
 		Button botonReset = new Button(compIzq, SWT.PUSH);
-		botonReset.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		botonReset.setText("Reiniciar puzzle");
+		botonReset.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		botonReset.setText("Reiniciar río");
 		botonReset.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				// Reinicia el tablero y borra la solución
-				tab.reset();
+				rio.reset();
 				agent = null;
 				accion_actual=0;
 				botonSiguiente.setEnabled(false);
 				botonAnterior.setEnabled(false);
-				mostrarTablero();
+				mostrarRio();
 				tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
 				"el problema con uno de los algoritmos disponibles.");
 			}
 		});
 
 	/** 
-	 * Puzzle 8
-	 * Tablero de 3x3, el hueco está representado por el cero, y debe quedar en el centro.
+	 * Misioneros y caníbales
+	 * Río con 3 misioneros y 3 caníbales en la orilla izquierda. Bla bla bla.
 	 */
 		// Crea un tablero colocado (para que lo descoloque el usuario)
-		labels = new Label[9];
-		tab = new Tablero();
 
-		for (int i = 0; i < 9; i++) {
-			labels[i] = new Label(compPuzzle,SWT.CENTER | SWT.BORDER);
-			labels[i].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		}
-		mostrarTablero();
+		rio = new Rio();
 
-		// Acciones de pulsar las teclas WASD
-		shell.addListener (SWT.Traverse, new Listener () {
-			public void handleEvent (Event event) {
-				// Si todavía no hay una solución, se puede mover el tablero
-				if (agent==null) 
-					switch (event.keyCode) {
-					case 119:
-						tab.moveGapUp();
-						mostrarTablero();
-						break;
-					case 97:
-						tab.moveGapLeft();
-						mostrarTablero();
-						break;
-					case 115:
-						tab.moveGapDown();
-						mostrarTablero();
-						break;
-					case 100:
-						tab.moveGapRight();
-						mostrarTablero();
-						break;
-					}
-			}
-		});
-		
+		mostrarRio();
+
+	
 		// Tab DSL
 		final Composite cTabDSL = new Composite(tabFolder, SWT.NONE);
 		final TabItem tabDSL = new TabItem(tabFolder, SWT.NONE);
@@ -153,7 +142,7 @@ public class Puzzle8 {
 		
 		final Text textConfigDSL = new Text(cTabDSL, SWT.BORDER);
 		textConfigDSL.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		textConfigDSL.setText("09");
+		textConfigDSL.setText("11");
 		textConfigDSL.setTextLimit(2);
 		
 		final Button botonResolverDSL = new Button(cTabDSL, SWT.PUSH);
@@ -185,7 +174,7 @@ public class Puzzle8 {
 		botonResolverDSL.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					resolverDSL(tab,Integer.valueOf(textConfigDSL.getText()));
+					resolverDSL(rio,Integer.valueOf(textConfigDSL.getText()));
 					if (agent.getActions().size()>0) botonSiguiente.setEnabled(true);
 				}
 				catch (NumberFormatException ex) {
@@ -196,9 +185,34 @@ public class Puzzle8 {
 				}
 			}
 		});
+		
+		// Dibujar puzzle
+		canvas.addPaintListener(new PaintListener () {
+			public void paintControl(PaintEvent e) {
+				GC gc = e.gc;
+				int i;
+				// Dibujar caníbales
+				for (i=0; i<rio.getNum_canibales_izq(); i++)
+					gc.drawImage(canibal, 40+15*i, 180+30*i);
+				for (; i<3; i++)
+					gc.drawImage(canibal, 240+20*i, 130+30*i);
+				// Dibujar misioneros
+				for (i=0; i<rio.getNum_misioneros_izq(); i++)
+					gc.drawImage(misionero, 20+15*i, 200+30*i);
+				for (; i<3; i++)
+					gc.drawImage(misionero, 200+20*i, 110+30*i);
+				// Dibujar barca
+				if (rio.isBarco_izq())
+					gc.drawImage(barco, 80, 250);
+				else
+					gc.drawImage(barco, 200, 200);
+
+			}
+			
+		});
 	
 		// Reducir tamaño de la ventana
-		shell.setSize(400, 200);
+		shell.setSize(600, 450);
 		// Centrar ventana
 		shell.setLocation(shell.getDisplay().getClientArea().width/2 - shell.getSize().x/2, shell.getDisplay().getClientArea().height/2 - shell.getSize().y/2);
 		shell.open();		
@@ -211,14 +225,8 @@ public class Puzzle8 {
 		}
 	}
 	
-	private void mostrarTablero() {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				if (tab.getValueAt(i,j)!=0)
-					labels[3*i+j].setText(String.valueOf(tab.getValueAt(i,j)));
-				else labels[3*i+j].setText("");
-			}
-		}
+	private void mostrarRio() {
+		canvas.redraw();
 	}
 	
 	/**
@@ -226,22 +234,22 @@ public class Puzzle8 {
 	 */
 	private void avanzar() {
 		String accion = (String) agent.getActions().get(accion_actual);
-		if (accion.equals("Arriba")) {
-			tab.moveGapUp();
-			mostrarTablero();
+		if (accion.equals(Rio.M)) {
+			rio.mover(Rio.M);
 		}
-		else if (accion.equals("Abajo")) {
-			tab.moveGapDown();
-			mostrarTablero();
+		else if (accion.equals(Rio.MM)) {
+			rio.mover(Rio.MM);
 		}
-		else if (accion.equals("Derecha")) {
-			tab.moveGapRight();
-			mostrarTablero();
+		else if (accion.equals(Rio.C)) {
+			rio.mover(Rio.C);
 		}
-		else if (accion.equals("Izquierda")) {
-			tab.moveGapLeft();
-			mostrarTablero();
+		else if (accion.equals(Rio.CC)) {
+			rio.mover(Rio.CC);
 		}
+		else if (accion.equals(Rio.MC)) {
+			rio.mover(Rio.MC);
+		}
+
 		accion_actual++;
 		// Bloquear botón siguiente si se ha llegado al final
 		if (accion_actual==agent.getActions().size())
@@ -249,7 +257,7 @@ public class Puzzle8 {
 		// Desbloquear botón anterior si no está en el principio
 		if (accion_actual!=0)
 			botonAnterior.setEnabled(true);
-
+		mostrarRio();
 	}
 
 	/**
@@ -259,37 +267,39 @@ public class Puzzle8 {
 		accion_actual--;
 
 		String accion = (String) agent.getActions().get(accion_actual);
-		if (accion.equals("Arriba")) {
-			tab.moveGapDown();
-			mostrarTablero();
+
+		if (accion.equals(Rio.M)) {
+			rio.mover(Rio.M);
 		}
-		else if (accion.equals("Abajo")) {
-			tab.moveGapUp();
-			mostrarTablero();
+		else if (accion.equals(Rio.MM)) {
+			rio.mover(Rio.MM);
 		}
-		else if (accion.equals("Derecha")) {
-			tab.moveGapLeft();
-			mostrarTablero();
+		else if (accion.equals(Rio.C)) {
+			rio.mover(Rio.C);
 		}
-		else if (accion.equals("Izquierda")) {
-			tab.moveGapRight();
-			mostrarTablero();
+		else if (accion.equals(Rio.CC)) {
+			rio.mover(Rio.CC);
 		}
+		else if (accion.equals(Rio.MC)) {
+			rio.mover(Rio.MC);
+		}
+
 		// Bloquear botón anterior si se ha llegado al principio
 		if (accion_actual==0)
 			botonAnterior.setEnabled(false);
 		// Desbloquear botón siguiente si no está en el final
 		if (accion_actual!=agent.getActions().size())
-			botonSiguiente.setEnabled(true);		
+			botonSiguiente.setEnabled(true);
+		mostrarRio();
 	}
 	
-	private void resolverDSL(Tablero tablero, int profundidad) {
+	private void resolverDSL(Rio rio, int profundidad) {
 		// Resolución del puzzle
 		try {
-			String salida = "Puzzle 8 :: Búsqueda en profundidad (DLS)\n\nLímite: " + String.valueOf(profundidad) + "\n";
+			String salida = "Misioneros :: Búsqueda en profundidad (DLS)\n\nLímite: " + String.valueOf(profundidad) + "\n";
 			salida +=       "-------------------------\n\n";
 			// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-			Problem problem = new Problem(tablero,
+			Problem problem = new Problem(rio,
 					new FuncionSucesor(),
 					new EstadoFinal());
 
@@ -297,12 +307,11 @@ public class Puzzle8 {
 			search = new DepthLimitedSearch(profundidad);
 			agent = new SearchAgent(problem, search);
 			
-			
 			if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
 				salida += "La solución es trivial.\n";
-			else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
+	/*		else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
 				salida += "No se ha encontrado solución con límite de profundidad "+String.valueOf(profundidad)+ ".\n";
-					
+	*/				
 			
 			else {
 				// TODO Quitarle el punto al número de pasos
@@ -320,9 +329,9 @@ public class Puzzle8 {
 					String key = (String) keys.next();
 					String property = agent.getInstrumentation().getProperty(key);
 					salida += key + " : " + property + "\n";
-				}*/
-				salida += 	"Nodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
+				}*/	
 			}
+			salida += 	"Nodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
 			tSolucion.setText(salida);
 			tabFolder.setSelection(tabFolder.getItemCount()-1);
 			
