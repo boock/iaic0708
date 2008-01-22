@@ -12,6 +12,7 @@ import org.eclipse.swt.widgets.Combo;
 import puzzle8.Puzzle8;
 import misioneros.Misioneros;
 import nReinas.nReinas;
+import laberinto2D.Laberinto2D;
 
 /**************************************************************************************************/
 
@@ -24,6 +25,7 @@ public class Main {
 		combo.add("Puzzle8");
 		combo.add("Misioneros");
 		combo.add("N-Reinas");
+		combo.add("Labertinto-2D");
 		
 		combo.addSelectionListener(new SelectionListener() {
 
@@ -38,7 +40,10 @@ public class Main {
 					break;
 				case 2:
 					new nReinas(display);
-					break;				
+					break;		
+				case 3:
+					new Laberinto2D(display);
+					break;	
 				}
 			}
 			
