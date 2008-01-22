@@ -140,14 +140,23 @@ public class Puzzle8 {
 		final TabItem tabIntro = new TabItem(tabFolder, SWT.NONE);
 		tabIntro.setText("Puzzle-8");
 		tabIntro.setControl(cIntro);
-		cIntro.setLayout(new FillLayout());
+		cIntro.setLayout(new GridLayout());
 		final Label textoIntro = new Label(cIntro, SWT.WRAP);
 		textoIntro.setText("El objetivo es colocar los números del 1 al 8 en un tablero de 3x3, dejando el hueco en" +
 				"el centro. Las fichas se pueden mover hacia el hueco.\n\n" +
 				"Utiliza las teclas WASD como si fueran flechas para mover las fichas y descolocar el tablero.\n" +
+				"También puedes pulsar el botón Mezclar para descolocar el tablero.\n" +
 				"Selecciona una pestaña para elegir un método de resolución y pulsa el botón resolver.\n" +
 				"Si quieres ver cómo funciona la solución pulsa los botones siguiente y anterior.\n" +
 				"Si quieres volver a empezar, pulsa el botón reiniciar.\n");
+		final Button botonMezclar = new Button(cIntro, SWT.PUSH);
+		botonMezclar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		botonMezclar.setText("Mezclar");
+		botonMezclar.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				tab.mezclar(9);
+			}
+		});
 
 		
 		// Tab DSL
@@ -174,27 +183,6 @@ public class Puzzle8 {
 		botonResolverDSL.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonResolverDSL.setText("Resolver");
 		
-		// Tab AStar
-		final Composite cAStar = new Composite(tabFolder, SWT.NONE);
-		final TabItem tabAStar = new TabItem(tabFolder, SWT.NONE);
-		tabAStar.setText("A*");
-		tabAStar.setControl(cAStar);
-		cAStar.setLayout(new GridLayout(1,false));
-		final Button resolverAStar = new Button(cAStar, SWT.PUSH);
-		resolverAStar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-		resolverAStar.setText("Resolver");
-
-		// Tab Solución
-		final Composite cSolucion = new Composite(tabFolder, SWT.NONE);
-		final TabItem tabSolucion = new TabItem(tabFolder, SWT.NONE);
-		cSolucion.setLayout(new GridLayout(1,false));
-		tabSolucion.setText("Solución");
-		tabSolucion.setControl(cSolucion);
-		tSolucion = new Text(cSolucion, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-		tSolucion.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
-				"el problema con uno de los algoritmos disponibles.");
-		
 		// Resolución DSL
 		botonResolverDSL.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -210,6 +198,38 @@ public class Puzzle8 {
 				}
 			}
 		});
+		
+		// Tab AStar
+		final Composite cAStar = new Composite(tabFolder, SWT.NONE);
+		final TabItem tabAStar = new TabItem(tabFolder, SWT.NONE);
+		tabAStar.setText("A*");
+		tabAStar.setControl(cAStar);
+		cAStar.setLayout(new GridLayout(1,false));
+		final Button botonResolverAStar = new Button(cAStar, SWT.PUSH);
+		botonResolverAStar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		botonResolverAStar.setText("Resolver");
+
+		// Resolución AStar
+		botonResolverAStar.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				
+				// PUT YOUR A* CODE HERE
+				
+				//resolverAStar
+			}
+		});
+		// Tab Solución
+		final Composite cSolucion = new Composite(tabFolder, SWT.NONE);
+		final TabItem tabSolucion = new TabItem(tabFolder, SWT.NONE);
+		cSolucion.setLayout(new GridLayout(1,false));
+		tabSolucion.setText("Solución");
+		tabSolucion.setControl(cSolucion);
+		tSolucion = new Text(cSolucion, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+		tSolucion.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
+				"el problema con uno de los algoritmos disponibles.");
+		
+		
 	
 		// Reducir tamaño de la ventana
 		shell.setSize(400, 400);
