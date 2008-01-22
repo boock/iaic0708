@@ -88,13 +88,13 @@ public Mapa(int x , int y) {
 	public boolean movimientoPosible(String s) {
 		
 		// Primero miro si el movimiento es posible (si hay suficientes para pasar)
-		if( 	(s.equals(LEFT) 	&& x_pos == 0) 	||
-				(s.equals(RIGHT) 	&& y_pos == 7)	||
-				(s.equals(DOWN) 	&& y_pos == 7)	||
-				(s.equals(UP) 		&& y_pos == 0) )	return false;
+		if( 	(s.equals(LEFT) 	&& (x_pos == 0)) 	||
+				(s.equals(RIGHT) 	&& (x_pos == 7))	||
+				(s.equals(DOWN) 	&& (y_pos == 7))	||
+				(s.equals(UP) 		&& (y_pos == 0)) )	return false;
 		
-		if ( 	(s.equals(LEFT)  	&& (context[x_pos+1][y_pos] == 1) )||
-				(s.equals(RIGHT)  	&& (context[x_pos-1][y_pos] == 1) )||
+		if ( 	(s.equals(LEFT)  	&& (context[x_pos-1][y_pos] == 1) )||
+				(s.equals(RIGHT)  	&& (context[x_pos+1][y_pos] == 1) )||
 				(s.equals(DOWN)  	&& (context[x_pos][y_pos+1] == 1) )||
 				(s.equals(UP)  		&& (context[x_pos][y_pos-1] == 1) )) return true;
 		else return false;
@@ -106,8 +106,8 @@ public Mapa(int x , int y) {
 	 * @param s el movimiento a hacer
 	 */
 	public void mover(String s) {
-		if(s.equals(LEFT)) 	x_pos++;
-		if(s.equals(RIGHT)) x_pos--;
+		if(s.equals(LEFT)) 	x_pos--;
+		if(s.equals(RIGHT)) x_pos++;
 		if(s.equals(DOWN))  y_pos++;
 		if(s.equals(UP))    y_pos--;
 	}
