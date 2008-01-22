@@ -36,7 +36,7 @@ import aima.search.uninformed.DepthLimitedSearch;
 /**
  * @param <Mapa>************************************************************************************************/
 
-public class Laberinto2D<Mapa> extends main.Puzzle{
+public class Laberinto2D extends main.Puzzle{
 	
 	final Mapa map;
 	
