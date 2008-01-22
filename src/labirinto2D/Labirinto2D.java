@@ -29,7 +29,7 @@ import aima.search.uninformed.DepthLimitedSearch;
 
 /**************************************************************************************************/
 
-public class Misioneros {
+public class Labirinto2D {
 	private Shell shell;
 	
 	// Este entero es para saber por qué paso vamos de la solución
@@ -46,7 +46,7 @@ public class Misioneros {
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
-	public Misioneros(Display display) {
+	public Labirinto2D(Display display) {
 		shell = new Shell(display);
 		shell.setText("Misioneros");
 		shell.setLayout(new GridLayout(2,false));
@@ -66,10 +66,10 @@ public class Misioneros {
 		tabFolder.setLayoutData(gdTabFolder);
 		
 		canvas = new Canvas(compIzq, SWT.NONE);
-		fondo = new Image(display, Misioneros.class.getResourceAsStream("rio.png"));
-		barco = new Image(display, Misioneros.class.getResourceAsStream("barca.png"));
-		misionero = new Image(display, Misioneros.class.getResourceAsStream("misionero.png"));
-		canibal = new Image(display, Misioneros.class.getResourceAsStream("canibal.png"));
+		fondo = new Image(display, Labirinto2D.class.getResourceAsStream("rio.png"));
+		barco = new Image(display, Labirinto2D.class.getResourceAsStream("barca.png"));
+		misionero = new Image(display, Labirinto2D.class.getResourceAsStream("misionero.png"));
+		canibal = new Image(display, Labirinto2D.class.getResourceAsStream("canibal.png"));
 		canvas.setBackgroundImage(fondo);
 		GridData gdCanvas = new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1);
 		gdCanvas.minimumHeight = 300;
