@@ -96,6 +96,11 @@ public abstract class Puzzle {
 		botonReset.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				reiniciar();
+				botonSiguiente.setEnabled(false);
+				botonAnterior.setEnabled(false);
+				actualizarTablero();
+				tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
+				"el puzzle con uno de los algoritmos disponibles.");
 			}
 		});
 
@@ -118,15 +123,10 @@ public abstract class Puzzle {
 	 */
 	protected abstract boolean retroceder();
 
-	private void reiniciar() {
-		// Reinicia el tablero y borra la solución
-		botonSiguiente.setEnabled(false);
-		botonAnterior.setEnabled(false);
-		actualizarTablero();
-		tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
-		"el puzzle con uno de los algoritmos disponibles.");
-
-	}
+	/**
+	 * Este método reinicia el tablero.
+	 */
+	protected abstract void reiniciar();
 	
 	/**
 	 * Devuelve el composite donde va la representación del juego.
