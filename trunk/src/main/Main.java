@@ -10,8 +10,8 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Combo;
 
 import puzzle8.Puzzle8;
-
 import misioneros.Misioneros;
+import nQueens.nReinas;
 
 /**************************************************************************************************/
 
@@ -23,6 +23,7 @@ public class Main {
 		final Combo combo = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
 		combo.add("Puzzle8");
 		combo.add("Misioneros");
+		combo.add("N-Reinas");
 		
 		combo.addSelectionListener(new SelectionListener() {
 
@@ -35,8 +36,10 @@ public class Main {
 				case 1:
 					new Misioneros(display);
 					break;
+				case 2:
+					new nReinas(display);
+					break;				
 				}
-				
 			}
 			
 		});

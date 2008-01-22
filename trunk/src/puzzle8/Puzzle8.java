@@ -149,7 +149,8 @@ public class Puzzle8 {
 		textoIntro.setText("El objetivo es colocar los números del 1 al 8 en un tablero de 3x3, dejando el hueco en " +
 				"el centro. Las fichas se pueden mover hacia el hueco.\n\n" +
 				"Utiliza las teclas WASD como si fueran flechas para mover las fichas y descolocar el tablero.\n" +
-				"También puedes pulsar el botón Mezclar para descolocar el tablero.\n" +
+				"También puedes pulsar el botón Mezclar para descolocar el tablero (cada vez que se pulsa hace" +
+				"30 movimientos.\n" +
 				"Selecciona una pestaña para elegir un método de resolución y pulsa el botón resolver.\n" +
 				"Si quieres ver cómo funciona la solución pulsa los botones siguiente y anterior.\n" +
 				"Si quieres volver a empezar, pulsa el botón reiniciar.\n");
@@ -159,7 +160,7 @@ public class Puzzle8 {
 		botonMezclar.setText("Mezclar");
 		botonMezclar.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				tab.mezclar(25);
+				tab.mezclar(30);
 				mostrarTablero();
 			}
 		});

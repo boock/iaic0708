@@ -63,16 +63,33 @@ public class Tablero {
 			k = (int)(Math.random()*4);
 			switch (k) {
 			case 0:
-				moveGapDown();
+				if (canMoveGap("Abajo")) {
+					moveGapDown();
+					System.out.println("Abajo");}
+				else
+					j--;
 				break;
 			case 1:
-				moveGapLeft();
+				if (canMoveGap("Izquierda")){
+					moveGapLeft();
+					System.out.println("Izquierda");}
+				else
+					j--;
 				break;
 			case 2:
-				moveGapRight();
+				if (canMoveGap("Right")){
+					moveGapRight();
+					System.out.println("Derecha");}
+				else
+					j--;
 				break;
 			case 3:
-				moveGapUp();
+				if (canMoveGap("Arriba")){
+					moveGapUp();
+					System.out.println("Arriba");}
+				else
+					j--;
+
 			}
 		}		
 	}
