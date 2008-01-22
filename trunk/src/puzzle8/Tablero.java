@@ -2,6 +2,7 @@ package puzzle8;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 import aima.basic.XYLocation;
 
@@ -33,7 +34,22 @@ public class Tablero {
 	 * @see #EightPuzzleBoard(int[])
 	 */
 	public Tablero() {
-		board = new int[] { 1, 2, 3, 4, 0, 5, 6, 7, 8 };
+
+		board = new int[10];
+		ArrayList<int> Array = new ArrayList<int>(10);
+		
+		// Crée et initialise un tampon à 0,1, ...
+		for( int j=0; j < 10 ; j++ ) Array.add(j);
+
+		for( int j=0 ; j < 10 ; j++ )
+		{
+			// Tirages
+			int k = (int)(Math.random() * (Array.size()));
+			board[j] = Array.get(k);
+			// Réduction de l'ensemble
+			Array.remove(k);
+			Array.trimToSize();
+		}
 
 	}
 
