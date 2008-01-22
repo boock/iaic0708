@@ -4,7 +4,6 @@
  */
 package laberinto2D;
 
-import aima.basic.XYLocation;
 import aima.search.framework.HeuristicFunction;
 
 /**
