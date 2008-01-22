@@ -37,7 +37,7 @@ public class Puzzle8 {
 	private Search search;
 	private SearchAgent agent;
 	private final Label[] labels;
-	private final Button botonAnterior,botonSiguiente;
+	private final Button botonAnterior, botonSiguiente, botonMezclar; 
 	private final Text tSolucion;
 	private final TabFolder tabFolder;
 	
@@ -90,6 +90,7 @@ public class Puzzle8 {
 				tab.reset();
 				agent = null;
 				accion_actual=0;
+				botonMezclar.setEnabled(true);
 				botonSiguiente.setEnabled(false);
 				botonAnterior.setEnabled(false);
 				mostrarTablero();
@@ -119,19 +120,19 @@ public class Puzzle8 {
 				if (agent==null) 
 					switch (event.keyCode) {
 					case 119:
-						tab.moveGapDown();
-						mostrarTablero();
-						break;
-					case 97:
-						tab.moveGapRight();
-						mostrarTablero();
-						break;
-					case 115:
 						tab.moveGapUp();
 						mostrarTablero();
 						break;
-					case 100:
+					case 97:
 						tab.moveGapLeft();
+						mostrarTablero();
+						break;
+					case 115:
+						tab.moveGapDown();
+						mostrarTablero();
+						break;
+					case 100:
+						tab.moveGapRight();
 						mostrarTablero();
 						break;
 					}
@@ -145,23 +146,24 @@ public class Puzzle8 {
 		tabIntro.setControl(cIntro);
 		cIntro.setLayout(new GridLayout());
 		final Label textoIntro = new Label(cIntro, SWT.WRAP);
-		textoIntro.setText("El objetivo es colocar los números del 1 al 8 en un tablero de 3x3, dejando el hueco en" +
+		textoIntro.setText("El objetivo es colocar los números del 1 al 8 en un tablero de 3x3, dejando el hueco en " +
 				"el centro. Las fichas se pueden mover hacia el hueco.\n\n" +
 				"Utiliza las teclas WASD como si fueran flechas para mover las fichas y descolocar el tablero.\n" +
 				"También puedes pulsar el botón Mezclar para descolocar el tablero.\n" +
 				"Selecciona una pestaña para elegir un método de resolución y pulsa el botón resolver.\n" +
 				"Si quieres ver cómo funciona la solución pulsa los botones siguiente y anterior.\n" +
 				"Si quieres volver a empezar, pulsa el botón reiniciar.\n");
-		final Button botonMezclar = new Button(cIntro, SWT.PUSH);
+		textoIntro.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		botonMezclar = new Button(cIntro, SWT.PUSH);
 		botonMezclar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonMezclar.setText("Mezclar");
 		botonMezclar.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				tab.mezclar(9);
+				tab.mezclar(25);
+				mostrarTablero();
 			}
 		});
 
-		
 		// Tab DSL
 		final Composite cTabDSL = new Composite(tabFolder, SWT.NONE);
 		final TabItem tabDSL = new TabItem(tabFolder, SWT.NONE);
@@ -190,8 +192,20 @@ public class Puzzle8 {
 		botonResolverDSL.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					resolverDSL(tab,Integer.valueOf(textConfigDSL.getText()));
-					if (agent.getActions().size()>0) botonSiguiente.setEnabled(true);
+					if (Integer.valueOf(textConfigDSL.getText())>15) {
+						MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+						// TODO Dar la opción de continuar
+						m.setMessage("Una profundidad mayor de 15 puede tardar demasiado en terminar. Prueba un valor más bajo.");
+						m.setText("Error");
+						m.open();
+					}
+					else {
+						resolverDSL(tab,Integer.valueOf(textConfigDSL.getText()));
+						if (agent.getActions().size()>0) {
+							botonSiguiente.setEnabled(true);
+							botonMezclar.setEnabled(false);
+						}
+					}
 				}
 				catch (NumberFormatException ex) {
 					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
@@ -241,7 +255,7 @@ public class Puzzle8 {
 		
 	
 		// Reducir tamaño de la ventana
-		shell.setSize(400, 400);
+		shell.setSize(600, 400);
 		// Centrar ventana
 		shell.setLocation(shell.getDisplay().getClientArea().width/2 - shell.getSize().x/2, shell.getDisplay().getClientArea().height/2 - shell.getSize().y/2);
 		shell.open();		
@@ -357,13 +371,6 @@ public class Puzzle8 {
 				}
 				
 				// Mostrar coste y nodos 
-				
-				/*Iterator keys = agent.getInstrumentation().keySet().iterator();
-				while (keys.hasNext()) {
-					String key = (String) keys.next();
-					String property = agent.getInstrumentation().getProperty(key);
-					salida += key + " : " + property + "\n";
-				}*/
 				salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
 			}
 			tSolucion.setText(salida);

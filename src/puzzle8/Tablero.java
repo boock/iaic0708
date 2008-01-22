@@ -58,9 +58,23 @@ public class Tablero {
 	 * @param i el número de veces que se moverá 
 	 */
 	public void mezclar(int i) {
-		int k = (int)(Math.random()*4);
-		System.out.println(k);
-		
+		int k;
+		for (int j = 0; j < i; j++) {
+			k = (int)(Math.random()*4);
+			switch (k) {
+			case 0:
+				moveGapDown();
+				break;
+			case 1:
+				moveGapLeft();
+				break;
+			case 2:
+				moveGapRight();
+				break;
+			case 3:
+				moveGapUp();
+			}
+		}		
 	}
 
 	/**
