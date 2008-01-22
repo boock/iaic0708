@@ -14,45 +14,40 @@ import aima.search.framework.SuccessorFunction;
 public class FuncionSucesor implements SuccessorFunction {
 	
 	public List getSuccessors(Object state) {
-		Rio rio = (Rio) state;
+		Mapa mapa = (Mapa) state;
 		List<Successor> successors = new ArrayList<Successor>();
 
-		// Pasa un misionero
-		if (rio.movimientoPosible(Rio.M)) {
-			Rio newRio = copyOf(rio);
-			newRio.mover(Rio.M);
-			successors.add(new Successor(Rio.M, newRio));
+		// Mover el tio a la izquiera
+		if (mapa.movimientoPosible(Mapa.LEFT)) {
+			Mapa newMapa = copyOf(mapa);
+			newMapa.mover(mapa.LEFT);
+			successors.add(new Successor(mapa.LEFT, newMapa));
 		}
-		// Pasan dos misioneros
-		if (rio.movimientoPosible(Rio.MM)) {
-			Rio newRio = copyOf(rio);
-			newRio.mover(Rio.MM);
-			successors.add(new Successor(Rio.MM, newRio));
+		// Mover el tio a la derecha
+		if (mapa.movimientoPosible(Mapa.RIGHT)) {
+			Mapa newMapa = copyOf(mapa);
+			newMapa.mover(mapa.RIGHT);
+			successors.add(new Successor(mapa.RIGHT, newMapa));
 		}
-		// Pasa un caníbal
-		if (rio.movimientoPosible(Rio.C)) {
-			Rio newRio = copyOf(rio);
-			newRio.mover(Rio.C);
-			successors.add(new Successor(Rio.C, newRio));
+		// Mover el tio arriba
+		if (mapa.movimientoPosible(Mapa.UP)) {
+			Mapa newMapa = copyOf(mapa);
+			newMapa.mover(mapa.UP);
+			successors.add(new Successor(mapa.UP, newMapa));
 		}
-		// Pasan dos caníbales
-		if (rio.movimientoPosible(Rio.CC)) {
-			Rio newRio = copyOf(rio);
-			newRio.mover(Rio.CC);
-			successors.add(new Successor(Rio.CC, newRio));
+		// Mover el tio a bajo
+		if (mapa.movimientoPosible(Mapa.DOWN)) {
+			Mapa newMapa = copyOf(mapa);
+			newMapa.mover(mapa.DOWN);
+			successors.add(new Successor(mapa.DOWN, newMapa));
 		}
-		// Pasan un misionero y un caníbal
-		if (rio.movimientoPosible(Rio.MC)) {
-			Rio newRio = copyOf(rio);
-			newRio.mover(Rio.MC);
-			successors.add(new Successor(Rio.MC, newRio));
-		}
+
 		return successors;
 	}
 
-	private Rio copyOf(Rio rio) {
-		Rio newRio = new Rio(rio.getNum_canibales_izq(), rio.getNum_misioneros_izq(), rio.isBarco_izq());
-		return newRio;
+	private Mapa copyOf(Mapa mapa) {
+		Mapa newMapa = new Mapa(mapa.getXpos(), mapa.getYpos() );
+		return newMapa;
 	}
 
 }

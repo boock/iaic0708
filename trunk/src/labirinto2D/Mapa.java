@@ -62,65 +62,44 @@ public Mapa(int x , int y) {
 		
 		}
 
-	/**
-	 * Constructor con campos
-	 * @param num_canibales número de caníbales en la orilla izquierda
-	 * @param num_misioneros número de misioneros en la orilla izquierda
-	 * @param barco true si el barco está en la orilla izquierda
-	 */
-	public Mapa(int[][] aMap) {
+/**
+ * Constructor con campos
+ * @param aMap Mapa del labirinto
+ * @param x x_position del jugador
+ * @param y y_position del jugador
+ */
+	public Mapa(int[][] aMap , int x , int y) {
 		context = aMap;
+		x = x_pos;
+		y = y_pos;
 	}
 
-	public int getNum_canibales_izq() {
-		return num_canibales_izq;
+	public int getXpos() {
+		return x_pos;
 	}
-
-	public void setNum_canibales_izq(int num_canibales_izq) {
-		this.num_canibales_izq = num_canibales_izq;
+	public int getYpos() {
+		return y_pos;
 	}
-
-	public int getNum_misioneros_izq() {
-		return num_misioneros_izq;
-	}
-
-	public void setNum_misioneros_izq(int num_misioneros_izq) {
-		this.num_misioneros_izq = num_misioneros_izq;
-	}
-
-	public boolean isBarco_izq() {
-		return barco_izq;
-	}
-
-	public void setBarco_izq(boolean barco_izq) {
-		this.barco_izq = barco_izq;
-	}
-
+	/**
+	 * Comprueba si M es un Movimentos possibles
+	 * @param aMap Mapa del labirinto
+	 * @param x x_position del jugador
+	 * @param y y_position del jugador
+	 */
+	
 	public boolean movimientoPosible(String s) {
-		boolean b = false;
 		
 		// Primero miro si el movimiento es posible (si hay suficientes para pasar)
-
-		if (barco_izq) {
-			if 		(s.equals(M)  && num_misioneros_izq >= 1) b = true;
-			else if (s.equals(C)  && num_canibales_izq  >= 1) b = true;
-			else if (s.equals(MM) && num_misioneros_izq >= 2) b = true;
-			else if (s.equals(CC) && num_canibales_izq  >= 2) b = true;
-			else if (s.equals(MC) && num_misioneros_izq >= 1 && num_canibales_izq >= 1) b = true;
-		}
-		else {
-			if      (s.equals(M)  && 3-num_misioneros_izq >= 1) b = true;
-			else if (s.equals(MM) && 3-num_misioneros_izq >= 2) b = true;
-			else if (s.equals(C)  && 3-num_canibales_izq  >= 1) b = true;
-			else if (s.equals(CC) && 3-num_canibales_izq  >= 2) b = true;
-			else if (s.equals(MC) && 3-num_misioneros_izq >= 1 && 3-num_canibales_izq >= 1) b = true;
-		}
-		if (b)
-			// Ahora compruebo que el estado destino es seguro
-			if ((num_misioneros_izq < num_canibales_izq && num_misioneros_izq != 0) ||
-				(num_misioneros_izq > num_canibales_izq && num_misioneros_izq != 3))
-					b = false;
-		return b;
+		if( 	(s.equals(LEFT) 	&& x_pos == 0) 	||
+				(s.equals(RIGHT) 	&& y_pos == 7)	||
+				(s.equals(DOWN) 	&& y_pos == 7)	||
+				(s.equals(UP) 		&& y_pos == 0) )	return false;
+		
+		if ( 	(s.equals(LEFT)  	&& (context[x_pos+1][y_pos] == 1) )||
+				(s.equals(RIGHT)  	&& (context[x_pos-1][y_pos] == 1) )||
+				(s.equals(DOWN)  	&& (context[x_pos][y_pos+1] == 1) )||
+				(s.equals(UP)  		&& (context[x_pos][y_pos-1] == 1) )) return true;
+		else return false;
 	}
 	
 	/**
@@ -129,28 +108,15 @@ public Mapa(int x , int y) {
 	 * @param s el movimiento a hacer
 	 */
 	public void mover(String s) {
-		if (barco_izq) {
-			if      (s.equals(M))    num_misioneros_izq -=1;
-			else if (s.equals(MM))   num_misioneros_izq -=2;
-			else if (s.equals(C))    num_canibales_izq  -=1;
-			else if (s.equals(CC))   num_canibales_izq  -=2;
-			else if (s.equals(MC)) { num_misioneros_izq -=1; num_canibales_izq -=1; } 
-			barco_izq = false;
-		}
-		else { 
-			if      (s.equals(M))    num_misioneros_izq +=1;
-			else if (s.equals(MM))   num_misioneros_izq +=2;
-			else if (s.equals(C))    num_canibales_izq  +=1;
-			else if (s.equals(CC))   num_canibales_izq  +=2;
-			else if (s.equals(MC)) { num_misioneros_izq +=1; num_canibales_izq +=1; } 
-			barco_izq = true;
-		}
+		if(s.equals(LEFT)) 	x_pos++;
+		if(s.equals(RIGHT)) x_pos--;
+		if(s.equals(DOWN))  y_pos++;
+		if(s.equals(UP))    y_pos--;
 	}
 	
 	public void reset () {
-		this.num_canibales_izq = 3;
-		this.num_misioneros_izq = 3;
-		this.barco_izq = true;	
+		x_pos = 0;
+		y_pos = 7;
 	}
 	
 	// Aquí empiezan los métodos raros de Aima
@@ -162,12 +128,11 @@ public Mapa(int x , int y) {
 		if ((o == null) || (this.getClass() != o.getClass())) {
 			return false;
 		}
-		Rio aRio = (Rio) o;
+		Mapa aMapa = (Mapa) o;
 
-		if (num_canibales_izq != aRio.getNum_canibales_izq()) return false;  
-		if (num_misioneros_izq != aRio.getNum_misioneros_izq()) return false;
-		if (barco_izq != aRio.isBarco_izq()) return false;
-
+		if (x_pos != aMapa.getXpos()) return false;  
+		if (y_pos != aMapa.getYpos()) return false;
+		
 		return true;
 	}
 	/*

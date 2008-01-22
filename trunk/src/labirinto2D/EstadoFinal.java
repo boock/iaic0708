@@ -9,13 +9,13 @@ import aima.search.framework.GoalTest;
 
 public class EstadoFinal implements GoalTest {
 	// Rio que representa el estado final, con todos a la derecha
-	Rio goal = new Rio(0,0,false);
+	Mapa goal = new Mapa(7,0);
 	
 	/**
 	 * Comprueba si el tablero está en un estado final.
 	 */
 	public boolean isGoalState(Object state) {
-		Rio rio = (Rio) state;
-		return rio.equals(goal);
+		Mapa theMap = (Mapa) state;
+		return theMap.equals(goal);
 	}
 }
