@@ -34,7 +34,6 @@ public class Tablero {
 	 * @see #EightPuzzleBoard(int[])
 	 */
 	public Tablero() {
-
 		board = new int[]  { 1, 2, 3, 4, 0, 5, 6, 7, 8 };
 	}
 
@@ -52,6 +51,16 @@ public class Tablero {
 	 */
 	public void reset() {
 		board = new int[] { 1, 2, 3, 4, 0, 5, 6, 7, 8 }; 
+	}
+	
+	/**
+	 * Mezcla el tablero
+	 * @param i el número de veces que se moverá 
+	 */
+	public void mezclar(int i) {
+		int k = (int)(Math.random()*4);
+		System.out.println(k);
+		
 	}
 
 	/**
