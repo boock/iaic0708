@@ -77,9 +77,9 @@ public class Laberinto2D extends main.Puzzle{
 		botonResolverDSL.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					if (Integer.valueOf(textConfigDSL.getText())>15) {
+					if (Integer.valueOf(textConfigDSL.getText())>40) {
 						// TODO Dar la opción de continuar
-						showMessage("Error", "Una profundidad mayor de 15 puede tardar demasiado en terminar. Prueba un valor más bajo.", SWT.ICON_ERROR);
+						showMessage("Error", "Una profundidad mayor de 40 puede tardar demasiado en terminar. Prueba un valor más bajo.", SWT.ICON_ERROR);
 					}
 					else {
 						resolverDSL(map,Integer.valueOf(textConfigDSL.getText()));

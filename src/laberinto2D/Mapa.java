@@ -93,10 +93,10 @@ public Mapa(int x , int y) {
 				(s.equals(DOWN) 	&& (y_pos == 7))	||
 				(s.equals(UP) 		&& (y_pos == 0)) )	return false;
 		
-		if ( 	(s.equals(LEFT)  	&& (context[x_pos-1][y_pos] == 1) )||
-				(s.equals(RIGHT)  	&& (context[x_pos+1][y_pos] == 1) )||
-				(s.equals(DOWN)  	&& (context[x_pos][y_pos+1] == 1) )||
-				(s.equals(UP)  		&& (context[x_pos][y_pos-1] == 1) )) return true;
+		if ( 	(s.equals(LEFT)  	&& (context[y_pos][x_pos-1] == 1) )||
+				(s.equals(RIGHT)  	&& (context[y_pos][x_pos+1] == 1) )||
+				(s.equals(DOWN)  	&& (context[y_pos+1][x_pos] == 1) )||
+				(s.equals(UP)  		&& (context[y_pos-1][x_pos] == 1) )) return true;
 		else return false;
 	}
 	
