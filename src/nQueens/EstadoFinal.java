@@ -10,12 +10,12 @@ import aima.search.framework.GoalTest;
  * 
  */
 
-public class NQueensGoalTest implements GoalTest {
-	NQueensBoard board;
+public class EstadoFinal implements GoalTest {
+	Tablero board;
 
 	public boolean isGoalState(Object state) {
 
-		board = (NQueensBoard) state;
+		board = (Tablero) state;
 		return (allQueensPlaced() && allQueenPositionsHaveZeroAttacks(board
 				.getQueenPositions()));
 	}
