@@ -1,4 +1,4 @@
-package labirinto2D;
+package laberinto2D;
 
 
 import org.eclipse.swt.SWT;
@@ -66,10 +66,10 @@ public class Labirinto2D {
 		tabFolder.setLayoutData(gdTabFolder);
 		
 		canvas = new Canvas(compIzq, SWT.NONE);
-		fondo = new Image(display, Labirinto2D.class.getResourceAsStream("rio.png"));
-		barco = new Image(display, Labirinto2D.class.getResourceAsStream("barca.png"));
-		misionero = new Image(display, Labirinto2D.class.getResourceAsStream("misionero.png"));
-		canibal = new Image(display, Labirinto2D.class.getResourceAsStream("canibal.png"));
+		fondo = new Image(display, Laberinto2D.class.getResourceAsStream("rio.png"));
+		barco = new Image(display, Laberinto2D.class.getResourceAsStream("barca.png"));
+		misionero = new Image(display, Laberinto2D.class.getResourceAsStream("misionero.png"));
+		canibal = new Image(display, Laberinto2D.class.getResourceAsStream("canibal.png"));
 		canvas.setBackgroundImage(fondo);
 		GridData gdCanvas = new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1);
 		gdCanvas.minimumHeight = 300;

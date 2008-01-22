@@ -18,6 +18,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.MessageBox;
 
+
 import aima.search.eightpuzzle.ManhattanHeuristicFunction;
 import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
