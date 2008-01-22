@@ -216,7 +216,7 @@ public class Puzzle8 {
 		botonResolverAStar.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					resolverDSL(tab,Integer.valueOf(textConfigDSL.getText()));
+					resolverAstar(tab);
 					if (agent.getActions().size()>0) botonSiguiente.setEnabled(true);
 				}
 				catch (NumberFormatException ex) {
