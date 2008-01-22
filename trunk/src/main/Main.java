@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Combo;
 
 import puzzle8.Puzzle8;
 import misioneros.Misioneros;
-import nQueens.nReinas;
+import nReinas.nReinas;
 
 /**************************************************************************************************/
 

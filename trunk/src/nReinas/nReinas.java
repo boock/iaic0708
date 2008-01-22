@@ -1,4 +1,4 @@
-package nQueens;
+package nReinas;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -37,13 +37,8 @@ public class nReinas extends main.Puzzle {
 
 		tab = new Tablero(5);
 		
-		addTabIntro("El objetivo es colocar los números del 1 al 8 en un tablero de 3x3, dejando el hueco en " +
-				"el centro. Las fichas se pueden mover hacia el hueco.\n\n" +
-				"Utiliza las teclas WASD como si fueran flechas para mover las fichas y descolocar el tablero.\n" +
-				"También puedes pulsar el botón Mezclar para descolocar el tablero.\n" +
-				"Selecciona una pestaña para elegir un método de resolución y pulsa el botón resolver.\n" +
-				"Si quieres ver cómo funciona la solución pulsa los botones siguiente y anterior.\n" +
-				"Si quieres volver a empezar, pulsa el botón reiniciar.\n");
+		addTabIntro("El objetivo es colocar N reinas de ajedrez en un tablero de NxN, evitando que se amenacen " +
+				"unas a otras.");
 		
 		// Tab DSL
 		Composite cTabDSL = addTab("DSL");

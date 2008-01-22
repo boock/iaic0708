@@ -1,4 +1,4 @@
-package nQueens;
+package nReinas;
 
 import java.util.List;
 
