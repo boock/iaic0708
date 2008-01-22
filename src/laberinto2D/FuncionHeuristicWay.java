@@ -7,6 +7,7 @@ package laberinto2D;
 import aima.search.framework.HeuristicFunction;
 
 /**
+ * Funcion Heuristica de distancia hasta la salida del labirinto
  * @author Jim Mainprice
  * 
  */
@@ -17,6 +18,7 @@ public class FuncionHeuristicWay implements HeuristicFunction {
 	
 	public double getHeuristicValue(Object state) {
 		Mapa mapa = (Mapa) state;
+		// no esta acabado ... a ver los apuntes
 		return Math.sqrt( (mapa.x_pos)^2 + (mapa.y_pos)^2 );
 	}
 

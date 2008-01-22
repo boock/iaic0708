@@ -4,15 +4,15 @@ import aima.search.framework.GoalTest;
 
 /**
  * Esta clase implementa el GoalTest.
- * @author Daniel
+ * @author Jim Mainprice
  */
 
 public class EstadoFinal implements GoalTest {
-	// Rio que representa el estado final, con todos a la derecha
+	// Mapa que representa el estado final
 	Mapa goal = new Mapa(7,0);
 	
 	/**
-	 * Comprueba si el tablero está en un estado final.
+	 * Comprueba si el jugador a llegado a la salida
 	 */
 	public boolean isGoalState(Object state) {
 		Mapa theMap = (Mapa) state;

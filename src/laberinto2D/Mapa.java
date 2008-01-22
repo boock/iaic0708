@@ -1,10 +1,8 @@
 package laberinto2D;
 
-import puzzle8.Tablero;
-
 /**
- * Esta clase representa el río, con los misioneros, los caníbales y el bote
- * @author Daniel
+ * Esta clase representa la Mapa del laberinto con la posicion del jugador
+ * @author Jim Mainprice
  *
  */
 public class Mapa {
