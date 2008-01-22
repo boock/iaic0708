@@ -134,9 +134,6 @@ public class Laberinto2D extends main.Puzzle{
 		
 		}
 		return true;
-		
-		
-
 	}
 
 	/**
