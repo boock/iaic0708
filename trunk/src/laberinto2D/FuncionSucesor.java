@@ -1,4 +1,4 @@
-package labirinto2D;
+package laberinto2D;
 
 import java.util.ArrayList;
 import java.util.List;
