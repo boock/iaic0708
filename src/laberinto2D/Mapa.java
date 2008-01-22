@@ -112,7 +112,7 @@ public Mapa(int x , int y) {
 		if(s.equals(UP))    y_pos--;
 	}
 	
-	public void reset () {
+	public void reset() {
 		x_pos = 0;
 		y_pos = 7;
 	}
