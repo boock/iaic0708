@@ -18,9 +18,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.MessageBox;
 
+import aima.search.eightpuzzle.ManhattanHeuristicFunction;
+import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
+import aima.search.informed.AStarSearch;
 import aima.search.uninformed.DepthLimitedSearch;
 
 /**************************************************************************************************/
@@ -212,10 +215,16 @@ public class Puzzle8 {
 		// Resolución AStar
 		botonResolverAStar.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				
-				// PUT YOUR A* CODE HERE
-				
-				//resolverAStar
+				try {
+					resolverDSL(tab,Integer.valueOf(textConfigDSL.getText()));
+					if (agent.getActions().size()>0) botonSiguiente.setEnabled(true);
+				}
+				catch (NumberFormatException ex) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("La profundidad del árbol DSL de búsqueda debe ser un número entero.");
+					m.setText("Error");
+					m.open();
+				}
 			}
 		});
 		// Tab Solución
@@ -336,6 +345,55 @@ public class Puzzle8 {
 				salida += "La solución es trivial.\n";
 			else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
 				salida += "No se ha encontrado solución con límite de profundidad "+String.valueOf(profundidad)+ ".\n";
+					
+			
+			else {
+				// TODO Quitarle el punto al número de pasos
+				salida += "¡Solución encontrada en "+ agent.getInstrumentation().getProperty("pathCost") +" pasos! Pasos de la solución:\n\n";
+				// Mostrar acciones por consola
+				for (int i = 0; i < agent.getActions().size(); i++) {
+					String action = (String) agent.getActions().get(i);
+					salida += action + "\n";
+				}
+				
+				// Mostrar coste y nodos 
+				
+				/*Iterator keys = agent.getInstrumentation().keySet().iterator();
+				while (keys.hasNext()) {
+					String key = (String) keys.next();
+					String property = agent.getInstrumentation().getProperty(key);
+					salida += key + " : " + property + "\n";
+				}*/
+				salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
+			}
+			tSolucion.setText(salida);
+			tabFolder.setSelection(tabFolder.getItemCount()-1);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void resolverAstar(Tablero tablero) {
+		// Resolución del puzzle
+		try {
+			String salida = "Puzzle 8 :: Búsqueda con heuristic (A*)\n";
+			salida +=       "-------------------------\n\n";
+			// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
+			Problem problem = new Problem(tablero,
+					new FuncionSucesor(),
+					new EstadoFinal(),
+					new FuncionHeuristicManhattan());
+
+			// Resolver el problema con A*
+			search = new AStarSearch(new GraphSearch());
+			agent = new SearchAgent(problem, search);
+			
+			
+			if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
+				salida += "La solución es trivial.\n";
+			else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
+				salida += "No se ha encontrado solución con límite de profundidad .\n";
 					
 			
 			else {
