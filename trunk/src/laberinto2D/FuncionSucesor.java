@@ -7,11 +7,16 @@ import aima.search.framework.Successor;
 import aima.search.framework.SuccessorFunction;
 
 /**
- * Función sucesor del problema de los misioneros y los caníbales
- * @author Daniel
+ * Función sucesor del laberinto en 2D
+ * @author Jim Mainprice
  */
 
 public class FuncionSucesor implements SuccessorFunction {
+
+	/**
+	 * Comproba quel Successor essiste y le anade a la lista de sussesores
+	 * @author Jim Mainprice
+	 */
 	
 	public List getSuccessors(Object state) {
 		Mapa mapa = (Mapa) state;
