@@ -5,7 +5,7 @@ import java.util.List;
 
 import aima.basic.XYLocation;
 
-public class NQueensBoard {
+public class Tablero {
 
 	/**
 	 * X---> increases left to right with zero based index Y increases top to
@@ -15,7 +15,7 @@ public class NQueensBoard {
 
 	int size;
 
-	public NQueensBoard(int n) {
+	public Tablero(int n) {
 
 		size = n;
 		board = new int[size][size];
@@ -239,7 +239,7 @@ public class NQueensBoard {
 		if ((o == null) || (this.getClass() != o.getClass())) {
 			return false;
 		}
-		NQueensBoard aBoard = (NQueensBoard) o;
+		Tablero aBoard = (Tablero) o;
 		boolean retVal = true;
 		List<XYLocation> locs = getQueenPositions();
 
