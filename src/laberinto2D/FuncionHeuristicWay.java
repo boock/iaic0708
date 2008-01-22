@@ -13,14 +13,12 @@ import aima.search.framework.HeuristicFunction;
  */
 
 public class FuncionHeuristicWay implements HeuristicFunction {
-	public static double maximo= Math.sqrt(8^2 + 8^2);
+	
+	public static double maximo=8;
 	
 	public double getHeuristicValue(Object state) {
-		Mapa board = (Mapa) state;
-		int retVal = 0;
-		Distance = Math.sqrt(a);
-		return retVal;
-
+		Mapa mapa = (Mapa) state;
+		return Math.sqrt( (mapa.x_pos)^2 + (mapa.y_pos)^2 );
 	}
 
 }
