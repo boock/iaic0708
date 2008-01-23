@@ -33,7 +33,7 @@ public class Puzzle8 extends main.Puzzle{
 	 */
 	public Puzzle8(Display display) {
 
-		super(display,"Puzzle-8");
+		super(display,"Puzzle-8",200,200);
 
 	/** 
 	 * Puzzle 8

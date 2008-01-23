@@ -1,11 +1,18 @@
 package nReinas;
 
+import laberinto2D.Laberinto2D;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -21,20 +28,28 @@ import aima.search.uninformed.DepthLimitedSearch;
 public class nReinas extends main.Puzzle {
 	
 	final Tablero tab;
-	
+	final Canvas canvas;
+	final int tamano;
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
-	public nReinas(Display display) {
+	public nReinas(Display display, int n) {
 		
-		super(display,"N-Reinas");
-
+		super(display,"N-Reinas",50*n,50*n);
+		this.tamano = n;
+		canvas = addCanvas(false);
+		
+		final Image reina	= new Image(display, nReinas.class.getResourceAsStream("reina.png"));
+		final Image blanca	= new Image(display, nReinas.class.getResourceAsStream("blanca.png"));
+		final Image negra	= new Image(display, nReinas.class.getResourceAsStream("negra.png"));
+		final Image ataque	= new Image(display, nReinas.class.getResourceAsStream("ataque.png"));
+	
 	/** 
 	 * N-Reinas
 	 * Tablero de NxN, hay que colocar N reinas de ajedrez sin que se amenacen. 
 	 */
 		
-		tab = new Tablero(5);
+		tab = new Tablero(n);
 		
 		addTabIntro("El objetivo es colocar N reinas de ajedrez en un tablero de NxN, evitando que se amenacen " +
 				"unas a otras.");
@@ -96,16 +111,33 @@ public class nReinas extends main.Puzzle {
 				}
 			}
 		});
+		
+		// Dibujar puzzle
+		canvas.addPaintListener(new PaintListener () {
+			public void paintControl(PaintEvent e) {
+				GC gc = e.gc;
+				for (int j=0; j<tamano; j++) 
+					for (int i=0; i<tamano; i++) {
+						if ((i+j)%2==0) gc.drawImage(blanca, 50*i, 50*j);
+						else gc.drawImage(negra, 50*i, 50*j);
+						if (tab.queenExistsAt(i, j))
+							gc.drawImage(reina, 50*i, 50*j);
+						else if (tab.isSquareUnderAttack(i,j))
+							gc.drawImage(ataque, 50*i, 50*j);
+					}
+			}
+		});
 		addTabSolucion();
 		open();
 	}
 	
 	protected void actualizarTablero() {
-		for (int i = 0; i < 3; i++) {
-			for (int j = 0; j < 3; j++) {
-				
-			}
-		}
+		canvas.redraw();
+	}
+	
+	protected void reiniciar() {
+		tab.clear();
+		actualizarTablero();
 	}
 	
 	/**
@@ -113,13 +145,10 @@ public class nReinas extends main.Puzzle {
 	 */
 	protected boolean avanzar() {
 		String accion = (String) agent.getActions().get(accion_actual);
-		if (accion.equals("Arriba")) {
-		
-		}
+		tab.addQueenAt(accion.charAt(13)-48, accion.charAt(16)-48);
+		accion_actual++;
+		actualizarTablero();
 		return true;
-		
-		
-
 	}
 
 	/**
@@ -127,10 +156,9 @@ public class nReinas extends main.Puzzle {
 	 */
 	protected boolean retroceder() {
 		accion_actual--;
-
 		String accion = (String) agent.getActions().get(accion_actual);
-		if (accion.equals("Arriba")) {
-		}
+		tab.removeQueenFrom(accion.charAt(13)-48, accion.charAt(16)-48);
+		actualizarTablero();
 		return true;
 	
 	}
