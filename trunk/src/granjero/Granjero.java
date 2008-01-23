@@ -1,4 +1,4 @@
-package misioneros;
+package granjero;
 
 
 import org.eclipse.swt.SWT;
@@ -8,45 +8,42 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.MessageBox;
 
 import aima.search.framework.Problem;
-import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
 import aima.search.uninformed.DepthLimitedSearch;
 
 /**************************************************************************************************/
 
-public class Misioneros extends main.Puzzle {
+public class Granjero extends main.Puzzle {
 	
 	final Rio rio;
 	private final Canvas canvas;
-	private final Image fondo, barco, misionero, canibal;
+	private final Image fondo, barco, granjero, lobo, cabra, col;
 	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
-	public Misioneros(Display display) {
-		super (display, "Misioneros",300,300);
+	public Granjero(Display display) {
+		super (display, "Granjero",300,300);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
-		fondo = new Image(display, Misioneros.class.getResourceAsStream("rio.png"));
-		barco = new Image(display, Misioneros.class.getResourceAsStream("barca.png"));
-		misionero = new Image(display, Misioneros.class.getResourceAsStream("misionero.png"));
-		canibal = new Image(display, Misioneros.class.getResourceAsStream("canibal.png"));
-
+		fondo = new Image(display, Granjero.class.getResourceAsStream("rio.png"));
+		barco = new Image(display, Granjero.class.getResourceAsStream("barca.png"));
+		granjero = new Image(display, Granjero.class.getResourceAsStream("granjero.png"));
+		lobo = new Image(display, Granjero.class.getResourceAsStream("lobo.png"));
+		cabra = new Image(display, Granjero.class.getResourceAsStream("cabra.png"));
+		col = new Image(display, Granjero.class.getResourceAsStream("col.png"));
+		
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
 
@@ -62,9 +59,10 @@ public class Misioneros extends main.Puzzle {
 		actualizarTablero();
 
 		// Tab Intro
-		addTabIntro("Tres misioneros y tres caníbales deben cruzar el río. Para ello tienen una barca " +
-				"en la que pueden ir una o dos personas. En ningún caso pueden quedar en una orilla más caníbales " +
-				"que misioneros, y la barca no puede viajar sola de un lado a otro.\n\n");
+		addTabIntro("Un granjero, un lobo, una cabra y una col han de cruzar al otro lado del río." +
+				"La barca debe llevarla siempre el granjero, y puede llevar a un tripulante más." +
+				"No se pueden quedar solos (sin el granjero) en una orilla el lobo con la cabra " +
+				"o la cabra con la col.");
 
 		// Tab DSL
 		Composite cTabDSL = addTab("DSL");
@@ -76,19 +74,12 @@ public class Misioneros extends main.Puzzle {
 		
 		final Text textConfigDSL = new Text(cTabDSL, SWT.BORDER);
 		textConfigDSL.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, true, 1, 1));
-		textConfigDSL.setText("11");
+		textConfigDSL.setText("07");
 		textConfigDSL.setTextLimit(2);
 		
 		final Button botonResolverDSL = new Button(cTabDSL, SWT.PUSH);
 		botonResolverDSL.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonResolverDSL.setText("Resolver");
-				
-		// Tab AStar
-		Composite cAStar = addTab("A*");
-		cAStar.setLayout(new GridLayout(1,false));
-		final Button resolverAStar = new Button(cAStar, SWT.PUSH);
-		resolverAStar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-		resolverAStar.setText("Resolver");
 		
 		// Resolución DSL
 		botonResolverDSL.addSelectionListener(new SelectionAdapter() {
@@ -110,23 +101,26 @@ public class Misioneros extends main.Puzzle {
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
-				int i;
-				// Dibujar misioneros
-				for (i=0; i<rio.getNum_misioneros_izq(); i++)
-					gc.drawImage(misionero, 20+15*i, 200+30*i);
-				for (; i<3; i++)
-					gc.drawImage(misionero, 200+20*i, 110+30*i);
-				// Dibujar barca
-				if (rio.isBarco_izq())
+
+				if (rio.isCol_izq()) gc.drawImage(col, 20, 250);
+				else gc.drawImage(col, 160, 150);
+				
+				if (rio.isLobo_izq()) gc.drawImage(lobo, 10, 150);
+				else gc.drawImage(lobo, 180, 120);
+				
+				if (rio.isCabra_izq()) gc.drawImage(cabra, 20, 185);
+				else gc.drawImage(cabra, 200, 150);
+				
+				if (rio.isGranjero_izq()) {
+					gc.drawImage(granjero, 35, 180);
 					gc.drawImage(barco, 80, 250);
-				else
+				}
+				else {
+					gc.drawImage(granjero, 220, 120);
 					gc.drawImage(barco, 200, 200);
-				// Dibujar caníbales
-				for (i=0; i<rio.getNum_canibales_izq(); i++)
-					gc.drawImage(canibal, 40+15*i, 180+30*i);
-				for (; i<3; i++)
-					gc.drawImage(canibal, 240+20*i, 130+30*i);
+				}
 			}
+				
 			
 		});
 	
@@ -145,24 +139,20 @@ public class Misioneros extends main.Puzzle {
 	protected boolean avanzar() {
 		boolean b = true;
 		String accion = (String) agent.getActions().get(accion_actual);
-		if (accion.equals(Rio.M)) {
-			rio.mover(Rio.M);
+		if (accion.equals(Rio.Granjero)) {
+			rio.mover(Rio.Granjero);
 			accion_actual++;
 		}
-		else if (accion.equals(Rio.MM)) {
-			rio.mover(Rio.MM);
+		else if (accion.equals(Rio.Lobo)) {
+			rio.mover(Rio.Lobo);
 			accion_actual++;
 		}
-		else if (accion.equals(Rio.C)) {
-			rio.mover(Rio.C);
+		else if (accion.equals(Rio.Cabra)) {
+			rio.mover(Rio.Cabra);
 			accion_actual++;
 		}
-		else if (accion.equals(Rio.CC)) {
-			rio.mover(Rio.CC);
-			accion_actual++;
-		}
-		else if (accion.equals(Rio.MC)) {
-			rio.mover(Rio.MC);
+		else if (accion.equals(Rio.Col)) {
+			rio.mover(Rio.Col);
 			accion_actual++;
 		}
 		else b = false;
@@ -177,20 +167,17 @@ public class Misioneros extends main.Puzzle {
 		accion_actual--;
 		String accion = (String) agent.getActions().get(accion_actual);
 
-		if (accion.equals(Rio.M)) {
-			rio.mover(Rio.M);
+		if (accion.equals(Rio.Granjero)) {
+			rio.mover(Rio.Granjero);
 		}
-		else if (accion.equals(Rio.MM)) {
-			rio.mover(Rio.MM);
+		else if (accion.equals(Rio.Lobo)) {
+			rio.mover(Rio.Lobo);
 		}
-		else if (accion.equals(Rio.C)) {
-			rio.mover(Rio.C);
+		else if (accion.equals(Rio.Cabra)) {
+			rio.mover(Rio.Cabra);
 		}
-		else if (accion.equals(Rio.CC)) {
-			rio.mover(Rio.CC);
-		}
-		else if (accion.equals(Rio.MC)) {
-			rio.mover(Rio.MC);
+		else if (accion.equals(Rio.Col)) {
+			rio.mover(Rio.Col);
 		}
 		else {
 			b = false;
@@ -208,7 +195,8 @@ public class Misioneros extends main.Puzzle {
 	private void resolverDSL(Rio rio, int profundidad) {
 		// Resolución del puzzle
 		try {
-			String salida = "Misioneros :: Búsqueda en profundidad (DLS)\n\nLímite: " + String.valueOf(profundidad) + "\n";
+			String salida = "El granjero, el lobo, la cabra y la col :: Búsqueda en profundidad (DLS)\n\n" +
+					"Límite: " + String.valueOf(profundidad) + "\n";
 			salida +=       "-------------------------\n\n";
 			// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
 			Problem problem = new Problem(rio,
@@ -221,9 +209,8 @@ public class Misioneros extends main.Puzzle {
 			
 			if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
 				salida += "La solución es trivial.\n";
-	/*		else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
-				salida += "No se ha encontrado solución con límite de profundidad "+String.valueOf(profundidad)+ ".\n";
-	*/				
+			else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
+				salida += "No se ha encontrado solución con límite de profundidad "+String.valueOf(profundidad)+ ".\n";			
 			
 			else {
 				// TODO Quitarle el punto al número de pasos

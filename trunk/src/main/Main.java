@@ -1,6 +1,8 @@
 package main;
 
 
+import granjero.Granjero;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -25,7 +27,8 @@ public class Main {
 		combo.add("Puzzle8");
 		combo.add("Misioneros");
 		combo.add("N-Reinas");
-		combo.add("Labertinto-2D");
+		combo.add("Laberinto-2D");
+		combo.add("El granjero");
 		
 		combo.addSelectionListener(new SelectionListener() {
 
@@ -39,10 +42,13 @@ public class Main {
 					new Misioneros(display);
 					break;
 				case 2:
-					new nReinas(display);
+					new nReinas(display,10);
 					break;		
 				case 3:
 					new Laberinto2D(display);
+					break;	
+				case 4:
+					new Granjero(display);
 					break;	
 				}
 			}

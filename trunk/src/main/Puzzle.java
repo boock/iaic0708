@@ -6,6 +6,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
@@ -34,23 +35,27 @@ public abstract class Puzzle {
 	protected SearchAgent agent;
 	protected final TabFolder tabFolder;
 	protected final Composite compPuzzle;
+	private int ancho, alto;
 	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
+	 * @param display el display de la aplicación
+	 * @param nombrePuzzle el nombre del puzzle
+	 * @param ancho el ancho del puzzle
+	 * @param alto el alto del puzzle
 	 */
-	public Puzzle(Display display, String nombrePuzzle) {
+	public Puzzle(Display display, String nombrePuzzle, int ancho, int alto) {
 		shell = new Shell(display);
 		shell.setText(nombrePuzzle);
 		shell.setLayout(new GridLayout(2,false));
-
+		this.ancho = ancho;
+		this.alto = alto;
 		final Composite compIzq = new Composite(shell,SWT.NONE);
 		compIzq.setLayout(new GridLayout(2,true));
-		
-		GridData gdCompIzq = new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1);
-		
-		gdCompIzq.minimumWidth  = 350;
-		gdCompIzq.minimumHeight = 350;
-		compIzq.setLayoutData(gdCompIzq);
+		GridData gdComIzq = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gdComIzq.minimumHeight = alto+80;
+		gdComIzq.minimumWidth  = ancho+20;
+		compIzq.setLayoutData(gdComIzq);
 
 		tabFolder = new TabFolder(shell,SWT.NONE);
 		tabFolder.setLayout(new GridLayout(1,true));
@@ -158,6 +163,22 @@ public abstract class Puzzle {
 	}
 	
 	/**
+	 * Añade un canvas del tamaño definido al llamar al constructor para dibujar el puzzle.
+	 * @return el canvas sobre el que dibujar
+	 */
+	protected Canvas addCanvas(boolean fondo) {
+		compPuzzle.setLayout(new GridLayout(1,true));
+		int opciones = SWT.NONE;
+		if (!fondo) opciones = SWT.NO_BACKGROUND;
+		Canvas canvas = new Canvas(compPuzzle, opciones);
+		GridData gdCanvas = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
+		gdCanvas.minimumHeight = alto;
+		gdCanvas.minimumWidth  = ancho;
+		canvas.setLayoutData(gdCanvas);
+		return canvas;
+	}
+	
+	/**
 	 * Añade el tab que muestra las reglas del puzzle. Debería añadirse el primero.
 	 * @param reglas un string con las reglas. Se añadirá información sobre cómo usar la aplicación al final. 
 	 */
@@ -191,15 +212,14 @@ public abstract class Puzzle {
 		tSolucion.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
 				"el puzzle con uno de los algoritmos disponibles.");
-	
 	}
 	
 	/**
 	 * Abre el shell. Debería ejecutarse lo último.
 	 */
 	protected void open() {
-		// Reducir tamaño de la ventana
-		shell.setSize(660, 430);
+		// Tamaño de la ventana
+		shell.setSize(ancho+270, alto+120);
 		// Centrar ventana
 		shell.setLocation(shell.getDisplay().getClientArea().width/2 - shell.getSize().x/2, shell.getDisplay().getClientArea().height/2 - shell.getSize().y/2);
 		shell.open();		

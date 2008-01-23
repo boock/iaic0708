@@ -4,7 +4,6 @@ package laberinto2D;
 import laberinto2D.EstadoFinal;
 import laberinto2D.FuncionSucesor;
 import laberinto2D.Mapa;
-import misioneros.Misioneros;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -13,23 +12,17 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.MessageBox;
 
 import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
-import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
 import aima.search.informed.AStarSearch;
 import aima.search.uninformed.DepthLimitedSearch;
@@ -46,14 +39,15 @@ public class Laberinto2D extends main.Puzzle{
 						Lab_2_EO, Lab_2_ES, Lab_2_NE, Lab_2_NO, Lab_2_NS, Lab_2_OS,
 						Lab_3_EOS, Lab_3_NEO, Lab_3_NES, Lab_3_NOS,
 						Lab_4,
-						Lab_pasado;
+						Lab_pasado,
+						Lab_avatar;
 	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Laberinto2D(Display display) {
 		
-		super(display,"Laberinto-2D");
+		super(display,"Laberinto-2D", 400, 400);
 
 		Lab_0		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_0.png"));
 		Lab_1_E		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_1_E.png"));
@@ -72,18 +66,9 @@ public class Laberinto2D extends main.Puzzle{
 		Lab_3_NOS	= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_3_NOS.png"));
 		Lab_4		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_4.png"));
 		Lab_pasado	= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_pasado.png"));
+		Lab_avatar	= new Image(display, Laberinto2D.class.getResourceAsStream("canibal.png"));
 
-		compPuzzle.setLayout(new GridLayout(1,true));
-		canvas = new Canvas(compPuzzle, SWT.NONE);
-		GridData gdCanvas = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
-		gdCanvas.minimumHeight = 450;
-		gdCanvas.minimumWidth  = 450;
-		canvas.setLayoutData(gdCanvas);
-		GridData gdComIzq = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		gdComIzq.minimumHeight = 450;
-		gdComIzq.minimumWidth  = 450;
-
-		compPuzzle.getParent().setLayoutData(gdComIzq);
+		canvas = addCanvas(false);
 
 	/** 
 	 * Laberinto-2D
@@ -104,7 +89,7 @@ public class Laberinto2D extends main.Puzzle{
 		
 		final Text textConfigDSL = new Text(cTabDSL, SWT.BORDER);
 		textConfigDSL.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, true, 1, 1));
-		textConfigDSL.setText("09");
+		textConfigDSL.setText("23");
 		textConfigDSL.setTextLimit(2);
 		
 		final Button botonResolverDSL = new Button(cTabDSL, SWT.PUSH);
@@ -229,7 +214,11 @@ public class Laberinto2D extends main.Puzzle{
 			im = Lab_0;
 			break;
 		}
+		//TODO que vaya dibujando el camino hasta aquí
 		gc.drawImage(im, i*50, j*50);
+		// Dibujar punto
+		if (i==map.y_pos && j==map.x_pos)
+			gc.drawImage(Lab_avatar, i*50, j*50);
 		
 	}
 	
@@ -242,9 +231,8 @@ public class Laberinto2D extends main.Puzzle{
 	 */
 	protected boolean avanzar() {
 		String accion = (String) agent.getActions().get(accion_actual);
-		if (accion.equals("Arriba")) {
-		
-		}
+		map.mover(accion);
+		accion_actual++;
 		return true;
 	}
 
@@ -253,10 +241,15 @@ public class Laberinto2D extends main.Puzzle{
 	 */
 	protected boolean retroceder() {
 		accion_actual--;
-
 		String accion = (String) agent.getActions().get(accion_actual);
-		if (accion.equals("Arriba")) {
-		}
+		if      (accion.equals("Izquierda")) 
+			map.mover("Derecha");
+		else if (accion.equals("Derecha"))
+			map.mover("Izquierda");
+		else if (accion.equals("Arriba"))
+			map.mover("Abajo");
+		else if (accion.equals("Abajo"))
+			map.mover("Arriba");
 		return true;
 	
 	}

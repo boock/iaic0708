@@ -25,11 +25,19 @@ public class Tablero {
 			}
 		}
 	}
+	
+	public void addQueenAt(int x, int y) {
+		board[x][y] = 1;
+	}
 
 	public void addQueenAt(XYLocation l) {
 
 		if (!(queenExistsAt(l)))
 			board[l.getXCoOrdinate()][l.getYCoOrdinate()] = 1;
+	}
+
+	public void removeQueenFrom(int x, int y) {
+		board[x][y] = 0;
 	}
 
 	public void removeQueenFrom(XYLocation l) {
@@ -39,7 +47,7 @@ public class Tablero {
 		}
 	}
 
-	private boolean queenExistsAt(int x, int y) {
+	public boolean queenExistsAt(int x, int y) {
 
 		return (board[x][y] == 1);
 	}
@@ -58,7 +66,6 @@ public class Tablero {
 	}
 
 	public void clear() {
-
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
 				board[i][j] = 0;
@@ -115,13 +122,15 @@ public class Tablero {
 		return numberOfDiagonalAttacksOn(x, y) > 0;
 	}
 
-	public boolean isSquareUnderAttack(XYLocation l) {
-
-		int x = l.getXCoOrdinate();
-		int y = l.getYCoOrdinate();
+	public boolean isSquareUnderAttack(int x, int y) {
 		return (isSquareHorizontallyAttacked(x, y)
 				|| isSquareVerticallyAttacked(x, y) || isSquareDiagonallyAttacked(
 				x, y));
+	}
+	public boolean isSquareUnderAttack(XYLocation l) {
+		int x = l.getXCoOrdinate();
+		int y = l.getYCoOrdinate();
+		return isSquareUnderAttack(x,y);
 	}
 
 	public int getSize() {
