@@ -41,18 +41,22 @@ public abstract class Puzzle {
 	public Puzzle(Display display, String nombrePuzzle) {
 		shell = new Shell(display);
 		shell.setText(nombrePuzzle);
-		shell.setLayout(new GridLayout(2,true));
+		shell.setLayout(new GridLayout(2,false));
 
 		final Composite compIzq = new Composite(shell,SWT.NONE);
 		compIzq.setLayout(new GridLayout(2,true));
-		compIzq.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
+		GridData gdCompIzq = new GridData(SWT.FILL, SWT.TOP, true, true, 1, 1);
+		
+		gdCompIzq.minimumWidth  = 350;
+		gdCompIzq.minimumHeight = 350;
+		compIzq.setLayoutData(gdCompIzq);
+
 		tabFolder = new TabFolder(shell,SWT.NONE);
 		tabFolder.setLayout(new GridLayout(1,true));
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		compPuzzle = new Composite(compIzq,SWT.BORDER);
-		compPuzzle.setLayout(new GridLayout(3,true));
 		compPuzzle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 
 		botonAnterior = new Button(compIzq, SWT.PUSH);
@@ -67,7 +71,8 @@ public abstract class Puzzle {
 						botonAnterior.setEnabled(false);
 					// Desbloquear botón siguiente si no está en el final
 					if (accion_actual!=agent.getActions().size())
-						botonSiguiente.setEnabled(true);		
+						botonSiguiente.setEnabled(true);
+					actualizarTablero();
 				}
 			}
 		});
@@ -85,6 +90,7 @@ public abstract class Puzzle {
 					// Desbloquear botón anterior si no está en el principio
 					if (accion_actual!=0)
 						botonAnterior.setEnabled(true);
+					actualizarTablero();
 				}
 				
 			}
@@ -193,7 +199,7 @@ public abstract class Puzzle {
 	 */
 	protected void open() {
 		// Reducir tamaño de la ventana
-		shell.setSize(600, 400);
+		shell.setSize(660, 430);
 		// Centrar ventana
 		shell.setLocation(shell.getDisplay().getClientArea().width/2 - shell.getSize().x/2, shell.getDisplay().getClientArea().height/2 - shell.getSize().y/2);
 		shell.open();		
