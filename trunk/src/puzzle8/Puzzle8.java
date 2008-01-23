@@ -3,26 +3,20 @@ package puzzle8;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.TabFolder;
-import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.MessageBox;
 
 
-import aima.search.eightpuzzle.ManhattanHeuristicFunction;
 import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
-import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
 import aima.search.informed.AStarSearch;
 import aima.search.uninformed.DepthLimitedSearch;
@@ -48,7 +42,8 @@ public class Puzzle8 extends main.Puzzle{
 		// Crea un tablero colocado (para que lo descoloque el usuario)
 		labels = new Label[9];
 		tab = new Tablero();
-
+		
+		compPuzzle.setLayout(new GridLayout(3,true));
 		for (int i = 0; i < 9; i++) {
 			labels[i] = new Label(compPuzzle,SWT.CENTER | SWT.BORDER);
 			labels[i].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));

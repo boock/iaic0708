@@ -31,10 +31,9 @@ public class nReinas extends main.Puzzle {
 
 	/** 
 	 * N-Reinas
-	 * Tablero de nxn, hay que colocar n reinas de ajedrez sin que se amenacen. 
+	 * Tablero de NxN, hay que colocar N reinas de ajedrez sin que se amenacen. 
 	 */
-		// Crea un tablero colocado (para que lo descoloque el usuario)
-
+		
 		tab = new Tablero(5);
 		
 		addTabIntro("El objetivo es colocar N reinas de ajedrez en un tablero de NxN, evitando que se amenacen " +

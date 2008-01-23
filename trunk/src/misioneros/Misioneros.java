@@ -29,17 +29,9 @@ import aima.search.uninformed.DepthLimitedSearch;
 
 /**************************************************************************************************/
 
-public class Misioneros {
-	private Shell shell;
+public class Misioneros extends main.Puzzle {
 	
-	// Este entero es para saber por qué paso vamos de la solución
-	private int accion_actual = 0;
 	final Rio rio;
-	private Search search;
-	private SearchAgent agent;
-	private final Button botonAnterior,botonSiguiente;
-	private final Text tSolucion;
-	private final TabFolder tabFolder;
 	private final Canvas canvas;
 	private final Image fondo, barco, misionero, canibal;
 	
@@ -47,71 +39,20 @@ public class Misioneros {
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Misioneros(Display display) {
-		shell = new Shell(display);
-		shell.setText("Misioneros");
-		shell.setLayout(new GridLayout(2,false));
+		super (display, "Misioneros");
 
-		final Composite compIzq = new Composite(shell,SWT.NONE);
-		compIzq.setLayout(new GridLayout(2,true));
-		GridData gdCompIzq = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
-		gdCompIzq.minimumHeight = 300;
-		gdCompIzq.minimumWidth  = 300;
-		compIzq.setLayoutData(gdCompIzq);
-		
-		tabFolder = new TabFolder(shell,SWT.NONE);
-		tabFolder.setLayout(new GridLayout(1,true));
-		GridData gdTabFolder = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
-		gdTabFolder.widthHint  = 200;
-		gdTabFolder.minimumHeight = 200;
-		tabFolder.setLayoutData(gdTabFolder);
-		
-		canvas = new Canvas(compIzq, SWT.NONE);
+		compPuzzle.setLayout(new GridLayout(1,true));
+		canvas = new Canvas(compPuzzle, SWT.NONE);
 		fondo = new Image(display, Misioneros.class.getResourceAsStream("rio.png"));
 		barco = new Image(display, Misioneros.class.getResourceAsStream("barca.png"));
 		misionero = new Image(display, Misioneros.class.getResourceAsStream("misionero.png"));
 		canibal = new Image(display, Misioneros.class.getResourceAsStream("canibal.png"));
 		canvas.setBackgroundImage(fondo);
-		GridData gdCanvas = new GridData(SWT.CENTER, SWT.CENTER, true, true, 2, 1);
+		GridData gdCanvas = new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1);
 		gdCanvas.minimumHeight = 300;
 		gdCanvas.minimumWidth  = 300;
 		canvas.setLayoutData(gdCanvas);
 
-		botonAnterior = new Button(compIzq, SWT.PUSH);
-		botonAnterior.setText("<- Anterior");
-		botonAnterior.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		botonAnterior.setEnabled(false);
-		botonAnterior.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				retroceder();
-			}
-		});
-
-		botonSiguiente = new Button(compIzq, SWT.PUSH);
-		botonSiguiente.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		botonSiguiente.setText("Siguiente ->");
-		botonSiguiente.setEnabled(false);
-		botonSiguiente.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				avanzar();
-			}
-		});
-		
-		Button botonReset = new Button(compIzq, SWT.PUSH);
-		botonReset.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		botonReset.setText("Reiniciar río");
-		botonReset.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				// Reinicia el tablero y borra la solución
-				rio.reset();
-				agent = null;
-				accion_actual=0;
-				botonSiguiente.setEnabled(false);
-				botonAnterior.setEnabled(false);
-				mostrarRio();
-				tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
-				"el problema con uno de los algoritmos disponibles.");
-			}
-		});
 
 	/** 
 	 * Misioneros y caníbales
@@ -121,28 +62,15 @@ public class Misioneros {
 
 		rio = new Rio();
 
-		mostrarRio();
+		actualizarTablero();
 
 		// Tab Intro
-		final Composite cIntro = new Composite(tabFolder, SWT.NONE);
-		final TabItem tabIntro = new TabItem(tabFolder, SWT.NONE);
-		tabIntro.setText("Misioneros y caníbales");
-		tabIntro.setControl(cIntro);
-		cIntro.setLayout(new FillLayout());
-		final Label textoIntro = new Label(cIntro, SWT.WRAP);
-		textoIntro.setText("Tres misioneros y tres caníbales deben cruzar el río. Para ello tienen una barca " +
+		addTabIntro("Tres misioneros y tres caníbales deben cruzar el río. Para ello tienen una barca " +
 				"en la que pueden ir una o dos personas. En ningún caso pueden quedar en una orilla más caníbales " +
-				"que misioneros, y la barca no puede viajar sola de un lado a otro.\n\n" +
-				"Selecciona una pestaña para elegir un método de resolución y pulsa el botón resolver.\n" +
-				"Si quieres ver cómo funciona la solución pulsa los botones siguiente y anterior.\n" +
-				"Si quieres volver a empezar, pulsa el botón reiniciar.");
+				"que misioneros, y la barca no puede viajar sola de un lado a otro.\n\n");
 
 		// Tab DSL
-		final Composite cTabDSL = new Composite(tabFolder, SWT.NONE);
-		final TabItem tabDSL = new TabItem(tabFolder, SWT.NONE);
-		tabDSL.setText("DSL");
-		tabDSL.setControl(cTabDSL);
-		cTabDSL.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		Composite cTabDSL = addTab("DSL");
 		cTabDSL.setLayout(new GridLayout(2,false));
 
 		final Label labelConfigDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
@@ -159,25 +87,11 @@ public class Misioneros {
 		botonResolverDSL.setText("Resolver");
 				
 		// Tab AStar
-		final Composite cAStar = new Composite(tabFolder, SWT.NONE);
-		final TabItem tabAStar = new TabItem(tabFolder, SWT.NONE);
-		tabAStar.setText("A*");
-		tabAStar.setControl(cAStar);
+		Composite cAStar = addTab("A*");
 		cAStar.setLayout(new GridLayout(1,false));
 		final Button resolverAStar = new Button(cAStar, SWT.PUSH);
 		resolverAStar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		resolverAStar.setText("Resolver");
-
-		// Tab Solución
-		final Composite cSolucion = new Composite(tabFolder, SWT.NONE);
-		final TabItem tabSolucion = new TabItem(tabFolder, SWT.NONE);
-		cSolucion.setLayout(new GridLayout(1,false));
-		tabSolucion.setText("Solución");
-		tabSolucion.setControl(cSolucion);
-		tSolucion = new Text(cSolucion, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-		tSolucion.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
-				"el problema con uno de los algoritmos disponibles.");
 		
 		// Resolución DSL
 		botonResolverDSL.addSelectionListener(new SelectionAdapter() {
@@ -219,61 +133,51 @@ public class Misioneros {
 			
 		});
 	
-		// Reducir tamaño de la ventana
-		shell.setSize(600, 450);
-		// Centrar ventana
-		shell.setLocation(shell.getDisplay().getClientArea().width/2 - shell.getSize().x/2, shell.getDisplay().getClientArea().height/2 - shell.getSize().y/2);
-		shell.open();		
-
-		// Este bucle mantiene la ventana abierta
-		while (!shell.isDisposed()) {
-			if (!shell.getDisplay().readAndDispatch()) {
-				shell.getDisplay().sleep();
-			}
-		}
+		addTabSolucion();
+		actualizarTablero();
+		open();
 	}
 	
-	private void mostrarRio() {
+	protected void actualizarTablero() {
 		canvas.redraw();
 	}
 	
 	/**
 	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "siguiente".
 	 */
-	private void avanzar() {
+	protected boolean avanzar() {
+		boolean b = true;
 		String accion = (String) agent.getActions().get(accion_actual);
 		if (accion.equals(Rio.M)) {
 			rio.mover(Rio.M);
+			accion_actual++;
 		}
 		else if (accion.equals(Rio.MM)) {
 			rio.mover(Rio.MM);
+			accion_actual++;
 		}
 		else if (accion.equals(Rio.C)) {
 			rio.mover(Rio.C);
+			accion_actual++;
 		}
 		else if (accion.equals(Rio.CC)) {
 			rio.mover(Rio.CC);
+			accion_actual++;
 		}
 		else if (accion.equals(Rio.MC)) {
 			rio.mover(Rio.MC);
+			accion_actual++;
 		}
-
-		accion_actual++;
-		// Bloquear botón siguiente si se ha llegado al final
-		if (accion_actual==agent.getActions().size())
-			botonSiguiente.setEnabled(false);
-		// Desbloquear botón anterior si no está en el principio
-		if (accion_actual!=0)
-			botonAnterior.setEnabled(true);
-		mostrarRio();
+		else b = false;
+		return b;
 	}
 
 	/**
 	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "anterior".
 	 */
-	private void retroceder() {
+	protected boolean retroceder() {
+		boolean b = true;
 		accion_actual--;
-
 		String accion = (String) agent.getActions().get(accion_actual);
 
 		if (accion.equals(Rio.M)) {
@@ -291,14 +195,17 @@ public class Misioneros {
 		else if (accion.equals(Rio.MC)) {
 			rio.mover(Rio.MC);
 		}
-
-		// Bloquear botón anterior si se ha llegado al principio
-		if (accion_actual==0)
-			botonAnterior.setEnabled(false);
-		// Desbloquear botón siguiente si no está en el final
-		if (accion_actual!=agent.getActions().size())
-			botonSiguiente.setEnabled(true);
-		mostrarRio();
+		else {
+			b = false;
+			accion_actual++;
+		}
+		return b;
+	}
+	
+	protected void reiniciar() {
+		rio.reset();
+		agent = null;
+		accion_actual=0;
 	}
 	
 	private void resolverDSL(Rio rio, int profundidad) {
@@ -329,16 +236,9 @@ public class Misioneros {
 					String action = (String) agent.getActions().get(i);
 					salida += action + "\n";
 				}
-				
-				// Mostrar coste y nodos 
-				
-				/*Iterator keys = agent.getInstrumentation().keySet().iterator();
-				while (keys.hasNext()) {
-					String key = (String) keys.next();
-					String property = agent.getInstrumentation().getProperty(key);
-					salida += key + " : " + property + "\n";
-				}*/	
+
 			}
+			// Mostrar coste y nodos 
 			salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
 			tSolucion.setText(salida);
 			tabFolder.setSelection(tabFolder.getItemCount()-1);
