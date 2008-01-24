@@ -1,77 +1,65 @@
 package hanoiTower;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
+//import org.eclipse.swt.SWT;
+//import org.eclipse.swt.events.SelectionAdapter;
+//import org.eclipse.swt.events.SelectionEvent;
+//import org.eclipse.swt.layout.GridData;
+//import org.eclipse.swt.layout.GridLayout;
+//import org.eclipse.swt.widgets.Button;
+//import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
+//import org.eclipse.swt.widgets.Event;
+//import org.eclipse.swt.widgets.Label;
+//import org.eclipse.swt.widgets.Listener;
+
+import hanoiTower.EstadoFinal;
+import hanoiTower.FuncionSucesor;
+import hanoiTower.Base;
 
 
 /**************************************************************************************************/
 
 public class HanoiTower extends main.Puzzle{
+	
 	final Base tab;
-
 	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public HanoiTower(Display display) {
 
-		super(display,"Puzzle-8",200,200);
+		super(display,"HanoiTower",200,200);
 
-	/** 
-	 * Puzzle 8
-	 * Base de 3x3, el hueco está representado por el cero, y debe quedar en el centro.
-	 */
-
+		/** 
+		 * Hanoi Tower
+		 */
 		tab = new Base();
-		
-
-		addTabIntro("\n");
-		
+			
 		addTabIDS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(tab, 15, new FuncionSucesor(), new EstadoFinal());
-
+		//addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), new FuncionHeuristicManhattan());
+			
 		addTabSolucion();
 		actualizarTablero();
 		open();
 	}
 	
-	
-	protected void actualizarTablero() {
-
-	}
+	protected void actualizarTablero(){}
 	
 	/**
-	 * Este método es para la representación UI. Modifica el Base del interfaz al pulsar el botón "siguiente".
+	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "siguiente".
 	 */
-	protected boolean avanzar() {
-		boolean b = true;
-		String accion = (String) agent.getActions().get(accion_actual);
-
-		return b;
-
-	}
+	protected boolean avanzar(){return true;}
+		
 
 	/**
-	 * Este método es para la representación UI. Modifica el Base del interfaz al pulsar el botón "anterior".
+	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "anterior".
 	 */
-	protected boolean retroceder() {
-		accion_actual--;
-		boolean b = true;
-
-		return b;
-	}
+	protected boolean retroceder(){return true;}
 	
 	protected void reiniciar() {
-		// Reinicia el Base y borra la solución
 		tab.reset();
 		agent = null;
 		accion_actual=0;
