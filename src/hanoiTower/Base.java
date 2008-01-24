@@ -156,7 +156,7 @@ public class Base {
 		}
 		return true;
 	}
-	public void move(String mov) {
+	public void mover(String mov) {
 		if ( mov.equals(MA_1) ) board[0] = enTapa('1');
 		if ( mov.equals(MA_2) ) board[0] = enTapa('2');
 		if ( mov.equals(MA_3) ) board[0] = enTapa('3');
