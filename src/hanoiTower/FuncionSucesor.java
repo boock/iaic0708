@@ -36,7 +36,7 @@ public class FuncionSucesor implements SuccessorFunction {
 		operadores.add(Base.MC_2);
 		operadores.add(Base.MC_3);
 		
-		// Boucle para expendir los nodos de el estado en parametro
+		// Boucle para expendir los nodos del estado en parametro
 		
 		for(int i=0;i<9;i++){
 			
