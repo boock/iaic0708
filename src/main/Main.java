@@ -15,6 +15,7 @@ import puzzle8.Puzzle8;
 import misioneros.Misioneros;
 import nReinas.nReinas;
 import laberinto2D.Laberinto2D;
+import garrafas.Garrafas;
 
 /**************************************************************************************************/
 
@@ -29,6 +30,7 @@ public class Main {
 		combo.add("N-Reinas");
 		combo.add("Laberinto-2D");
 		combo.add("El granjero");
+		combo.add("Las garrafas");
 		
 		combo.addSelectionListener(new SelectionListener() {
 
@@ -49,7 +51,10 @@ public class Main {
 					break;	
 				case 4:
 					new Granjero(display);
-					break;	
+					break;
+				case 5:
+					new Garrafas(display);
+					break;
 				}
 			}
 			
