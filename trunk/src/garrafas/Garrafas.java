@@ -16,7 +16,8 @@ public class Garrafas extends main.Puzzle{
 	
 	final Contenido contenido;
 	private final Canvas canvas;
-	private final Image fondo,barco,granjero;
+	private final Image fondo,grifo,jar1_0,jar1_1,jar1_2,jar1_3,
+	jar2_0,jar2_1,jar2_2,jar2_3,jar2_4,vierte1_2,vierte2_1;
 	
 	
 	/**
@@ -26,15 +27,19 @@ public class Garrafas extends main.Puzzle{
 		super (display, "Garrafas",300,300);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
-		fondo = new Image(display, Garrafas.class.getResourceAsStream("rio.png"));
-		
-		barco = new Image(display, Garrafas.class.getResourceAsStream("barca.png"));
-		granjero = new Image(display, Garrafas.class.getResourceAsStream("granjero.png"));
-		/*lobo = new Image(display, Granjero.class.getResourceAsStream("lobo.png"));
-		cabra = new Image(display, Granjero.class.getResourceAsStream("cabra.png"));
-		col = new Image(display, Granjero.class.getResourceAsStream("col.png"));
-		*/
-		
+		fondo  = new Image(display, Garrafas.class.getResourceAsStream("fondo.png"));
+		grifo  = new Image(display, Garrafas.class.getResourceAsStream("grifo.png"));
+		jar1_0 = new Image(display, Garrafas.class.getResourceAsStream("Jar1_0.png"));
+		jar1_1 = new Image(display, Garrafas.class.getResourceAsStream("Jar1_1.png"));
+		jar1_2 = new Image(display, Garrafas.class.getResourceAsStream("Jar1_2.png"));
+		jar1_3 = new Image(display, Garrafas.class.getResourceAsStream("Jar1_3.png"));
+		jar2_0 = new Image(display, Garrafas.class.getResourceAsStream("Jar2_0.png"));
+		jar2_1 = new Image(display, Garrafas.class.getResourceAsStream("Jar2_1.png"));
+		jar2_2 = new Image(display, Garrafas.class.getResourceAsStream("Jar2_2.png"));
+		jar2_3 = new Image(display, Garrafas.class.getResourceAsStream("Jar2_3.png"));
+		jar2_4 = new Image(display, Garrafas.class.getResourceAsStream("Jar2_4.png"));
+		vierte1_2 = new Image(display, Garrafas.class.getResourceAsStream("vierte1-2.png"));
+		vierte2_1 = new Image(display, Garrafas.class.getResourceAsStream("vierte2-1.png"));
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
 
@@ -49,7 +54,7 @@ public class Garrafas extends main.Puzzle{
 		actualizarTablero();
 
 		// Tab Intro
-		addTabIntro("2 garrafas vacías con capacidades de 4 y 3 litros, respectivamente."+
+		addTabIntro("2 garrafas vacías con capacidades de 4 y 3 litros, respectivamente.\n"+
 					"Objetivo: la garrafa de 4 litros debe contener exactamente 2 litros." +
 					"Las garrafas se pueden llenar en el grifo o volcando el contenido de una" +
 					"en la otra, y vaciarlas en el suelo o verter su contenido en la otra");
@@ -63,13 +68,59 @@ public class Garrafas extends main.Puzzle{
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
+				switch (contenido.isG3()) {
+				case 0:
+					gc.drawImage(jar1_0, 40, 125);					
+					break;
+				case 1:
+					gc.drawImage(jar1_1, 40, 125);
+					break;
+				case 2:
+					gc.drawImage(jar1_2, 40, 125);
+					break;
+				case 3:
+					gc.drawImage(jar1_3, 40, 125);
+				}
+				switch (contenido.isG4()) {
+				case 0:
+					gc.drawImage(jar2_0, 150, 100);
+					break;
+				case 1:
+					gc.drawImage(jar2_1, 150, 100);
+					break;
+				case 2:
+					gc.drawImage(jar2_2, 150, 100);
+					break;
+				case 3:
+					gc.drawImage(jar2_3, 150, 100);
+					break;
+				case 4:
+					gc.drawImage(jar2_4, 150, 100);
+				}
 				
-				gc.drawImage(granjero, 220, 120);
-				gc.drawImage(barco, 200, 200);
-				
+				// Dibujar la acción actual
+				if (agent!=null && accion_actual>0 && accion_actual<agent.getActions().size()) {
+					String accion = (String) agent.getActions().get(accion_actual-1);
+					if (accion.equals(Contenido.ll_g4)) {
+						gc.drawImage(grifo, 150, 0);
+					}
+					else if (accion.equals(Contenido.ll_g3)) {
+						gc.drawImage(grifo, 40, 0);
+					}
+					else if (accion.equals(Contenido.v_g4)) {
+					}
+					else if (accion.equals(Contenido.v_g3)) {
+					}
+					else if (accion.equals(Contenido.g4_con_g3)) {
+					}
+					else if (accion.equals(Contenido.g3_con_g4)) {
+					}
+					else if (accion.equals(Contenido.g3_en_g4)) {
+					}
+					else if (accion.equals(Contenido.g4_en_g3)) {
+					}		
+				}
 			}
-				
-			
 		});
 	
 		addTabSolucion();
