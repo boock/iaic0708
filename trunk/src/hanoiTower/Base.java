@@ -203,14 +203,14 @@ public class Base {
 		if ( where.equals(MB_3) && hayAlgoSobre('B') )  retVal = false;
 		if ( where.equals(MC_3) && hayAlgoSobre('C') )  retVal = false;
 		
-		// No es possible porque hay un mas Pequeno en este
+		// No es possible si hay un mas Pequeno en este
 		if ( where.equals(MB_1) && ( '1' == quePlaza('A') ) ) retVal = false;
 		if ( where.equals(MC_1) && ( '1' == quePlaza('B') ) ) retVal = false;
 		if ( where.equals(MC_1) && ( '1' == quePlaza('A') ) ) retVal = false;
 		
 		if ( where.equals(MB_2) && ( '2' == quePlaza('A') ) ) retVal = false;
 		if ( where.equals(MC_2) && ( '2' == quePlaza('B') ) ) retVal = false;
-		if ( where.equals(MC_1) && ( '2' == quePlaza('A') ) ) retVal = false;
+		if ( where.equals(MC_2) && ( '2' == quePlaza('A') ) ) retVal = false;
 		
 		if ( where.equals(MB_3) && ( '3' == quePlaza('A') ) ) retVal = false;
 		if ( where.equals(MC_3) && ( '3' == quePlaza('B') ) ) retVal = false;
