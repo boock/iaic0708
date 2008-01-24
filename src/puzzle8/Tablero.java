@@ -64,29 +64,25 @@ public class Tablero {
 			switch (k) {
 			case 0:
 				if (canMoveGap("Abajo")) {
-					moveGapDown();
-					System.out.println("Abajo");}
+					moveGapDown();}
 				else
 					j--;
 				break;
 			case 1:
 				if (canMoveGap("Izquierda")){
-					moveGapLeft();
-					System.out.println("Izquierda");}
+					moveGapLeft();}
 				else
 					j--;
 				break;
 			case 2:
 				if (canMoveGap("Right")){
-					moveGapRight();
-					System.out.println("Derecha");}
+					moveGapRight();}
 				else
 					j--;
 				break;
 			case 3:
 				if (canMoveGap("Arriba")){
-					moveGapUp();
-					System.out.println("Arriba");}
+					moveGapUp();}
 				else
 					j--;
 
