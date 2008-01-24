@@ -1,26 +1,13 @@
 package granjero;
 
-
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
-import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.MessageBox;
 
-import aima.search.framework.Problem;
-import aima.search.framework.SearchAgent;
-import aima.search.uninformed.DepthLimitedSearch;
 
 /**************************************************************************************************/
 
@@ -64,38 +51,10 @@ public class Granjero extends main.Puzzle {
 				"No se pueden quedar solos (sin el granjero) en una orilla el lobo con la cabra " +
 				"o la cabra con la col.");
 
-		// Tab DSL
-		Composite cTabDSL = addTab("DSL");
-		cTabDSL.setLayout(new GridLayout(2,false));
-
-		final Label labelConfigDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
-		labelConfigDSL.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, true, 1, 1));
-		labelConfigDSL.setText("Profundidad del árbol de resolución:");
-		
-		final Text textConfigDSL = new Text(cTabDSL, SWT.BORDER);
-		textConfigDSL.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, true, 1, 1));
-		textConfigDSL.setText("07");
-		textConfigDSL.setTextLimit(2);
-		
-		final Button botonResolverDSL = new Button(cTabDSL, SWT.PUSH);
-		botonResolverDSL.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		botonResolverDSL.setText("Resolver");
-		
-		// Resolución DSL
-		botonResolverDSL.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				try {
-					resolverDSL(rio,Integer.valueOf(textConfigDSL.getText()));
-					if (agent.getActions().size()>0) botonSiguiente.setEnabled(true);
-				}
-				catch (NumberFormatException ex) {
-					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("La profundidad del árbol DSL de búsqueda debe ser un número entero.");
-					m.setText("Error");
-					m.open();
-				}
-			}
-		});
+		addTabIDS(rio, new FuncionSucesor(), new EstadoFinal());
+		addTabBFS(rio, new FuncionSucesor(), new EstadoFinal());
+		addTabDFS(rio, new FuncionSucesor(), new EstadoFinal());
+		addTabDLS(rio, 7, new FuncionSucesor(), new EstadoFinal());
 		
 		// Dibujar puzzle
 		canvas.addPaintListener(new PaintListener () {
@@ -190,45 +149,5 @@ public class Granjero extends main.Puzzle {
 		rio.reset();
 		agent = null;
 		accion_actual=0;
-	}
-	
-	private void resolverDSL(Rio rio, int profundidad) {
-		// Resolución del puzzle
-		try {
-			String salida = "El granjero, el lobo, la cabra y la col :: Búsqueda en profundidad (DLS)\n\n" +
-					"Límite: " + String.valueOf(profundidad) + "\n";
-			salida +=       "-------------------------\n\n";
-			// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-			Problem problem = new Problem(rio,
-					new FuncionSucesor(),
-					new EstadoFinal());
-
-			// Resolver el problema con DLS
-			search = new DepthLimitedSearch(profundidad);
-			agent = new SearchAgent(problem, search);
-			
-			if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
-				salida += "La solución es trivial.\n";
-			else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
-				salida += "No se ha encontrado solución con límite de profundidad "+String.valueOf(profundidad)+ ".\n";			
-			
-			else {
-				// TODO Quitarle el punto al número de pasos
-				salida += "¡Solución encontrada en "+ agent.getInstrumentation().getProperty("pathCost") +" pasos! Pasos de la solución:\n\n";
-				// Mostrar acciones por consola
-				for (int i = 0; i < agent.getActions().size(); i++) {
-					String action = (String) agent.getActions().get(i);
-					salida += action + "\n";
-				}
-
-			}
-			// Mostrar coste y nodos 
-			salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
-			tSolucion.setText(salida);
-			tabFolder.setSelection(tabFolder.getItemCount()-1);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }

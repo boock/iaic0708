@@ -16,8 +16,19 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.MessageBox;
 
+import aima.search.framework.GraphSearch;
+import aima.search.framework.Problem;
 import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
+import aima.search.framework.SuccessorFunction;
+import aima.search.framework.GoalTest;
+import aima.search.framework.TreeSearch;
+import aima.search.framework.HeuristicFunction;
+import aima.search.informed.AStarSearch;
+import aima.search.uninformed.DepthLimitedSearch;
+import aima.search.uninformed.IterativeDeepeningSearch;
+import aima.search.uninformed.BreadthFirstSearch;
+import aima.search.uninformed.DepthFirstSearch;
 
 /**************************************************************************************************/
 
@@ -198,6 +209,292 @@ public abstract class Puzzle {
 		return cReglas;
 	}
 
+	private void mostrarSolucion(String salida) {
+		if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
+			salida += "La solución es trivial.\n";
+		else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
+			salida += "No se ha encontrado solución.\n";
+		else {
+			// TODO Quitarle el punto al número de pasos
+			salida += "¡Solución encontrada en "+ agent.getInstrumentation().getProperty("pathCost") +" pasos! Pasos de la solución:\n\n";
+			// Mostrar acciones por consola
+			for (int i = 0; i < agent.getActions().size(); i++) {
+				String action = (String) agent.getActions().get(i);
+				salida += action + "\n";
+			}
+			
+			// Mostrar coste y nodos 
+			salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
+		}
+		tSolucion.setText(salida);
+		tabFolder.setSelection(tabFolder.getItemCount()-1);
+	}
+
+	protected void addTabDLS(Object estadoInicial, int profMax, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
+		final int p = profMax;
+		final Object o = estadoInicial;
+		final GoalTest gt = estadoFinal;
+		final SuccessorFunction fs = funcionSucesor;
+		Composite cTabDSL = addTab("DLS");
+		cTabDSL.setLayout(new GridLayout(2,false));
+
+		final Label labelIntro = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
+		labelIntro.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 2, 1));
+		labelIntro.setText("Búsqueda con límite de profundidad.\n\n" +
+				"La búsqueda con límite de profundidad (DLS) es una " +
+				"búsqueda no informada que expande el árbol en profundidad hasta llegar a " +
+				"un límite para evitar ciclos.\n" +
+				"No es completa si la profundidad es menor que el diámetro de la solución y " +
+				"no puede garantizarse que la primera solución encontrada sea la mejor.");
+
+		final Label labelConfig = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
+		labelConfig.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, true, 1, 1));
+		labelConfig.setText("Profundidad del árbol de resolución:");
+		
+		final Text textConfig = new Text(cTabDSL, SWT.BORDER);
+		textConfig.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, true, 1, 1));
+		textConfig.setText("09");
+		textConfig.setTextLimit(2);
+		
+		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
+		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		botonResolver.setText("Resolver");
+		
+		// Resolución
+		botonResolver.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					if (Integer.valueOf(textConfig.getText())>p) {
+						MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+						// TODO Dar la opción de continuar
+						m.setMessage("Una profundidad mayor de "+ String.valueOf(p) +" puede tardar demasiado en terminar. Por favor, prueba un valor más bajo.");
+						m.setText("Error");
+						m.open();
+					}
+					else {
+						String salida = "Búsqueda con límite de profundidad (DLS)\n\nLímite: "
+							+ String.valueOf(p) + "\n";
+						salida +=       "-------------------------\n\n";
+						// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
+						Problem problem = new Problem(o, fs, gt);
+
+						// Resolver el problema con DLS
+						search = new DepthLimitedSearch(p);
+						agent = new SearchAgent(problem, search);
+
+						mostrarSolucion(salida);
+
+						if (agent.getActions().size()>0) {
+							botonSiguiente.setEnabled(true);
+						}
+					}
+				}
+				catch (NumberFormatException ex) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("La profundidad máxima del árbol DSL de búsqueda debe ser un número entero.");
+					m.setText("Error");
+					m.open();
+				}
+				catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		});	
+	}
+
+	
+	protected void addTabIDS(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
+		final Object o = estadoInicial;
+		final GoalTest gt = estadoFinal;
+		final SuccessorFunction fs = funcionSucesor;
+		// Tab Bidireccional
+		Composite cTabDSL = addTab("IDS");
+		cTabDSL.setLayout(new GridLayout(2,false));
+
+		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
+		labelIntroDSL.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 2, 1));
+		labelIntroDSL.setText("Búsqueda con Profundización Iterativa.\n\n" +
+				"La búsqueda con profundización iterativa (IDS) es un tipo de búsqueda no informada " +
+				"que va variando el límite de profundidad de forma creciente.\n" +
+				"Es óptima y completa.");
+
+		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
+		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		botonResolver.setText("Resolver");
+		
+		// Resolución
+		botonResolver.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					String salida = "Búsqueda de profundización iterativa\n";
+					salida +=       "-------------------------\n\n";
+					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
+					Problem problem = new Problem(o, fs, gt);
+
+					// Resolver el problema con DLS
+					search = new IterativeDeepeningSearch();
+					agent = new SearchAgent(problem, search);
+					
+					mostrarSolucion(salida);
+					
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				if (agent.getActions().size()>0) {
+					botonSiguiente.setEnabled(true);
+				}
+			}
+		});	
+	}
+
+	protected void addTabBFS(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
+		final Object o = estadoInicial;
+		final GoalTest gt = estadoFinal;
+		final SuccessorFunction fs = funcionSucesor;
+		Composite cTabDSL = addTab("BFS");
+		cTabDSL.setLayout(new GridLayout(2,false));
+
+		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
+		labelIntroDSL.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 2, 1));
+		labelIntroDSL.setText("Búsqueda Primero en Anchura\n\n" +
+				"La búsqueda primero en anchura (BFS) es un tipo de búsqueda no informada " +
+				"que expande primero los nodos haciendo un recorrido en anchura.\n" +
+				"Es completa y óptima si coste(sucesor(n)) >= coste(n).");
+
+		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
+		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		botonResolver.setText("Resolver");
+		
+		// Resolución
+		botonResolver.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					String salida = "Búsqueda primero en anchura\n";
+					salida +=       "-------------------------\n\n";
+					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
+					Problem problem = new Problem(o, fs, gt);
+
+					// Resolver el problema con DLS
+					search = new BreadthFirstSearch(new TreeSearch());
+					agent = new SearchAgent(problem, search);
+					
+					mostrarSolucion(salida);
+					
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				if (agent.getActions().size()>0) {
+					botonSiguiente.setEnabled(true);
+				}
+			}
+		});	
+	}
+	
+	protected void addTabDFS(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
+		final Object o = estadoInicial;
+		final GoalTest gt = estadoFinal;
+		final SuccessorFunction fs = funcionSucesor;
+		Composite cTabDSL = addTab("DFS");
+		cTabDSL.setLayout(new GridLayout(2,false));
+
+		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
+		labelIntroDSL.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 2, 1));
+		labelIntroDSL.setText("Búsqueda Primero en Profundidad.\n\n" +
+				"La búsqueda primero en profundidad (DFS) es un tipo de búsqueda no informada " +
+				"que expande los nodos haciendo un recorrido en profundidad.\n\n" +
+				"NOTA: Esta búsqueda no tiene control de ciclos ni límite de búsqueda, " +
+				"por lo que puede entrar en un bucle infinito.\n" +
+				"Si puedes, utiliza otra alternativa como DLS.");
+
+		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
+		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		botonResolver.setText("Resolver");
+		
+		// Resolución
+		botonResolver.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					String salida = "Búsqueda primero en prunfidad\n";
+					salida +=       "-------------------------\n\n";
+					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
+					Problem problem = new Problem(o, fs, gt);
+					// Resolver el problema con DLS
+					search = new DepthFirstSearch(new GraphSearch());
+					agent = new SearchAgent(problem, search);
+					
+					mostrarSolucion(salida);
+					
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+				if (agent.getActions().size()>0) {
+					botonSiguiente.setEnabled(true);
+				}
+			}
+		});	
+	}
+	
+	protected void addTabAStar(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, HeuristicFunction heuristica) {
+		final Object o = estadoInicial;
+		final HeuristicFunction h = heuristica;
+		final GoalTest gt = estadoFinal;
+		final SuccessorFunction fs = funcionSucesor;
+		Composite cAStar = addTab("A*");
+		cAStar.setLayout(new GridLayout(1,false));
+		final Button botonResolverAStar = new Button(cAStar, SWT.PUSH);
+		botonResolverAStar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		botonResolverAStar.setText("Resolver");
+
+		// Resolución AStar
+		botonResolverAStar.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					String salida = "Puzzle 8 :: Búsqueda con heurística (A*)\n";
+					salida +=       "-------------------------\n\n";
+					// Crea el problema con el tablero inicial, la función sucesor, el tablero solución y la heurística usada
+					Problem problem = new Problem(o, fs, gt, h);
+
+					// Resolver el problema con A*
+					search = new AStarSearch(new GraphSearch());
+					agent = new SearchAgent(problem, search);
+					
+					
+					if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
+						salida += "La solución es trivial.\n";
+					else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
+						salida += "No se ha encontrado solución con límite de profundidad .\n";
+							
+					
+					else {
+						// TODO Quitarle el punto al número de pasos
+						salida += "¡Solución encontrada en "+ agent.getInstrumentation().getProperty("pathCost") +" pasos! Pasos de la solución:\n\n";
+						// Mostrar acciones por consola
+						for (int i = 0; i < agent.getActions().size(); i++) {
+							String action = (String) agent.getActions().get(i);
+							salida += action + "\n";
+						}
+						
+						// Mostrar coste y nodos 
+						
+						/*Iterator keys = agent.getInstrumentation().keySet().iterator();
+						while (keys.hasNext()) {
+							String key = (String) keys.next();
+							String property = agent.getInstrumentation().getProperty(key);
+							salida += key + " : " + property + "\n";
+						}*/
+						salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
+					}
+					tSolucion.setText(salida);
+					tabFolder.setSelection(tabFolder.getItemCount()-1);
+					
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+
+			}
+		});
+	}
+	
 	/**
 	 * Añade el tab que muestra la solución. Debería añadirse el último.
 	 */
