@@ -1,9 +1,5 @@
 package hanoiTower;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Vector;
-
 /**
  * Representa un base de torres de hanoi en espacio de estados
  * @author Jim Mainprice
@@ -116,6 +112,30 @@ public class Base {
 
 		return true;
 	}
+	
+	/**
+	 * Mas arriba en una plaza
+	 * @param plaza
+	 * @return verdad
+	 */
+
+	public char enTapa(char unSitio) {
+	
+		if( unSitio == quePlaza('A') ) {
+			return 'A';
+		}
+		else {
+			if( unSitio == quePlaza('B') ) {
+				return 'B';
+			}
+			else {
+				if( unSitio == quePlaza('C') ) {
+					return 'C';
+				}
+				else return unSitio;
+			}
+		}
+	}
 
 
 	@Override
@@ -136,7 +156,19 @@ public class Base {
 		}
 		return true;
 	}
-
+	public void move(String mov) {
+		if ( mov.equals(MA_1) ) board[0] = enTapa('1');
+		if ( mov.equals(MA_2) ) board[0] = enTapa('2');
+		if ( mov.equals(MA_3) ) board[0] = enTapa('3');
+		
+		if ( mov.equals(MB_1) ) board[1] = enTapa('1');
+		if ( mov.equals(MB_2) ) board[1] = enTapa('2');
+		if ( mov.equals(MB_3) ) board[1] = enTapa('3');
+		
+		if ( mov.equals(MC_1) ) board[2] = '1';
+		if ( mov.equals(MC_2) ) board[2] = '2';
+		if ( mov.equals(MC_3) ) board[2] = '3';
+	}
 	/**
 	 * Determina si el movimiento es posible
 	 * @param where hacia dónde y qué queremos mover
@@ -170,6 +202,19 @@ public class Base {
 		if ( where.equals(MA_3) && hayAlgoSobre('A') ) 	retVal = false;
 		if ( where.equals(MB_3) && hayAlgoSobre('B') )  retVal = false;
 		if ( where.equals(MC_3) && hayAlgoSobre('C') )  retVal = false;
+		
+		// No es possible porque hay un mas Pequeno en este
+		if ( where.equals(MB_1) && ( '1' == quePlaza('A') ) ) retVal = false;
+		if ( where.equals(MC_1) && ( '1' == quePlaza('B') ) ) retVal = false;
+		if ( where.equals(MC_1) && ( '1' == quePlaza('A') ) ) retVal = false;
+		
+		if ( where.equals(MB_2) && ( '2' == quePlaza('A') ) ) retVal = false;
+		if ( where.equals(MC_2) && ( '2' == quePlaza('B') ) ) retVal = false;
+		if ( where.equals(MC_1) && ( '2' == quePlaza('A') ) ) retVal = false;
+		
+		if ( where.equals(MB_3) && ( '3' == quePlaza('A') ) ) retVal = false;
+		if ( where.equals(MC_3) && ( '3' == quePlaza('B') ) ) retVal = false;
+		if ( where.equals(MC_3) && ( '3' == quePlaza('A') ) ) retVal = false;
 
 		return retVal;
 	}
