@@ -137,16 +137,6 @@ public class Base {
 		return true;
 	}
 
-	@Override
-	/*public int hashCode() {
-		int result = 17;
-		for (int i = 0; i < 8; i++) {
-			int position = this.getPositionOf(i);
-			result = 37 * result + position;
-		}
-		return result;
-	}*/
-
 	/**
 	 * Determina si el movimiento es posible
 	 * @param where hacia dónde y qué queremos mover
