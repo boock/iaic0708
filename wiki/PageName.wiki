@@ -3,12 +3,16 @@
 
 = Introduction =
 
-Este es mi primera pajina de wiki.
+Programa de Inteligencia Articficial Usando AIMA.
 
 
-= Details =
+= Algorithmos Implementado =
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+Tenemos varios plroblemas implementados:
+  * El Grangero _(problema de rio)_
+  * Los Misionarios _(problema de rio)_
+  * Laberinto en 2D
+  * Puzzle de 8 _( ya estaba en la lib AIMA )_
+  * nReinas _( ya estaba en la lib AIMA )_
+
+*bold*
