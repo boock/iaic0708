@@ -21,6 +21,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import puzzle8.Tablero;
+
 import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
 import aima.search.framework.SearchAgent;
@@ -31,7 +33,7 @@ import aima.search.uninformed.DepthLimitedSearch;
  * @param <Mapa>************************************************************************************************/
 
 public class Laberinto2D extends main.Puzzle{
-	
+	private final Label[] labels;
 	final Mapa map;
 	private final Canvas canvas;
 	private final Image Lab_0,
@@ -46,9 +48,9 @@ public class Laberinto2D extends main.Puzzle{
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Laberinto2D(Display display) {
+	
 		
 		super(display,"Laberinto-2D", 400, 400);
-
 		Lab_0		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_0.png"));
 		Lab_1_E		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_1_E.png"));
 		Lab_1_N		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_1_N.png"));
@@ -77,6 +79,13 @@ public class Laberinto2D extends main.Puzzle{
 
 		map = new Mapa();
 		
+		labels = new Label[20];
+
+		for (int i = 0; i < 20; i++) {
+			labels[i] = new Label(compPuzzle,SWT.CENTER | SWT.BORDER);
+			labels[i].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		}
+
 		addTabIntro("El objetivo es de salir del laberinto en un mimio de pasos");
 		
 		// Tab DSL
