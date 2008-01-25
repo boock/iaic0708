@@ -64,62 +64,52 @@ public class Garrafas extends main.Puzzle{
 		addTabDFS(contenido, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(contenido, 7, new FuncionSucesor(), new EstadoFinal());
 		
+
+		
 		// Dibujar puzzle
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
-				switch (contenido.isG3()) {
-				case 0:
-					gc.drawImage(jar1_0, 40, 125);					
-					break;
-				case 1:
-					gc.drawImage(jar1_1, 40, 125);
-					break;
-				case 2:
-					gc.drawImage(jar1_2, 40, 125);
-					break;
-				case 3:
-					gc.drawImage(jar1_3, 40, 125);
-				}
-				switch (contenido.isG4()) {
-				case 0:
-					gc.drawImage(jar2_0, 150, 100);
-					break;
-				case 1:
-					gc.drawImage(jar2_1, 150, 100);
-					break;
-				case 2:
-					gc.drawImage(jar2_2, 150, 100);
-					break;
-				case 3:
-					gc.drawImage(jar2_3, 150, 100);
-					break;
-				case 4:
-					gc.drawImage(jar2_4, 150, 100);
-				}
-				
+				boolean dibujadoJ3 = false;
+				boolean dibujadoJ4 = false;
+
 				// Dibujar la acción actual
-				if (agent!=null && accion_actual>0 && accion_actual<agent.getActions().size()) {
+				if (agent!=null && accion_actual>0 && accion_actual<=agent.getActions().size()) {
 					String accion = (String) agent.getActions().get(accion_actual-1);
-					if (accion.equals(Contenido.ll_g4)) {
-						gc.drawImage(grifo, 150, 0);
+					if (accion.equals(Contenido.g3_con_g4)) {
+						gc.drawImage(vierte2_1, 150, 100);
+						dibujadoJ4=true;
+					}
+					else if (accion.equals(Contenido.g3_en_g4)) {
+						gc.drawImage(vierte1_2, 60, 15);
+						dibujadoJ3=true;
+					}
+					else if (accion.equals(Contenido.v_g3)) {
+						gc.drawImage(vierte1_2, 150, 100);
+						dibujadoJ3=true;
 					}
 					else if (accion.equals(Contenido.ll_g3)) {
 						gc.drawImage(grifo, 40, 0);
 					}
-					else if (accion.equals(Contenido.v_g4)) {
+					
+					if (accion.equals(Contenido.v_g4)) {
+						gc.drawImage(vierte2_1, 150, 150);
+						dibujadoJ4=true;
 					}
-					else if (accion.equals(Contenido.v_g3)) {
+					else if (accion.equals(Contenido.ll_g4)) {
+						gc.drawImage(grifo, 150, 0);
 					}
 					else if (accion.equals(Contenido.g4_con_g3)) {
-					}
-					else if (accion.equals(Contenido.g3_con_g4)) {
-					}
-					else if (accion.equals(Contenido.g3_en_g4)) {
+						gc.drawImage(vierte1_2, 60, 15);
+						dibujadoJ3=true;
 					}
 					else if (accion.equals(Contenido.g4_en_g3)) {
-					}		
+						gc.drawImage(vierte2_1, 150, 100);
+						dibujadoJ4=true;
+					}
 				}
+				if (!dibujadoJ3) dibujarJarra3(gc);
+				if (!dibujadoJ4) dibujarJarra4(gc);
 			}
 		});
 	
@@ -128,6 +118,49 @@ public class Garrafas extends main.Puzzle{
 		open();
 	}
 	
+	private void dibujarJarra3(GC gc) {
+		if (accion_actual==0) {
+			gc.drawImage(jar1_0, 40, 125);
+		}
+		else {
+			switch (contenido.isG3()) {
+			case 0:
+				gc.drawImage(jar1_0, 40, 125);					
+				break;
+			case 1:
+				gc.drawImage(jar1_1, 40, 125);
+				break;
+			case 2:
+				gc.drawImage(jar1_2, 40, 125);
+				break;
+			case 3:
+				gc.drawImage(jar1_3, 40, 125);
+			}
+		}
+	}
+	private void dibujarJarra4(GC gc) {
+		if (accion_actual==0) {
+			gc.drawImage(jar2_0, 150, 100);
+		}
+		else {
+			switch (contenido.isG4()) {
+			case 0:
+				gc.drawImage(jar2_0, 150, 100);
+				break;
+			case 1:
+				gc.drawImage(jar2_1, 150, 100);
+				break;
+			case 2:
+				gc.drawImage(jar2_2, 150, 100);
+				break;
+			case 3:
+				gc.drawImage(jar2_3, 150, 100);
+				break;
+			case 4:
+				gc.drawImage(jar2_4, 150, 100);
+			}
+		}
+	}
 	protected void actualizarTablero() {
 		canvas.redraw();
 	}
