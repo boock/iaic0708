@@ -32,7 +32,6 @@ public class Main {
 		combo.add("Laberinto-2D");
 		combo.add("El granjero");
 		combo.add("Las garrafas");
-		combo.add("Torres de Hanoi");
 		
 		combo.addSelectionListener(new SelectionListener() {
 
