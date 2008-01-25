@@ -17,6 +17,7 @@ import nReinas.nReinas;
 import laberinto2D.Laberinto2D;
 import garrafas.Garrafas;
 import hanoiTower.HanoiTower;
+import viaje.Viaje;
 
 /**************************************************************************************************/
 
@@ -33,6 +34,7 @@ public class Main {
 		combo.add("El granjero");
 		combo.add("Las garrafas");
 		combo.add("Hanoi Tower");
+		combo.add("El viaje");
 		
 		combo.addSelectionListener(new SelectionListener() {
 
@@ -59,6 +61,9 @@ public class Main {
 					break;
 				case 6:
 					new HanoiTower(display);
+					break;
+				case 7:
+					new Viaje(display);
 					break;
 				}
 			}
