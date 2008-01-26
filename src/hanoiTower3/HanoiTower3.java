@@ -18,12 +18,12 @@ import hanoiTower3.FuncionSucesor;
 
 public class HanoiTower3 extends main.Puzzle{
 	
-	static int[] ypos = { 100 , 88 , 76 };
+	static int[] ypos = { 80 , 68 , 56 };
 	static int[] xpos = { 0 , 100 , 200 };
 	
 	final Base tab;
 	private final Canvas canvas;
-	private final Image pequeno, medio, gran;
+	private final Image pequeno, medio, gran, fondo;
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
@@ -33,13 +33,13 @@ public class HanoiTower3 extends main.Puzzle{
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		
-		//fondo  = new Image(display, Garrafas.class.getResourceAsStream("fondo.png"));
+		fondo  = new Image(display, HanoiTower3.class.getResourceAsStream("fondo.png"));
 		pequeno  = new Image(display, HanoiTower3.class.getResourceAsStream("petit.png"));
 		medio = new Image(display, HanoiTower3.class.getResourceAsStream("moyen.png"));
 		gran = new Image(display, HanoiTower3.class.getResourceAsStream("grand.png"));
 		
 		canvas = addCanvas(true);
-		//canvas.setBackgroundImage(fondo);
+		canvas.setBackgroundImage(fondo);
 		
 		
 		/** 
