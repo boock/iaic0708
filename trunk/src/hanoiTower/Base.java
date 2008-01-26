@@ -19,6 +19,8 @@ public class Base {
 	public static String MA_3	= "Mover A en 3";
 	public static String MB_3	= "Mover B en 3";
 	public static String MC_3	= "Mover C en 3";
+	
+	static String[] operadores = new String[]  { MA_1 , MA_2 , MA_3 , MB_1 , MB_2 , MB_3 , MC_1 , MC_2 , MC_3  };
 
 	/**
 	 * Devuelve la base.
