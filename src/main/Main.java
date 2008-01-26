@@ -16,7 +16,7 @@ import misioneros.Misioneros;
 import nReinas.nReinas;
 import laberinto2D.Laberinto2D;
 import garrafas.Garrafas;
-import hanoiTower3.HanoiTower;
+import hanoiTower3.HanoiTower3;
 import viaje.Viaje;
 
 /**************************************************************************************************/
@@ -60,7 +60,7 @@ public class Main {
 					new Garrafas(display);
 					break;
 				case 6:
-					new HanoiTower(display);
+					new HanoiTower3(display);
 					break;
 				case 7:
 					new Viaje(display);
