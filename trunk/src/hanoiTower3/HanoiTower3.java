@@ -1,14 +1,5 @@
 package hanoiTower3;
 
-//import org.eclipse.swt.SWT;
-//import org.eclipse.swt.events.SelectionAdapter;
-//import org.eclipse.swt.events.SelectionEvent;
-//import org.eclipse.swt.layout.GridData;
-//import org.eclipse.swt.layout.GridLayout;
-//import org.eclipse.swt.widgets.Button;
-//import org.eclipse.swt.widgets.Composite;
-import misioneros.Rio;
-
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
@@ -16,11 +7,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
-//import org.eclipse.swt.widgets.Event;
-//import org.eclipse.swt.widgets.Label;
-//import org.eclipse.swt.widgets.Listener;
 
-import garrafas.Garrafas;
+import hanoiTower3.HanoiTower3;
 import hanoiTower3.Base;
 import hanoiTower3.EstadoFinal;
 import hanoiTower3.FuncionSucesor;
