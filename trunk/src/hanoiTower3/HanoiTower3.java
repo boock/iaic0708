@@ -119,8 +119,7 @@ public class HanoiTower3 extends main.Puzzle{
 						x=xpos[2];
 						break;
 				}
-				gc.drawImage(pequeno, x+13 , y );
-					
+				gc.drawImage(pequeno, x+13 , y );	
 			}
 			
 		});
