@@ -12,6 +12,8 @@ public class Mapa {
 	public static String UP		= "Arriba";
 	public static String DOWN	= "Abajo";
 
+	public static String[] operadores = new String[] { LEFT , RIGHT , UP , DOWN };
+	
 	public int[][] context;
 
 	public int x_pos;

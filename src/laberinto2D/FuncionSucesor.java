@@ -18,33 +18,17 @@ public class FuncionSucesor implements SuccessorFunction {
 	 * @author Jim Mainprice
 	 */
 	
-	public List getSuccessors(Object state) {
+	public List<Successor> getSuccessors(Object state) {
 		Mapa mapa = (Mapa) state;
 		List<Successor> successors = new ArrayList<Successor>();
-
-		// Mover el tio a la izquiera
-		if (mapa.movimientoPosible(Mapa.LEFT)) {
-			Mapa newMapa = copyOf(mapa);
-			newMapa.mover(mapa.LEFT);
-			successors.add(new Successor(mapa.LEFT, newMapa));
-		}
-		// Mover el tio a la derecha
-		if (mapa.movimientoPosible(Mapa.RIGHT)) {
-			Mapa newMapa = copyOf(mapa);
-			newMapa.mover(mapa.RIGHT);
-			successors.add(new Successor(mapa.RIGHT, newMapa));
-		}
-		// Mover el tio arriba
-		if (mapa.movimientoPosible(Mapa.UP)) {
-			Mapa newMapa = copyOf(mapa);
-			newMapa.mover(mapa.UP);
-			successors.add(new Successor(mapa.UP, newMapa));
-		}
-		// Mover el tio a bajo
-		if (mapa.movimientoPosible(Mapa.DOWN)) {
-			Mapa newMapa = copyOf(mapa);
-			newMapa.mover(mapa.DOWN);
-			successors.add(new Successor(mapa.DOWN, newMapa));
+		
+		for(int i=0;i<Mapa.operadores.length;i++)
+		{
+			if (mapa.movimientoPosible(Mapa.operadores[i])) {
+				Mapa newMapa = copyOf(mapa);
+				newMapa.mover(Mapa.operadores[i]);
+				successors.add(new Successor(Mapa.operadores[i], newMapa));
+			}
 		}
 
 		return successors;
