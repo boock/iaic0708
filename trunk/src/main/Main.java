@@ -16,7 +16,7 @@ import misioneros.Misioneros;
 import nReinas.nReinas;
 import laberinto2D.Laberinto2D;
 import garrafas.Garrafas;
-import hanoiTower.HanoiTower;
+import hanoiTower3.HanoiTower;
 import viaje.Viaje;
 
 /**************************************************************************************************/

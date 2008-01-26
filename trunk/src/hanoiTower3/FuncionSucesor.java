@@ -2,7 +2,7 @@
  * Created on Sep 12, 2004
  *
  */
-package hanoiTower;
+package hanoiTower3;
 
 import java.util.ArrayList;
 import java.util.List;
