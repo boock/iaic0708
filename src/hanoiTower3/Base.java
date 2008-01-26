@@ -68,12 +68,12 @@ public class Base {
 	}
 	
 	/**
-	 * Mezcla la base
-	 * @param i el número de veces que se moverá
+	 * Contrario
+	 * @param i 
 	 */
-	public void mezclar(int i) {
-		i=0;
-	}
+//	public void contrario(String where,) {
+//		switch
+//	}
 	
 	/**
 	 * En que plaza esta A , B o C
