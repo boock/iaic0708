@@ -30,7 +30,7 @@ import hanoiTower3.FuncionSucesor;
 
 public class HanoiTower3 extends main.Puzzle{
 	
-	static int[] ypos = { 100 , 70 , 40 };
+	static int[] ypos = { 100 , 88 , 76 };
 	static int[] xpos = { 0 , 100 , 200 };
 	
 	final Base tab;
@@ -41,7 +41,7 @@ public class HanoiTower3 extends main.Puzzle{
 	 */
 	public HanoiTower3(Display display) {
 
-		super(display,"HanoiTower",280,200);
+		super(display,"HanoiTower",300,200);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		
@@ -71,8 +71,8 @@ public class HanoiTower3 extends main.Puzzle{
 				// Dibujar C
 				switch( tab.quePlaza('C') ){
 					case '1' : gc.drawImage(gran, xpos[0] , ypos[0] ); break;
-					case '2' : gc.drawImage(gran, xpos[1] , ypos[1] ); break;
-					case '3' : gc.drawImage(gran, xpos[2] , ypos[2] ); break;
+					case '2' : gc.drawImage(gran, xpos[1] , ypos[0] ); break;
+					case '3' : gc.drawImage(gran, xpos[2] , ypos[0] ); break;
 				}
 				
 				char[] laBase = tab.getBoard();
@@ -100,7 +100,7 @@ public class HanoiTower3 extends main.Puzzle{
 						break;
 				}
 				
-				gc.drawImage(medio, x , y );
+				gc.drawImage(medio, x+5 , y );
 				
 				switch( tab.quePlaza('A') ){
 				
@@ -123,7 +123,7 @@ public class HanoiTower3 extends main.Puzzle{
 						break;
 						
 					case '3' :
-						if( laBase[0] == '3') y=ypos[0];
+						if( laBase[0] == '3' ) y=ypos[0];
 						else {
 							if ( laBase[0] == 'B' && laBase[1] == '3' ) y=ypos[1];
 							else y=ypos[2];
@@ -131,7 +131,7 @@ public class HanoiTower3 extends main.Puzzle{
 						x=xpos[2];
 						break;
 				}
-				gc.drawImage(pequeno, x , y );
+				gc.drawImage(pequeno, x+13 , y );
 					
 			}
 			
