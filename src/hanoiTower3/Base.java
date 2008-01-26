@@ -1,4 +1,4 @@
-package hanoiTower;
+package hanoiTower3;
 
 /**
  * Representa un base de torres de hanoi en espacio de estados
