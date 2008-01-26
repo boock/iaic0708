@@ -23,7 +23,7 @@ public class HanoiTower3 extends main.Puzzle{
 	
 	final Base tab;
 	private final Canvas canvas;
-	private final Image pequeno, medio, gran, fondo;
+	private final Image pequeno, medio, gran , fondo;
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
