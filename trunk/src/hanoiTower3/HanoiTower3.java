@@ -158,20 +158,20 @@ public class HanoiTower3 extends main.Puzzle{
 	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "anterior".
 	 */
 	protected boolean retroceder() {
-		int i=0;
-		String accion = (String) agent.getActions().get(accion_actual);
-
-		accion_actual--;
-		while( i < Base.operadores.length ){
-			
-			if ( accion.equals(Base.operadores[i]) ) {
-				tab.mover(Base.operadores[i]);
-				actualizarTablero();
-				return true;
-			}
-			i++;
-		}
-		accion_actual++;
+//		int i=0;
+//		String accion = (String) agent.getActions().get(accion_actual);
+//
+//		accion_actual--;
+//		while( i < Base.operadores.length ){
+//			
+//			if ( accion.equals(Base.operadores[i]) ) {
+//				tab.mover(Base.operadores[i]);
+//				actualizarTablero();
+//				return true;
+//			}
+//			i++;
+//		}
+//		accion_actual++;
 		return false;
 	}
 	
