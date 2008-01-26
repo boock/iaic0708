@@ -4,6 +4,7 @@
  */
 package hanoiTower4;
 
+import hanoiTower4.Base;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class FuncionSucesor implements SuccessorFunction {
 		
 		// Boucle para expendir los nodos del estado en parametro
 		
-		for(int i=0;i<12;i++){
+		for(int i=0;i<Base.operadores.length;i++){
 			
 			if ( board.movimientoPosible( Base.operadores[i] ) ) {
 				

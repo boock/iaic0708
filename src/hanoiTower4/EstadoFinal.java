@@ -14,7 +14,7 @@ import aima.search.framework.GoalTest;
 
 public class EstadoFinal implements GoalTest {
 	// Base que representa la base final
-	Base goal = new Base( new char[] { 'B' , 'C', '3' } );
+	Base goal = new Base( new char[] { 'B' , 'C', 'D', '3' } );
 	
 	/**
 	 * Comprueba si la base está en un estado final.

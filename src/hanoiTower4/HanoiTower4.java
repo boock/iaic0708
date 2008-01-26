@@ -12,9 +12,9 @@ import org.eclipse.swt.widgets.Display;
 //import org.eclipse.swt.widgets.Label;
 //import org.eclipse.swt.widgets.Listener;
 
-import hanoiTower3.Base;
-import hanoiTower3.EstadoFinal;
-import hanoiTower3.FuncionSucesor;
+import hanoiTower4.Base;
+import hanoiTower4.EstadoFinal;
+import hanoiTower4.FuncionSucesor;
 
 
 /**************************************************************************************************/
