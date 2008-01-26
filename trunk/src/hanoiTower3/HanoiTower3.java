@@ -19,14 +19,14 @@ import hanoiTower3.FuncionSucesor;
 
 /**************************************************************************************************/
 
-public class HanoiTower extends main.Puzzle{
+public class HanoiTower3 extends main.Puzzle{
 	
 	final Base tab;
 	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
-	public HanoiTower(Display display) {
+	public HanoiTower3(Display display) {
 
 		super(display,"HanoiTower",200,200);
 
