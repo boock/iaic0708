@@ -58,7 +58,18 @@ public class Laberinto2D extends main.Puzzle{
 	 * El objetivo es de salir del laberinto. 
 	 */
 
-		map = new Mapa();
+		map = new Mapa( new int[][]{
+				
+			{ 0 , 1 , 1 , 1 , 0 , 1 , 1 , 1 },
+			{ 0 , 1 , 0 , 0 , 0 , 1 , 0 , 1 },
+			{ 0 , 1 , 1 , 1 , 1 , 1 , 0 , 1 },
+			{ 0 , 0 , 1 , 0 , 1 , 0 , 0 , 1 },
+			{ 0 , 0 , 1 , 0 , 1 , 0 , 0 , 0 },
+			{ 1 , 1 , 1 , 0 , 1 , 0 , 0 , 1 },
+			{ 1 , 0 , 0 , 0 , 1 , 0 , 0 , 1 },
+			{ 1 , 0 , 0 , 1 , 1 , 1 , 1 , 1 } }, 
+			
+			0 , 7);
 		
 		labels = new Label[20];
 
@@ -95,11 +106,11 @@ public class Laberinto2D extends main.Puzzle{
 		int pieza = 0; // NSEO
 		int x_limit = 7;
 		int y_limit = 7;
-		if (map.context[i][j]==1) {
-			if (i>0			&& map.context[i-1][j]==1) pieza+=1;
-			if (i<x_limit	&& map.context[i+1][j]==1) pieza+=10;
-			if (j>0			&& map.context[i][j-1]==1) pieza+=1000;
-			if (j<y_limit	&& map.context[i][j+1]==1) pieza+=100;
+		if (map.context[j][i]==1) {
+			if (i>0			&& map.context[j][i-1]==1) pieza+=1;
+			if (i<x_limit	&& map.context[j][i+1]==1) pieza+=10;
+			if (j>0			&& map.context[j-1][i]==1) pieza+=1000;
+			if (j<y_limit	&& map.context[j+1][i]==1) pieza+=100;
 		}
 		Image im;
 		switch (pieza) {
@@ -155,8 +166,14 @@ public class Laberinto2D extends main.Puzzle{
 		//TODO que vaya dibujando el camino hasta aquí
 		gc.drawImage(im, i*50, j*50);
 		// Dibujar punto
-		if (i==map.y_pos && j==map.x_pos)
+		if (i==map.x_pos && j==map.y_pos)
 			gc.drawImage(Lab_avatar, i*50, j*50);
+		
+		if (i==0 && j==7)
+			gc.drawImage(Lab_pasado, i*50, j*50);
+		
+		if (i==7 && j==7)
+			gc.drawImage(Lab_pasado, i*50, j*50);
 		
 	}
 	
