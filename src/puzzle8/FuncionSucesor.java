@@ -19,7 +19,7 @@ import aima.search.framework.SuccessorFunction;
 public class FuncionSucesor implements SuccessorFunction {
 
 	
-	public List getSuccessors(Object state) {
+	public List<Successor> getSuccessors(Object state) {
 		Tablero board = (Tablero) state;
 		List<Successor> successors = new ArrayList<Successor>();
 		if (board.canMoveGap(Tablero.UP)) {
