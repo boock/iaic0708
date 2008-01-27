@@ -70,8 +70,8 @@ public class Mapa {
 	 */
 	public Mapa(int[][] aMap , int x , int y) {
 		context = aMap;
-		x = x_pos;
-		y = y_pos;
+		x_pos = x;
+		y_pos = y;
 	}
 
 	public int getXpos() {

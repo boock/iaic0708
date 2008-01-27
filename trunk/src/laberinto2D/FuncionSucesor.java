@@ -35,7 +35,7 @@ public class FuncionSucesor implements SuccessorFunction {
 	}
 
 	private Mapa copyOf(Mapa mapa) {
-		Mapa newMapa = new Mapa(mapa.getXpos(), mapa.getYpos() );
+		Mapa newMapa = new Mapa( mapa.context, mapa.getXpos(), mapa.getYpos() );
 		return newMapa;
 	}
 
