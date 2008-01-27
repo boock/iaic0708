@@ -483,6 +483,10 @@ public abstract class Puzzle {
 							salida += key + " : " + property + "\n";
 						}*/
 						salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
+						
+						if (agent.getActions().size()>0) {
+							botonSiguiente.setEnabled(true);
+						}
 					}
 					tSolucion.setText(salida);
 					tabFolder.setSelection(tabFolder.getItemCount()-1);
