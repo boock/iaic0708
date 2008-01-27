@@ -11,13 +11,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.graphics.*;
 
 /**************************************************************************************************/
 
 public class Puzzle8 extends main.Puzzle{
 	final Tablero tab;
 	private final Label[] labels;
-	private final Button botonMezclar; 
+	private final Button botonMezclar;
+	private Display disp;
+
 	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
@@ -25,6 +28,9 @@ public class Puzzle8 extends main.Puzzle{
 	public Puzzle8(Display display) {
 
 		super(display,"Puzzle-8",200,200);
+		
+		disp = display;
+		
 
 	/** 
 	 * Puzzle 8
@@ -38,6 +44,9 @@ public class Puzzle8 extends main.Puzzle{
 		for (int i = 0; i < 9; i++) {
 			labels[i] = new Label(compPuzzle,SWT.CENTER | SWT.BORDER);
 			labels[i].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+			FontData tmp[] = labels[i].getFont().getFontData();
+			tmp[0].setHeight(18);
+			labels[i].setFont(new Font(disp,tmp));
 		}
 
 		// Acciones de pulsar las teclas WASD
@@ -94,11 +103,35 @@ public class Puzzle8 extends main.Puzzle{
 	
 	
 	protected void actualizarTablero() {
+		Color red    = new Color(disp, 255,   0,   0);
+		Color green  = new Color(disp,   0, 255,   0);
+		Color blue   = new Color(disp,   0,   0, 255);
+		Color yellow = new Color(disp, 255,   0, 255);
+		Color lred   = new Color(disp, 150,   0,   0);
+		Color lblue  = new Color(disp,   0, 100,   0);
+		Color lgreen = new Color(disp,   0,   0, 100);
+		Color dblue  = new Color(disp,  150,  120,  10);
+		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				if (tab.getValueAt(i,j)!=0)
+				switch(tab.getValueAt(i,j))
+						{
+					case 1: labels[3*i+j].setBackground(red); 	break;
+					case 2: labels[3*i+j].setBackground(blue);	break;
+					case 3: labels[3*i+j].setBackground(green); break;
+					case 4: labels[3*i+j].setBackground(yellow);break;
+					case 5: labels[3*i+j].setBackground(lred);  break;
+					case 6: labels[3*i+j].setBackground(lblue); break;
+					case 7: labels[3*i+j].setBackground(lgreen);break;
+					case 8: labels[3*i+j].setBackground(dblue); break;
+						}
+				if(tab.getValueAt(i,j)!=0){
 					labels[3*i+j].setText(String.valueOf(tab.getValueAt(i,j)));
-				else labels[3*i+j].setText("");
+				}
+				else {
+					labels[3*i+j].setText("");
+					labels[3*i+j].setBackground(new Color(disp,128,128,128));
+				}
 			}
 		}
 	}
