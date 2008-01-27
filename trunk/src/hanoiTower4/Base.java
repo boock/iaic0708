@@ -89,11 +89,11 @@ public class Base {
 		int i=0;
 		
 		switch(c){
-		case 'A' : i = 0; break;
-		case 'B' : i = 1; break;
-		case 'C' : i = 2; break;
-		case 'D' : i = 3; break;
-		}
+			case 'A' : i = 0; break;
+			case 'B' : i = 1; break;
+			case 'C' : i = 2; break;
+			case 'D' : i = 3; break;
+			}
 		// Si no esta sobre 1 ni 2 ni 3
 		if( ( board[i] != '1' ) && ( board[i] != '2' ) && ( board[i] != '3' )  )
 			{
@@ -118,6 +118,26 @@ public class Base {
 			}
 
 		return true;
+	}
+	
+	/**
+	 * Hay algo a Bajo
+	 * @param c la letra
+	 * @return 
+	 */
+
+	public boolean hayAlgoBajo(char c) {
+		int i=0;
+		
+		switch(c){
+			case 'A' : i = 0; break;
+			case 'B' : i = 1; break;
+			case 'C' : i = 2; break;
+			case 'D' : i = 3; break;
+		}
+		
+		if( board[i] == '1' || board[i] == '2' || board[i] == '3' ) return false;
+		else return true;
 	}
 	
 	/**
@@ -148,6 +168,22 @@ public class Base {
 
 			}
 		}
+	}
+	
+	/**
+	 * Mas aBajo de una plaza
+	 * @param plaza
+	 * @return verdad
+	 */
+
+	public char aBajo(char unSitio) {
+	
+		char[] disco = { 'D','C','B','A' };
+		
+		for(int i=0;i<4;i++){
+			if( quePlaza( disco[i] ) == unSitio ) return disco[i];
+		}
+		return unSitio;
 	}
 
 

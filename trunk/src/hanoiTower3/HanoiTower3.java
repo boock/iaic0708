@@ -18,7 +18,7 @@ import hanoiTower3.FuncionSucesor;
 
 public class HanoiTower3 extends main.Puzzle{
 	
-	static int[] ypos = { 80 , 68 , 56 };
+	static int[] ypos = { 80 , 70 , 60 };
 	static int[] xpos = { 0 , 100 , 200 };
 	
 	final Base tab;
@@ -40,6 +40,7 @@ public class HanoiTower3 extends main.Puzzle{
 		
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
+
 		
 		
 		/** 
@@ -119,7 +120,7 @@ public class HanoiTower3 extends main.Puzzle{
 						x=xpos[2];
 						break;
 				}
-				gc.drawImage(pequeno, x+13 , y );	
+				gc.drawImage(pequeno, x+14 , y );	
 			}
 			
 		});
