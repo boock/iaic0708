@@ -44,7 +44,7 @@ public class HanoiTower4 extends main.Puzzle{
 		compPuzzle.setLayout(new GridLayout(1,true));
 		
 		fondo  = new Image(display, HanoiTower4.class.getResourceAsStream("fondo.png"));
-		pequeno  = new Image(display, HanoiTower4.class.getResourceAsStream("petit.png"));
+		pequeno  = new Image(display, HanoiTower4.class.getResourceAsStream("Petit.png"));
 		medio = new Image(display, HanoiTower4.class.getResourceAsStream("moyen.png"));
 		gran = new Image(display, HanoiTower4.class.getResourceAsStream("grand.png"));
 		muygran = new Image(display, HanoiTower4.class.getResourceAsStream("tres_grand.png"));
@@ -204,7 +204,7 @@ public class HanoiTower4 extends main.Puzzle{
 	}
 	
 	/**
-	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "siguiente".
+	 * Este mï¿½todo es para la representaciï¿½n UI. Modifica el tablero del interfaz al pulsar el botï¿½n "siguiente".
 	 */
 	protected boolean avanzar() {
 		int i=0;
@@ -224,7 +224,7 @@ public class HanoiTower4 extends main.Puzzle{
 	}
 
 	/**
-	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "anterior".
+	 * Este mï¿½todo es para la representaciï¿½n UI. Modifica el tablero del interfaz al pulsar el botï¿½n "anterior".
 	 */
 	protected boolean retroceder() {
 //		int i=0;
