@@ -8,7 +8,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 
-import hanoiTower3.HanoiTower3;
 import hanoiTower3.Base;
 import hanoiTower3.EstadoFinal;
 import hanoiTower3.FuncionSucesor;
@@ -30,13 +29,14 @@ public class HanoiTower3 extends main.Puzzle{
 	public HanoiTower3(Display display) {
 
 		super(display,"HanoiTower",300,200);
-
+		
 		compPuzzle.setLayout(new GridLayout(1,true));
 		
 		fondo  = new Image(display, HanoiTower3.class.getResourceAsStream("fondo.png"));
-		pequeno  = new Image(display, HanoiTower3.class.getResourceAsStream("petit.png"));
+		pequeno  = new Image(display, HanoiTower3.class.getResourceAsStream("Petit.png"));
 		medio = new Image(display, HanoiTower3.class.getResourceAsStream("moyen.png"));
 		gran = new Image(display, HanoiTower3.class.getResourceAsStream("grand.png"));
+
 		
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
@@ -135,7 +135,7 @@ public class HanoiTower3 extends main.Puzzle{
 	}
 	
 	/**
-	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "siguiente".
+	 * Este mï¿½todo es para la representaciï¿½n UI. Modifica el tablero del interfaz al pulsar el botï¿½n "siguiente".
 	 */
 	protected boolean avanzar() {
 		int i=0;
@@ -155,7 +155,7 @@ public class HanoiTower3 extends main.Puzzle{
 	}
 
 	/**
-	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "anterior".
+	 * Este mï¿½todo es para la representaciï¿½n UI. Modifica el tablero del interfaz al pulsar el botï¿½n "anterior".
 	 */
 	protected boolean retroceder() {
 //		int i=0;
