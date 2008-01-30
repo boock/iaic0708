@@ -1,5 +1,7 @@
 package main;
 
+import java.util.*;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -35,7 +37,7 @@ import aima.search.uninformed.DepthFirstSearch;
 /**
  * Esta clase representa un interfaz gráfico genérico para un puzzle.
  */
-public abstract class Puzzle {
+public abstract class Puzzle extends Thread {
 	protected Shell shell;
 	
 	// Este entero es para saber por qué paso vamos de la solución
@@ -47,6 +49,33 @@ public abstract class Puzzle {
 	protected final TabFolder tabFolder;
 	protected final Composite compPuzzle;
 	private int ancho, alto;
+	private Problem problem;
+	private int metodo;
+	private int profMaxDLS;
+	private String salida;
+	
+	
+	public class Solver implements Runnable { 
+	public synchronized void run() {
+		switch (metodo) {
+		case 1:
+			// DLS
+			try {
+				search = new DepthLimitedSearch(profMaxDLS);
+				agent = new SearchAgent(problem, search);
+				System.out.println("Resuelto");
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			break;
+
+		default:
+			break;
+		}
+		
+	}
+	}
 	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
@@ -209,8 +238,10 @@ public abstract class Puzzle {
 		return cReglas;
 	}
 
-	private void mostrarSolucion(String salida) {
-		if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
+	private void mostrarSolucion(String salida, long ms) {
+		if (agent==null)
+			salida += "Se ha superado el tiempo de espera.";
+		else if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
 			salida += "La solución es trivial.\n";
 		else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
 			salida += "No se ha encontrado solución.\n";
@@ -224,14 +255,15 @@ public abstract class Puzzle {
 			}
 			
 			// Mostrar coste y nodos 
-			salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
+			salida += "\nTiempo: ~" + ms + "ms.\n";
+			salida += "Nodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
 		}
 		tSolucion.setText(salida);
 		tabFolder.setSelection(tabFolder.getItemCount()-1);
 	}
 
-	protected void addTabDLS(Object estadoInicial, int profMax, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
-		final int p = profMax;
+	protected void addTabDLS(Object estadoInicial, int p, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
+		profMaxDLS = p;
 		final Object o = estadoInicial;
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
@@ -264,27 +296,38 @@ public abstract class Puzzle {
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					if (Integer.valueOf(textConfig.getText())>p) {
+					if (Integer.valueOf(textConfig.getText())>profMaxDLS) {
 						MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
 						// TODO Dar la opción de continuar
-						m.setMessage("Una profundidad mayor de "+ String.valueOf(p) +" puede tardar demasiado en terminar. Por favor, prueba un valor más bajo.");
+						m.setMessage("Una profundidad mayor de "+ String.valueOf(profMaxDLS) +" puede tardar demasiado en terminar. Por favor, prueba un valor más bajo.");
 						m.setText("Error");
 						m.open();
 					}
 					else {
-						String salida = "Búsqueda con límite de profundidad (DLS)\n\nLímite: "
-							+ String.valueOf(p) + "\n";
+						salida = "Búsqueda con límite de profundidad (DLS)\n\nLímite: "
+							+ String.valueOf(profMaxDLS) + "\n";
 						salida +=       "-------------------------\n\n";
 						// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-						Problem problem = new Problem(o, fs, gt);
+						problem = new Problem(o, fs, gt);
 
 						// Resolver el problema con DLS
-						search = new DepthLimitedSearch(p);
-						agent = new SearchAgent(problem, search);
+						
+						Date t= new Date(0);		
+						Long x,y;
+						t = new Date();
+						x = t.getTime();
+						metodo=1;
+						
+						Thread solver = new Thread(new Solver());
+						solver.start();
+						solver.join(5000);
+						solver.interrupt();
+						
+						t = new Date();
+						y = t.getTime();
+						mostrarSolucion(salida, y-x);
 
-						mostrarSolucion(salida);
-
-						if (agent.getActions().size()>0) {
+						if (agent!=null && agent.getActions().size()>0) {
 							botonSiguiente.setEnabled(true);
 						}
 					}
@@ -302,7 +345,6 @@ public abstract class Puzzle {
 		});	
 	}
 
-	
 	protected void addTabIDS(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
 		final Object o = estadoInicial;
 		final GoalTest gt = estadoFinal;
@@ -331,11 +373,17 @@ public abstract class Puzzle {
 					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
 					Problem problem = new Problem(o, fs, gt);
 
-					// Resolver el problema con DLS
+					// Resolver el problema con IDS
+					Date t= new Date(0);		
+					Long x,y;
+					t = new Date();
+					x = t.getTime();
 					search = new IterativeDeepeningSearch();
 					agent = new SearchAgent(problem, search);
+					t = new Date();
+					y = t.getTime();
 					
-					mostrarSolucion(salida);
+					mostrarSolucion(salida, y-x);
 					
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -374,11 +422,17 @@ public abstract class Puzzle {
 					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
 					Problem problem = new Problem(o, fs, gt);
 
-					// Resolver el problema con DLS
+					// Resolver el problema con BFS
+					Date t= new Date(0);		
+					Long x,y;
+					t = new Date();
+					x = t.getTime();
 					search = new BreadthFirstSearch(new TreeSearch());
 					agent = new SearchAgent(problem, search);
+					t = new Date();
+					y = t.getTime();
 					
-					mostrarSolucion(salida);
+					mostrarSolucion(salida, y-x);
 					
 				} catch (Exception ex) {
 					ex.printStackTrace();
@@ -418,11 +472,17 @@ public abstract class Puzzle {
 					salida +=       "-------------------------\n\n";
 					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
 					Problem problem = new Problem(o, fs, gt);
-					// Resolver el problema con DLS
+					// Resolver el problema con DFS
+					Date t= new Date(0);		
+					Long x,y;
+					t = new Date();
+					x = t.getTime();
 					search = new DepthFirstSearch(new GraphSearch());
 					agent = new SearchAgent(problem, search);
+					t = new Date();
+					y = t.getTime();
 					
-					mostrarSolucion(salida);
+					mostrarSolucion(salida, y-x);
 					
 				} catch (Exception ex) {
 					ex.printStackTrace();
