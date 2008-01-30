@@ -103,47 +103,31 @@ public class Puzzle8 extends main.Puzzle{
 	
 	
 	protected void actualizarTablero() {
-		Color red    = new Color(disp, 255,   0,   0);
-		Color green  = new Color(disp,   0, 255,   0);
-		Color blue   = new Color(disp,   0,   0, 255);
-		Color yellow = new Color(disp, 255,   0, 255);
-		Color lred   = new Color(disp, 150,   0,   0);
-		Color lblue  = new Color(disp,   0, 100,   0);
-		Color lgreen = new Color(disp,   0,   0, 100);
-		Color dblue  = new Color(disp,  150,  120,  10);
+		
+		Color TabColor[] = new Color[8];
+		
+		TabColor[0] = new Color(disp, 255,   0,   0); //red
+		TabColor[1] = new Color(disp,   0, 255,   0); //green
+		TabColor[2] = new Color(disp,   0,   0, 255); //blue
+		TabColor[3] = new Color(disp, 255,   0, 255); //yellow
+		TabColor[4] = new Color(disp, 150,   0,   0); //lred
+		TabColor[5] = new Color(disp,   0, 100,   0); //lblue
+		TabColor[6] = new Color(disp,   0,   0, 100); //lgreen
+		TabColor[7] = new Color(disp,  150,  120,  10); //dblue
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
-				switch(tab.getValueAt(i,j))
-						{
-					case 0: labels[3*i+j].setBackground(new Color(disp,128,128,128));
-							labels[3*i+j].setText("");
-							break;
-					case 1: labels[3*i+j].setBackground(red);
-							labels[3*i+j].setText("1");
-							break;
-					case 2: labels[3*i+j].setBackground(blue);
-					        labels[3*i+j].setText("2");
-					        break;
-					case 3: labels[3*i+j].setBackground(green);
-							labels[3*i+j].setText("3");
-							break;
-					case 4: labels[3*i+j].setBackground(yellow);
-							labels[3*i+j].setText("4");
-							break;
-					case 5: labels[3*i+j].setBackground(lred);  
-							labels[3*i+j].setText("5");
-							break;
-					case 6: labels[3*i+j].setBackground(lblue);
-							labels[3*i+j].setText("6");
-							break;
-					case 7: labels[3*i+j].setBackground(lgreen);
-							labels[3*i+j].setText("7");
-							break;
-					case 8: labels[3*i+j].setBackground(dblue);
-					        labels[3*i+j].setText("8");
-							break;
-						}
+				int val = tab.getValueAt(i,j);
+				if( val != 0 )
+				{
+					labels[3*i+j].setBackground(TabColor[val-1]);
+					labels[3*i+j].setText(String.valueOf(val));
+				}
+				else
+				{
+					labels[3*i+j].setBackground(new Color(disp,128,128,128));
+					labels[3*i+j].setText("");
+				}
 			}
 		}
 	}
