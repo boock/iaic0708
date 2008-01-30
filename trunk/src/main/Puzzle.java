@@ -39,7 +39,7 @@ import aima.search.uninformed.DepthFirstSearch;
  */
 public abstract class Puzzle extends Thread {
 	protected Shell shell;
-	
+
 	// Este entero es para saber por qué paso vamos de la solución
 	protected int accion_actual = 0;
 	protected final Button botonAnterior, botonSiguiente; 
@@ -50,31 +50,69 @@ public abstract class Puzzle extends Thread {
 	protected final Composite compPuzzle;
 	private int ancho, alto;
 	private Problem problem;
-	private int metodo;
 	private int profMaxDLS;
 	private String salida;
-	
-	
-	public class Solver implements Runnable { 
-	public synchronized void run() {
-		switch (metodo) {
-		case 1:
-			// DLS
+	final int TMAX = 10000;
+
+
+	public class DLSSolver implements Runnable { 
+		public synchronized void run() {
 			try {
 				search = new DepthLimitedSearch(profMaxDLS);
 				agent = new SearchAgent(problem, search);
-				System.out.println("Resuelto");
 			}
 			catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			break;
-
-		default:
-			break;
 		}
-		
 	}
+
+	public class IDSSolver implements Runnable { 
+		public synchronized void run() {
+			try {
+				search = new IterativeDeepeningSearch();
+				agent = new SearchAgent(problem, search);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	public class BFSSolver implements Runnable { 
+		public synchronized void run() {
+			try {
+				search = new BreadthFirstSearch(new TreeSearch());
+				agent = new SearchAgent(problem, search);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	public class DFSSolver implements Runnable { 
+		public synchronized void run() {
+			try {
+				search = new DepthFirstSearch(new GraphSearch());
+				agent = new SearchAgent(problem, search);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	public class AStarSolver implements Runnable { 
+		public synchronized void run() {
+			try {
+				search = new AStarSearch(new GraphSearch());
+				agent = new SearchAgent(problem, search);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 	
 	/**
@@ -100,7 +138,7 @@ public abstract class Puzzle extends Thread {
 		tabFolder = new TabFolder(shell,SWT.NONE);
 		tabFolder.setLayout(new GridLayout(1,true));
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		
+
 		compPuzzle = new Composite(compIzq,SWT.BORDER);
 		compPuzzle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 
@@ -137,10 +175,10 @@ public abstract class Puzzle extends Thread {
 						botonAnterior.setEnabled(true);
 					actualizarTablero();
 				}
-				
+
 			}
 		});
-		
+
 		Button botonReset = new Button(compIzq, SWT.PUSH);
 		botonReset.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonReset.setText("Reiniciar puzzle");
@@ -156,12 +194,12 @@ public abstract class Puzzle extends Thread {
 		});
 
 	}
-	
+
 	/**
 	 * Este método actualiza la representación del juego.
 	 */
 	protected abstract void actualizarTablero();
-	
+
 	/**
 	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "siguiente".<br>
 	 * <b>IMPORTANTE</b>: Es necesario modificar {@link #accion_actual} de forma adecuada.
@@ -178,7 +216,7 @@ public abstract class Puzzle extends Thread {
 	 * Este método reinicia el tablero.
 	 */
 	protected abstract void reiniciar();
-	
+
 	/**
 	 * Devuelve el composite donde va la representación del juego.
 	 * @return
@@ -186,7 +224,7 @@ public abstract class Puzzle extends Thread {
 	protected Composite getTabJuego(){
 		return compPuzzle;
 	}
-	
+
 	/**
 	 * Añade un tab en el menú de la izquierda.
 	 * @param nombre
@@ -198,10 +236,10 @@ public abstract class Puzzle extends Thread {
 		tabItem.setText(nombre);
 		tabItem.setControl(cTab);
 		cTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		
+
 		return cTab;
 	}
-	
+
 	/**
 	 * Añade un canvas del tamaño definido al llamar al constructor para dibujar el puzzle.
 	 * @return el canvas sobre el que dibujar
@@ -217,7 +255,7 @@ public abstract class Puzzle extends Thread {
 		canvas.setLayoutData(gdCanvas);
 		return canvas;
 	}
-	
+
 	/**
 	 * Añade el tab que muestra las reglas del puzzle. Debería añadirse el primero.
 	 * @param reglas un string con las reglas. Se añadirá información sobre cómo usar la aplicación al final. 
@@ -233,7 +271,7 @@ public abstract class Puzzle extends Thread {
 		textoIntro.setText(reglas + "\n\nSelecciona una pestaña para elegir un método de resolución y " +
 				"pulsa el botón resolver.\n" +
 				"Si quieres ver cómo funciona la solución pulsa los botones siguiente y anterior.\n" +
-				"Si quieres volver a empezar, pulsa el botón reiniciar.\n");
+		"Si quieres volver a empezar, pulsa el botón reiniciar.\n");
 		textoIntro.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		return cReglas;
 	}
@@ -253,7 +291,7 @@ public abstract class Puzzle extends Thread {
 				String action = (String) agent.getActions().get(i);
 				salida += action + "\n";
 			}
-			
+
 			// Mostrar coste y nodos 
 			salida += "\nTiempo: ~" + ms + "ms.\n";
 			salida += "Nodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
@@ -277,21 +315,21 @@ public abstract class Puzzle extends Thread {
 				"búsqueda no informada que expande el árbol en profundidad hasta llegar a " +
 				"un límite para evitar ciclos.\n" +
 				"No es completa si la profundidad es menor que el diámetro de la solución y " +
-				"no puede garantizarse que la primera solución encontrada sea la mejor.");
+		"no puede garantizarse que la primera solución encontrada sea la mejor.");
 
 		final Label labelConfig = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
 		labelConfig.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, true, 1, 1));
 		labelConfig.setText("Profundidad del árbol de resolución:");
-		
+
 		final Text textConfig = new Text(cTabDSL, SWT.BORDER);
 		textConfig.setLayoutData(new GridData(SWT.RIGHT, SWT.BOTTOM, false, true, 1, 1));
 		textConfig.setText("09");
 		textConfig.setTextLimit(2);
-		
+
 		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
 		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonResolver.setText("Resolver");
-		
+
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -311,18 +349,17 @@ public abstract class Puzzle extends Thread {
 						problem = new Problem(o, fs, gt);
 
 						// Resolver el problema con DLS
-						
+
 						Date t= new Date(0);		
 						Long x,y;
 						t = new Date();
 						x = t.getTime();
-						metodo=1;
-						
-						Thread solver = new Thread(new Solver());
+
+						Thread solver = new Thread(new DLSSolver());
 						solver.start();
-						solver.join(5000);
+						solver.join(TMAX);
 						solver.interrupt();
-						
+
 						t = new Date();
 						y = t.getTime();
 						mostrarSolucion(salida, y-x);
@@ -334,7 +371,7 @@ public abstract class Puzzle extends Thread {
 				}
 				catch (NumberFormatException ex) {
 					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("La profundidad máxima del árbol DSL de búsqueda debe ser un número entero.");
+					m.setMessage("El tiempo y la profundidad máxima del árbol DSL de búsqueda deben ser un número entero.");
 					m.setText("Error");
 					m.open();
 				}
@@ -358,12 +395,12 @@ public abstract class Puzzle extends Thread {
 		labelIntroDSL.setText("Búsqueda con Profundización Iterativa.\n\n" +
 				"La búsqueda con profundización iterativa (IDS) es un tipo de búsqueda no informada " +
 				"que va variando el límite de profundidad de forma creciente.\n" +
-				"Es óptima y completa.");
+		"Es óptima y completa.");
 
 		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
 		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonResolver.setText("Resolver");
-		
+
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -371,24 +408,28 @@ public abstract class Puzzle extends Thread {
 					String salida = "Búsqueda de profundización iterativa\n";
 					salida +=       "-------------------------\n\n";
 					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-					Problem problem = new Problem(o, fs, gt);
+					problem = new Problem(o, fs, gt);
 
 					// Resolver el problema con IDS
 					Date t= new Date(0);		
 					Long x,y;
 					t = new Date();
 					x = t.getTime();
-					search = new IterativeDeepeningSearch();
-					agent = new SearchAgent(problem, search);
+					
+					Thread solver = new Thread(new IDSSolver());
+					solver.start();
+					solver.join(TMAX);
+					solver.interrupt();
+					
 					t = new Date();
 					y = t.getTime();
-					
+
 					mostrarSolucion(salida, y-x);
-					
+
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-				if (agent.getActions().size()>0) {
+				if (agent!=null && agent.getActions().size()>0) {
 					botonSiguiente.setEnabled(true);
 				}
 			}
@@ -407,12 +448,12 @@ public abstract class Puzzle extends Thread {
 		labelIntroDSL.setText("Búsqueda Primero en Anchura\n\n" +
 				"La búsqueda primero en anchura (BFS) es un tipo de búsqueda no informada " +
 				"que expande primero los nodos haciendo un recorrido en anchura.\n" +
-				"Es completa y óptima si coste(sucesor(n)) >= coste(n).");
+		"Es completa y óptima si coste(sucesor(n)) >= coste(n).");
 
 		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
 		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonResolver.setText("Resolver");
-		
+
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -420,30 +461,33 @@ public abstract class Puzzle extends Thread {
 					String salida = "Búsqueda primero en anchura\n";
 					salida +=       "-------------------------\n\n";
 					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-					Problem problem = new Problem(o, fs, gt);
+					problem = new Problem(o, fs, gt);
 
 					// Resolver el problema con BFS
 					Date t= new Date(0);		
 					Long x,y;
 					t = new Date();
 					x = t.getTime();
-					search = new BreadthFirstSearch(new TreeSearch());
-					agent = new SearchAgent(problem, search);
+					
+					Thread solver = new Thread(new BFSSolver());
+					solver.start();
+					solver.join(TMAX);
+					solver.interrupt();
+					
 					t = new Date();
 					y = t.getTime();
-					
 					mostrarSolucion(salida, y-x);
-					
+
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-				if (agent.getActions().size()>0) {
+				if (agent!=null && agent.getActions().size()>0) {
 					botonSiguiente.setEnabled(true);
 				}
 			}
 		});	
 	}
-	
+
 	protected void addTabDFS(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
 		final Object o = estadoInicial;
 		final GoalTest gt = estadoFinal;
@@ -458,12 +502,12 @@ public abstract class Puzzle extends Thread {
 				"que expande los nodos haciendo un recorrido en profundidad.\n\n" +
 				"NOTA: Esta búsqueda no tiene control de ciclos ni límite de búsqueda, " +
 				"por lo que puede entrar en un bucle infinito.\n" +
-				"Si puedes, utiliza otra alternativa como DLS.");
+		"Si puedes, utiliza otra alternativa como DLS.");
 
 		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
 		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		botonResolver.setText("Resolver");
-		
+
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
@@ -471,29 +515,34 @@ public abstract class Puzzle extends Thread {
 					String salida = "Búsqueda primero en prunfidad\n";
 					salida +=       "-------------------------\n\n";
 					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-					Problem problem = new Problem(o, fs, gt);
+					problem = new Problem(o, fs, gt);
 					// Resolver el problema con DFS
 					Date t= new Date(0);		
 					Long x,y;
+					
 					t = new Date();
 					x = t.getTime();
-					search = new DepthFirstSearch(new GraphSearch());
-					agent = new SearchAgent(problem, search);
+					
+					Thread solver = new Thread(new DFSSolver());
+					solver.start();
+					solver.join(TMAX);
+					solver.interrupt();
+					
 					t = new Date();
 					y = t.getTime();
-					
+
 					mostrarSolucion(salida, y-x);
-					
+
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
-				if (agent.getActions().size()>0) {
+				if (agent!=null && agent.getActions().size()>0) {
 					botonSiguiente.setEnabled(true);
 				}
 			}
 		});	
 	}
-	
+
 	protected void addTabAStar(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, HeuristicFunction heuristica) {
 		final Object o = estadoInicial;
 		final HeuristicFunction h = heuristica;
@@ -509,22 +558,33 @@ public abstract class Puzzle extends Thread {
 		botonResolverAStar.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					String salida = "Puzzle 8 :: Búsqueda con heurística (A*)\n";
+					String salida = "Búsqueda con heurística (A*)\n";
 					salida +=       "-------------------------\n\n";
 					// Crea el problema con el tablero inicial, la función sucesor, el tablero solución y la heurística usada
-					Problem problem = new Problem(o, fs, gt, h);
+					problem = new Problem(o, fs, gt, h);
 
 					// Resolver el problema con A*
-					search = new AStarSearch(new GraphSearch());
-					agent = new SearchAgent(problem, search);
+					Date t= new Date(0);		
+					Long x,y;
+					t = new Date();
+					x = t.getTime();
 					
+					Thread solver = new Thread(new AStarSolver());
+					solver.start();
+					solver.join(TMAX);
+					solver.interrupt();
 					
+					t = new Date();
+					y = t.getTime();
+					
+					mostrarSolucion(salida, y-x);
+					/*
 					if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
 						salida += "La solución es trivial.\n";
 					else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
 						salida += "No se ha encontrado solución con límite de profundidad .\n";
-							
-					
+
+
 					else {
 						// TODO Quitarle el punto al número de pasos
 						salida += "¡Solución encontrada en "+ agent.getInstrumentation().getProperty("pathCost") +" pasos! Pasos de la solución:\n\n";
@@ -533,32 +593,28 @@ public abstract class Puzzle extends Thread {
 							String action = (String) agent.getActions().get(i);
 							salida += action + "\n";
 						}
-						
-						// Mostrar coste y nodos 
-						
-						/*Iterator keys = agent.getInstrumentation().keySet().iterator();
-						while (keys.hasNext()) {
-							String key = (String) keys.next();
-							String property = agent.getInstrumentation().getProperty(key);
-							salida += key + " : " + property + "\n";
-						}*/
+
 						salida += 	"\nNodos expandidos: " + agent.getInstrumentation().getProperty("nodesExpanded") + "\n";
-						
+
 						if (agent.getActions().size()>0) {
 							botonSiguiente.setEnabled(true);
 						}
 					}
 					tSolucion.setText(salida);
 					tabFolder.setSelection(tabFolder.getItemCount()-1);
-					
+
+					 */
 				} catch (Exception ex) {
 					ex.printStackTrace();
+				}
+				if (agent!=null && agent.getActions().size()>0) {
+					botonSiguiente.setEnabled(true);
 				}
 
 			}
 		});
 	}
-	
+
 	/**
 	 * Añade el tab que muestra la solución. Debería añadirse el último.
 	 */
@@ -572,9 +628,9 @@ public abstract class Puzzle extends Thread {
 		tSolucion = new Text(cSolucion, SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		tSolucion.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
-				"el puzzle con uno de los algoritmos disponibles.");
+		"el puzzle con uno de los algoritmos disponibles.");
 	}
-	
+
 	/**
 	 * Abre el shell. Debería ejecutarse lo último.
 	 */
@@ -592,7 +648,7 @@ public abstract class Puzzle extends Thread {
 			}
 		}
 	}
-	
+
 	/**
 	 * Muestra un mensaje por pantalla.
 	 * @param title el título de la ventana
