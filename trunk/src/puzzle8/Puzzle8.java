@@ -116,22 +116,34 @@ public class Puzzle8 extends main.Puzzle{
 			for (int j = 0; j < 3; j++) {
 				switch(tab.getValueAt(i,j))
 						{
-					case 1: labels[3*i+j].setBackground(red); 	break;
-					case 2: labels[3*i+j].setBackground(blue);	break;
-					case 3: labels[3*i+j].setBackground(green); break;
-					case 4: labels[3*i+j].setBackground(yellow);break;
-					case 5: labels[3*i+j].setBackground(lred);  break;
-					case 6: labels[3*i+j].setBackground(lblue); break;
-					case 7: labels[3*i+j].setBackground(lgreen);break;
-					case 8: labels[3*i+j].setBackground(dblue); break;
+					case 0: labels[3*i+j].setBackground(new Color(disp,128,128,128));
+							labels[3*i+j].setText("");
+							break;
+					case 1: labels[3*i+j].setBackground(red);
+							labels[3*i+j].setText("1");
+							break;
+					case 2: labels[3*i+j].setBackground(blue);
+					        labels[3*i+j].setText("2");
+					        break;
+					case 3: labels[3*i+j].setBackground(green);
+							labels[3*i+j].setText("3");
+							break;
+					case 4: labels[3*i+j].setBackground(yellow);
+							labels[3*i+j].setText("4");
+							break;
+					case 5: labels[3*i+j].setBackground(lred);  
+							labels[3*i+j].setText("5");
+							break;
+					case 6: labels[3*i+j].setBackground(lblue);
+							labels[3*i+j].setText("6");
+							break;
+					case 7: labels[3*i+j].setBackground(lgreen);
+							labels[3*i+j].setText("7");
+							break;
+					case 8: labels[3*i+j].setBackground(dblue);
+					        labels[3*i+j].setText("8");
+							break;
 						}
-				if(tab.getValueAt(i,j)!=0){
-					labels[3*i+j].setText(String.valueOf(tab.getValueAt(i,j)));
-				}
-				else {
-					labels[3*i+j].setText("");
-					labels[3*i+j].setBackground(new Color(disp,128,128,128));
-				}
 			}
 		}
 	}
