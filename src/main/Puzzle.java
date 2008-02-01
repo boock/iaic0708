@@ -52,8 +52,7 @@ public abstract class Puzzle extends Thread {
 	private Problem problem;
 	private int profMaxDLS;
 	private String salida;
-	final int TMAX = 10000;
-
+	final int TMAX = 20000;
 
 	public class DLSSolver implements Runnable { 
 		public synchronized void run() {
