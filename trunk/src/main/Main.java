@@ -15,6 +15,7 @@ import puzzle8.Puzzle8;
 import misioneros.Misioneros;
 import nReinas.nReinas;
 import laberinto2D.Laberinto2D;
+import laberinto3D.Laberinto3D;
 import garrafas.Garrafas;
 import hanoiTower3.HanoiTower3;
 import hanoiTower4.HanoiTower4;
@@ -37,6 +38,7 @@ public class Main {
 		combo.add("Hanoi Tower 3");
 		combo.add("Hanoi Tower 4");
 		combo.add("El viaje");
+		combo.add("Laberinto 3D");
 		
 		combo.addSelectionListener(new SelectionListener() {
 
@@ -69,6 +71,9 @@ public class Main {
 					break;
 				case 8:
 					new Viaje(display);
+					break;
+				case 9:
+					new Laberinto3D(display);
 					break;
 				}
 			}
