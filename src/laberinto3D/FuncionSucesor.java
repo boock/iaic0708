@@ -7,15 +7,14 @@ import aima.search.framework.Successor;
 import aima.search.framework.SuccessorFunction;
 
 /**
- * Función sucesor del laberinto en 2D
- * @author Jim Mainprice
+ * Función sucesor del laberinto en dD
+ * @author Daniel Dionne
  */
 
 public class FuncionSucesor implements SuccessorFunction {
 
 	/**
-	 * Comproba quel Successor essiste y le anade a la lista de sussesores
-	 * @author Jim Mainprice
+	 * Comprueba que el sucesor existe y lo añade a la lista de sucesores
 	 */
 	
 	public List<Successor> getSuccessors(Object state) {
@@ -35,7 +34,7 @@ public class FuncionSucesor implements SuccessorFunction {
 	}
 
 	private Mapa copyOf(Mapa mapa) {
-		Mapa newMapa = new Mapa( mapa.context, mapa.getXpos(), mapa.getYpos() );
+		Mapa newMapa = new Mapa(mapa.ejeX, mapa.ejeY, mapa.ejeZ, mapa.getXpos(), mapa.getYpos(), mapa.getZpos(), mapa.tamano);
 		return newMapa;
 	}
 
