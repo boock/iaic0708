@@ -11,7 +11,7 @@ import aima.search.framework.HeuristicFunction;
  * 
  */
 
-public class FuncionHeuristicManhattan implements HeuristicFunction {
+public class Primera implements HeuristicFunction {
 	
 	static String nombre = "Manathan";
 	

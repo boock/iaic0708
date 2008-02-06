@@ -10,10 +10,6 @@ import org.eclipse.swt.widgets.Display;
 
 import aima.search.framework.HeuristicFunction;
 
-import hanoiTower4.Base;
-import hanoiTower4.EstadoFinal;
-import hanoiTower4.FuncionSucesor;
-
 
 /**************************************************************************************************/
 
@@ -55,7 +51,7 @@ public class HanoiTower4 extends main.Puzzle{
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(tab, 15, new FuncionSucesor(), new EstadoFinal());
-		HeuristicFunction h[] = { new FuncionHeuristicManhattan() };
+		HeuristicFunction h[] = { new Primera() , new Segunda() };
 		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), h );
 		
 		canvas.addPaintListener(new PaintListener () {
