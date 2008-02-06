@@ -551,7 +551,7 @@ public abstract class Puzzle extends Thread {
 	protected void addTabAStar(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, HeuristicFunction[] heuristica) {
 		final Object o = estadoInicial;
 		final HeuristicFunction[] heuri = heuristica;
-		final HeuristicFunction h;
+		final HeuristicFunction h = heuristica[0];
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
 		Composite cAStar = addTab("A*");
