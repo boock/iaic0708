@@ -4,6 +4,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="aima/AIMA_fat.jar"/>
 	<classpathentry kind="lib" path="swt/swt.jar"/>
-	<classpathentry kind="lib" path="C:/Archivos de programa/Java/Java3D/1.5.1/lib/ext/j3dcore.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
