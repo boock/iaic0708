@@ -8,10 +8,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 
-import hanoiTower3.Base;
-import hanoiTower3.EstadoFinal;
-import hanoiTower3.FuncionSucesor;
-import hanoiTower3.FuncionHeuristicManhattan;
 import aima.search.framework.HeuristicFunction;
 
 

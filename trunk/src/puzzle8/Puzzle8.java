@@ -1,9 +1,5 @@
 package puzzle8;
 
-import hanoiTower3.EstadoFinal;
-import hanoiTower3.FuncionHeuristicManhattan;
-import hanoiTower3.FuncionSucesor;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;

@@ -1,12 +1,5 @@
 package hanoiTower4;
 
-//import org.eclipse.swt.SWT;
-//import org.eclipse.swt.events.SelectionAdapter;
-//import org.eclipse.swt.events.SelectionEvent;
-//import org.eclipse.swt.layout.GridData;
-//import org.eclipse.swt.layout.GridLayout;
-//import org.eclipse.swt.widgets.Button;
-//import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
@@ -16,11 +9,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 
 import aima.search.framework.HeuristicFunction;
-//import org.eclipse.swt.widgets.Event;
-//import org.eclipse.swt.widgets.Label;
-//import org.eclipse.swt.widgets.Listener;
 
-import hanoiTower3.FuncionHeuristicManhattan;
 import hanoiTower4.Base;
 import hanoiTower4.EstadoFinal;
 import hanoiTower4.FuncionSucesor;
