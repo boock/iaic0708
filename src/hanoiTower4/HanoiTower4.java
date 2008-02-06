@@ -14,10 +14,13 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
+
+import aima.search.framework.HeuristicFunction;
 //import org.eclipse.swt.widgets.Event;
 //import org.eclipse.swt.widgets.Label;
 //import org.eclipse.swt.widgets.Listener;
 
+import hanoiTower3.FuncionHeuristicManhattan;
 import hanoiTower4.Base;
 import hanoiTower4.EstadoFinal;
 import hanoiTower4.FuncionSucesor;
@@ -63,7 +66,8 @@ public class HanoiTower4 extends main.Puzzle{
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(tab, 15, new FuncionSucesor(), new EstadoFinal());
-		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), new FuncionHeuristicManhattan());
+		HeuristicFunction h[] = { new FuncionHeuristicManhattan() };
+		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), h );
 		
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {

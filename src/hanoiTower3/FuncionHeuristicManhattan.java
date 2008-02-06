@@ -13,6 +13,8 @@ import aima.search.framework.HeuristicFunction;
 
 public class FuncionHeuristicManhattan implements HeuristicFunction {
 
+	static String nombre = "Manathan";
+	
 	public double getHeuristicValue(Object state) {
 		Base board = (Base) state;
 		char tab[] = {'A','B','C'};

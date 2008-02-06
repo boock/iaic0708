@@ -10,6 +10,8 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
+import aima.search.framework.HeuristicFunction;
+
 /**
  * @param <Mapa>************************************************************************************************/
 
@@ -84,7 +86,8 @@ public class Laberinto2D extends main.Puzzle{
 		addTabBFS(map, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(map, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(map, 23, new FuncionSucesor(), new EstadoFinal());
-		addTabAStar(map, new FuncionSucesor(), new EstadoFinal(), new FuncionHeuristicWay());
+		HeuristicFunction h[] = { new FuncionHeuristicWay() };
+		addTabAStar(map, new FuncionSucesor(), new EstadoFinal(), h );
 		
 		// Dibujar puzzle
 		canvas.addPaintListener(new PaintListener () {

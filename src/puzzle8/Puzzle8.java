@@ -1,5 +1,9 @@
 package puzzle8;
 
+import hanoiTower3.EstadoFinal;
+import hanoiTower3.FuncionHeuristicManhattan;
+import hanoiTower3.FuncionSucesor;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -12,6 +16,8 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.graphics.*;
+
+import aima.search.framework.HeuristicFunction;
 
 /**************************************************************************************************/
 
@@ -94,7 +100,9 @@ public class Puzzle8 extends main.Puzzle{
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(tab, 15, new FuncionSucesor(), new EstadoFinal());
-		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), new FuncionHeuristicManhattan());
+		
+		HeuristicFunction h[] = { new FuncionHeuristicManhattan() };
+		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), h );
 		
 		addTabSolucion();
 		actualizarTablero();

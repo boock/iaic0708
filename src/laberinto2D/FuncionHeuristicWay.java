@@ -14,6 +14,7 @@ import aima.search.framework.HeuristicFunction;
 
 public class FuncionHeuristicWay implements HeuristicFunction {
 	
+	static String nombre = "Pythagore";
 	
 	public double getHeuristicValue(Object state) {
 		Mapa mapa = (Mapa) state;

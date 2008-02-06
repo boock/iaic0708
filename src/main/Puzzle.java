@@ -2,13 +2,17 @@ package main;
 
 import java.util.*;
 
+import misioneros.Misioneros;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.TabFolder;
@@ -17,6 +21,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.MessageBox;
+
+import puzzle8.Puzzle8;
 
 import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
@@ -542,14 +548,26 @@ public abstract class Puzzle extends Thread {
 		});	
 	}
 
-	protected void addTabAStar(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, HeuristicFunction heuristica) {
+	protected void addTabAStar(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, HeuristicFunction[] heuristica) {
 		final Object o = estadoInicial;
-		final HeuristicFunction h = heuristica;
+		final HeuristicFunction[] heuri = heuristica;
+		final HeuristicFunction h;
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
 		Composite cAStar = addTab("A*");
 		cAStar.setLayout(new GridLayout(1,false));
 		final Button botonResolverAStar = new Button(cAStar, SWT.PUSH);
+		final Combo combo = new Combo(cAStar, SWT.NONE | SWT.READ_ONLY);
+		
+		for(int i=0;i<heuri.length;i++){
+		combo.add(heuri[i].toString());
+		}
+		combo.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent e) {}
+			public void widgetSelected(SelectionEvent e) {
+				//h = heuri[combo.getSelectionIndex()];
+				}
+			});
 		botonResolverAStar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		botonResolverAStar.setText("Resolver");
 
