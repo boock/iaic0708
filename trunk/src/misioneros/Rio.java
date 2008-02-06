@@ -1,7 +1,5 @@
 package misioneros;
 
-import puzzle8.Tablero;
-
 /**
  * Esta clase representa el río, con los misioneros, los caníbales y el bote
  * @author Daniel
