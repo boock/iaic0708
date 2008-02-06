@@ -13,7 +13,9 @@ import aima.search.framework.HeuristicFunction;
  */
 
 public class FuncionHeuristicManhattan implements HeuristicFunction {
-
+	
+	static String nombre = "Manathan";
+	
 	public double getHeuristicValue(Object state) {
 		Tablero board = (Tablero) state;
 		int retVal = 0;
