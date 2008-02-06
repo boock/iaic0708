@@ -11,7 +11,7 @@ import aima.search.framework.HeuristicFunction;
  * 
  */
 
-public class Primera implements HeuristicFunction {
+public class HeuristicaSegunda implements HeuristicFunction {
 	
 	static String nombre = "Manathan";
 	
@@ -38,16 +38,16 @@ public class Primera implements HeuristicFunction {
 			if(loc == '3') retVal = 2;
 			break;
 		case 'B':
-			if(loc == '1') retVal = 1;
-			if(loc == '2') retVal = 2;
+			if(loc == '1') retVal = 3;
+			if(loc == '2') retVal = 3;
 			if(loc == '3') retVal = 0;
 			break;
 		case 'C':
-			if(loc == '1') retVal = 3;
-			if(loc == '2') retVal = 1;
+			if(loc == '1') retVal = 10;
+			if(loc == '2') retVal = 5;
 			if(loc == '3') retVal = 0;
 		case 'D':
-			if(loc == '1') retVal = 5;
+			if(loc == '1') retVal = 10;
 			if(loc == '2') retVal = 5;
 			if(loc == '3') retVal = 0;
 
