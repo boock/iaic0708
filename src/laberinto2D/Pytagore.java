@@ -12,7 +12,7 @@ import aima.search.framework.HeuristicFunction;
  * 
  */
 
-public class FuncionHeuristicWay implements HeuristicFunction {
+public class Pytagore implements HeuristicFunction {
 	
 	static String nombre = "Pythagore";
 	
