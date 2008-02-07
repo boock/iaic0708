@@ -18,7 +18,7 @@ public class HeuristicaSegunda implements HeuristicFunction {
 	public double getHeuristicValue(Object state) {
 		Base board = (Base) state;
 		char tab[] = {'A','B','C','D'};
-		int retVal = 0;
+		double retVal = 0;
 		for (int i = 1; i < 4; i++) {
 			char loc = board.quePlaza(tab[i]);
 			retVal += evaluateDistanceOf( board , tab[i] , loc );
@@ -27,29 +27,31 @@ public class HeuristicaSegunda implements HeuristicFunction {
 
 	}
 
-	public int evaluateDistanceOf( Base board , char c , char loc ) {
-		int retVal = -1;
+	public double evaluateDistanceOf( Base board , char c , char loc ) {
+		double retVal = -1;
 
 		switch (c) {
 
 		case 'A':
-			if(loc == '1') retVal = 0;
-			if(loc == '2') retVal = 1;
-			if(loc == '3') retVal = 2;
+			if(loc == '1') retVal = 1.5;
+			if(loc == '2') retVal = 1.0;
+			if(loc == '3') retVal = 0;
 			break;
 		case 'B':
-			if(loc == '1') retVal = 3;
-			if(loc == '2') retVal = 3;
+			if(loc == '1') retVal = 3.5;
+			if(loc == '2') retVal = 3.0;
 			if(loc == '3') retVal = 0;
 			break;
 		case 'C':
-			if(loc == '1') retVal = 10;
-			if(loc == '2') retVal = 5;
+			if(loc == '1') retVal = 14.0;
+			if(loc == '2') retVal = 7.0;
 			if(loc == '3') retVal = 0;
+			break;
 		case 'D':
-			if(loc == '1') retVal = 10;
-			if(loc == '2') retVal = 5;
+			if(loc == '1') retVal = 20.0;
+			if(loc == '2') retVal = 10.0;
 			if(loc == '3') retVal = 0;
+			break;
 
 		}
 		return retVal;
