@@ -557,22 +557,24 @@ public abstract class Puzzle extends Thread {
 		final Button botonResolverAStar = new Button(cAStar, SWT.PUSH);
 		botonResolverAStar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		botonResolverAStar.setText("Resolver");
-		botonResolverAStar.setEnabled(false);
 		
-		h = null;
-		
-		final Combo combo = new Combo(cAStar, SWT.NONE | SWT.READ_ONLY);
-		
-		for(int i=0;i<heuri.length;i++){
-		combo.add(heuri[i].toString());
+		if(heuri.length > 1){
+			botonResolverAStar.setEnabled(false);
+			
+			final Combo combo = new Combo(cAStar, SWT.NONE | SWT.READ_ONLY);
+			
+			for(int i=0;i<heuri.length;i++){
+			combo.add(heuri[i].toString());
+			}
+			combo.addSelectionListener(new SelectionListener() {
+				public void widgetDefaultSelected(SelectionEvent e) {}
+				public void widgetSelected(SelectionEvent e) {
+					h = heuri[combo.getSelectionIndex()];
+					botonResolverAStar.setEnabled(true);
+					}
+				});
 		}
-		combo.addSelectionListener(new SelectionListener() {
-			public void widgetDefaultSelected(SelectionEvent e) {}
-			public void widgetSelected(SelectionEvent e) {
-				h = heuri[combo.getSelectionIndex()];
-				botonResolverAStar.setEnabled(true);
-				}
-			});
+		else h = heuri[0];
 
 		// Resolución AStar
 		botonResolverAStar.addSelectionListener(new SelectionAdapter() {
@@ -598,7 +600,6 @@ public abstract class Puzzle extends Thread {
 					y = t.getTime();
 					
 					mostrarSolucion(salida, y-x);
-					botonResolverAStar.setEnabled(false);
 					/*
 					if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
 						salida += "La solución es trivial.\n";
