@@ -86,7 +86,7 @@ public class Laberinto2D extends main.Puzzle{
 		addTabBFS(map, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(map, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(map, 23, new FuncionSucesor(), new EstadoFinal());
-		HeuristicFunction h[] = { new Pytagore() };
+		HeuristicFunction h[] = { new Pytagore() , new Manhatan() };
 		addTabAStar(map, new FuncionSucesor(), new EstadoFinal(), h );
 		
 		// Dibujar puzzle
