@@ -35,8 +35,7 @@ public class FuncionSucesor implements SuccessorFunction {
 			Tablero parentBoard) {
 
 		Tablero newBoard = new Tablero(parentBoard.getSize());
-		List<XYLocation> queenPositionsOnParentBoard = parentBoard
-				.getQueenPositions();
+		List<XYLocation> queenPositionsOnParentBoard = parentBoard.getQueenPositions();
 		queenPositionsOnParentBoard.add(new XYLocation(row, column));
 		newBoard.setBoard(queenPositionsOnParentBoard);
 		return newBoard;
