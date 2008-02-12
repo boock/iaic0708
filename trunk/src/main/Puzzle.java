@@ -44,13 +44,13 @@ public abstract class Puzzle extends Thread {
 
 	// Este entero es para saber por qué paso vamos de la solución
 	protected int accion_actual = 0;
-	protected final Button botonAnterior, botonSiguiente; 
+	protected Button botonAnterior, botonSiguiente; 
 	protected Text tSolucion;
 	protected Search search;
 	protected SearchAgent agent;
-	protected final TabFolder tabFolder;
-	protected final Composite compPuzzle;
-	private int ancho, alto;
+	protected TabFolder tabFolder;
+	protected Composite compPuzzle;
+	protected int ancho, alto;
 	private Problem problem;
 	private int profMaxDLS;
 	private String salida;
@@ -124,6 +124,21 @@ public abstract class Puzzle extends Thread {
 	 * @param ancho el ancho del puzzle
 	 * @param alto el alto del puzzle
 	 */
+	public Puzzle(int ancho, int alto){
+		this.ancho = ancho;
+		this.alto = alto;
+		botonAnterior = null;
+		botonSiguiente = null;
+		tSolucion = null;
+		search = null;
+		agent = null;
+		tabFolder = null;
+		compPuzzle = null;
+		problem = null;
+		salida = null;
+		h= null;
+	}
+	
 	public Puzzle(Display display, String nombrePuzzle, int ancho, int alto) {
 		shell = new Shell(display);
 		shell.setText(nombrePuzzle);
