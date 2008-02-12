@@ -19,6 +19,7 @@ import laberinto3D.Laberinto3D;
 import garrafas.Garrafas;
 import hanoiTower3.HanoiTower3;
 import hanoiTower4.HanoiTower4;
+//import ticTacToe.TicTacToeDemo;
 import viaje.Viaje;
 
 /**************************************************************************************************/
@@ -39,6 +40,7 @@ public class Main {
 		combo.add("Hanoi Tower 4");
 		combo.add("El viaje");
 		combo.add("Laberinto 3D");
+		combo.add("Tic Tac Toe");
 		
 		combo.addSelectionListener(new SelectionListener() {
 
@@ -74,6 +76,9 @@ public class Main {
 					break;
 				case 9:
 					new Laberinto3D(display);
+					break;
+				case 10:
+					//new TicTacToe(display);
 					break;
 				}
 			}
