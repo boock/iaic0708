@@ -19,7 +19,7 @@ import laberinto3D.Laberinto3D;
 import garrafas.Garrafas;
 import hanoiTower3.HanoiTower3;
 import hanoiTower4.HanoiTower4;
-//import ticTacToe.TicTacToeDemo;
+import ticTacToe.TicTacToe;
 import viaje.Viaje;
 
 /**************************************************************************************************/
@@ -78,7 +78,7 @@ public class Main {
 					new Laberinto3D(display);
 					break;
 				case 10:
-					//new TicTacToe(display);
+					new TicTacToe(display);
 					break;
 				}
 			}
