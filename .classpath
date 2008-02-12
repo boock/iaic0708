@@ -4,5 +4,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="aima/AIMA_fat.jar"/>
 	<classpathentry kind="lib" path="swt/swt.jar"/>
+	<classpathentry kind="lib" path="aima/AMAI_games.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
