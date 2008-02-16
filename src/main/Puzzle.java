@@ -40,6 +40,7 @@ import aima.search.uninformed.DepthFirstSearch;
  * Esta clase representa un interfaz gráfico genérico para un puzzle.
  */
 public abstract class Puzzle extends Thread {
+	
 	protected Shell shell;
 
 	// Este entero es para saber por qué paso vamos de la solución
