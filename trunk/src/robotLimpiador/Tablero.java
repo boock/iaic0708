@@ -207,7 +207,7 @@ public class Tablero {
 				return true;
 		}
 		else{ // Case of Moving
-			if( ( (int)(getPuertasAt(x,y)/Math.pow(10,i)) & 1 ) == 1)
+			if( ( ((int)(getPuertasAt(x,y)/Math.pow(10,i))) & 1 ) == 1)
 				return true;
 		}
 		
