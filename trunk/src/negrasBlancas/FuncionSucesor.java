@@ -1,7 +1,3 @@
-/*
- * Created on Sep 12, 2004
- *
- */
 package negrasBlancas;
 
 import java.util.ArrayList;
@@ -12,42 +8,36 @@ import aima.search.framework.SuccessorFunction;
 
 /**
  * 
- * @author Ravi Mohan
+ * @author Jimi
  * 
  */
 
 public class FuncionSucesor implements SuccessorFunction {
-
 	
 	public List<Successor> getSuccessors(Object state) {
+		
 		Tablero board = (Tablero) state;
+		
 		List<Successor> successors = new ArrayList<Successor>();
-		if (board.canMoveGap(Tablero.UP)) {
-			Tablero newBoard = copyOf(board);
-			newBoard.moveGapUp();
-			successors.add(new Successor(Tablero.UP, newBoard));
-		}
-		if (board.canMoveGap(Tablero.DOWN)) {
-			Tablero newBoard = copyOf(board);
-			newBoard.moveGapDown();
-			successors.add(new Successor(Tablero.DOWN, newBoard));
-		}
-		if (board.canMoveGap(Tablero.LEFT)) {
-			Tablero newBoard = copyOf(board);
-			newBoard.moveGapLeft();
-			successors.add(new Successor(Tablero.LEFT, newBoard));
-		}
-		if (board.canMoveGap(Tablero.RIGHT)) {
-			Tablero newBoard = copyOf(board);
-			newBoard.moveGapRight();
-			successors.add(new Successor(Tablero.RIGHT, newBoard));
+		
+		// Boucle para expendir los nodos del estado en parametro
+		
+		for(int i=0;i<Tablero.operadores.length;i++){
+			
+			if ( board.canMoveGap( Tablero.operadores[i] ) ) {
+				
+				Tablero newBoard = copyOf( board );
+				newBoard.mover( Tablero.operadores[i] );
+				successors.add( new Successor( Tablero.operadores[i] , newBoard ) );
+				
+			}
 		}
 		return successors;
 	}
 
-	private Tablero copyOf(Tablero board) {
+	private Tablero copyOf(Tablero board) {	// Hace un copy de un estado
 		Tablero newBoard = new Tablero();
-		newBoard.setBoard(board.getPositions());
+		newBoard.setBoard(board.getBoard());
 		return newBoard;
 	}
 
