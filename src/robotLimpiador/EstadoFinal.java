@@ -1,7 +1,3 @@
-/*
- * Created on Sep 12, 2004
- *
- */
 package robotLimpiador;
 
 import aima.search.framework.GoalTest;
