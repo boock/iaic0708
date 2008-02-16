@@ -8,7 +8,7 @@ import aima.search.framework.GoalTest;
 
 /**
  * Esta clase implementa el GoalTest.
- * @author Daniel, basado en Ravi Mohan
+ * @author Jimi
  * 
  */
 
