@@ -19,6 +19,7 @@ package robotLimpiador;
  *      H.G               H.I              H.J
  *                 |               |
  * ________________|_______________|________________
+ * 
  * @author Jimi
  *  
  */
