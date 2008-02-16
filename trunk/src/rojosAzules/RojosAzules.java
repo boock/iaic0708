@@ -6,14 +6,14 @@ import org.eclipse.swt.widgets.Display;
 
 /**************************************************************************************************/
 
-public class Puzzle8 extends main.Puzzle{
+public class RojosAzules extends main.Puzzle{
 
-	public Puzzle8(Display display, String nombrePuzzle, int ancho, int alto) {
+	public RojosAzules(Display display, String nombrePuzzle, int ancho, int alto) {
 		super(display, nombrePuzzle, ancho, alto);
 		// TODO Auto-generated constructor stub
 	}
 
-	public Puzzle8(int ancho, int alto) {
+	public RojosAzules(int ancho, int alto) {
 		super(ancho, alto);
 		// TODO Auto-generated constructor stub
 	}
