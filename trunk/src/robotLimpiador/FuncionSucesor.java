@@ -24,7 +24,7 @@ public class FuncionSucesor implements SuccessorFunction {
 		
 		for(int i=0;i<Tablero.operadores.length;i++){
 			
-			if ( board.canMoveGap( Tablero.operadores[i] ) ) {
+			if ( board.canMove( Tablero.operadores[i] ) ) {
 				
 				Tablero newBoard = copyOf( board );
 				newBoard.mover( Tablero.operadores[i] );
@@ -37,7 +37,7 @@ public class FuncionSucesor implements SuccessorFunction {
 
 	private Tablero copyOf(Tablero board) {	// Hace un copy de un estado
 		Tablero newBoard = new Tablero();
-		newBoard.setBoard(board.getBoard());
+		newBoard.setBoard(board.getBoard(),board.x,board.y);
 		return newBoard;
 	}
 
