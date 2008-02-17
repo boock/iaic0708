@@ -29,7 +29,7 @@ public class RobotLimpiador extends Puzzle {
 	public RobotLimpiador(Display display) {
 	
 		
-		super(display,"Laberinto-2D", 300, 300);
+		super(display,"Laberinto-2D", 300, 300, true);
 		Robot		= new Image(display, RobotLimpiador.class.getResourceAsStream("robot.png"));
 		Lab_L_S		= new Image(display, RobotLimpiador.class.getResourceAsStream("Lab_L_S.png"));
 		Lab_L_E		= new Image(display, RobotLimpiador.class.getResourceAsStream("Lab_L_E.png"));
