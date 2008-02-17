@@ -7,12 +7,12 @@ package laberinto3D;
  */
 public class Mapa {
 
-	public static String IZQ = "Izquierda";
-	public static String DER = "Derecha";
-	public static String ADL = "Adelante";
-	public static String ATR = "Atrás";
-	public static String ARR = "Arriba";
-	public static String ABJ = "Abajo";
+	public static String IZQ = "la izquierda";
+	public static String DER = "la derecha";
+	public static String ADL = "delante";
+	public static String ATR = "atrás";
+	public static String ARR = "arriba";
+	public static String ABJ = "abajo";
 	public static String SAL = "Salir";
 	
 	public final int tamano;
@@ -73,63 +73,44 @@ public class Mapa {
 	 */
 	public Mapa() {
 		tamano = 3;
-		ejeX = new Pared[3];
+		ejeX = new Pared[2];
 		ejeX[0] = new Pared(true);
 		ejeX[0].context = new int[][] {
-				{0,1,0},
-				{1,0,0},
-				{0,0,1}
+				{0,0,0},
+				{0,0,0},
+				{0,0,0}
 		};
 		ejeX[1] = new Pared(true);
 		ejeX[1].context = new int[][] {
-				{1,0,0},
-				{1,1,0},
-				{0,1,0}
-		};
-		ejeX[2] = new Pared(true);
-		ejeX[2].context = new int[][] {
-				{1,0,0},
 				{0,0,0},
-				{1,0,1}
+				{0,0,0},
+				{0,0,0}
 		};
-		ejeY = new Pared[3];
+		ejeY = new Pared[2];
 		ejeY[0] = new Pared(true);
 		ejeY[0].context = new int[][] {
-				{0,0,1},
-				{0,1,1},
-				{0,1,1}
+				{0,0,0},
+				{0,0,0},
+				{0,0,0}
 		};
 		ejeY[1] = new Pared(true);
 		ejeY[1].context = new int[][] {
-				{1,1,1},
-				{1,0,0},
-				{0,0,1}
-		};
-		ejeY[2] = new Pared(true);
-		ejeY[2].context = new int[][] {
-				{0,1,1},
 				{0,0,0},
-				{1,0,0}
+				{0,0,0},
+				{0,0,0}
 		};
-
-		ejeZ = new Pared[3];
+		ejeZ = new Pared[2];
 		ejeZ[0] = new Pared(true);
 		ejeZ[0].context = new int[][] {
-				{1,0,1},
 				{0,0,0},
-				{1,0,1}
+				{0,0,0},
+				{0,0,0}
 		};
 		ejeZ[1] = new Pared(true);
 		ejeZ[1].context = new int[][] {
-				{0,0,1},
-				{1,1,1},
-				{1,1,1}
-		};
-		ejeZ[2] = new Pared(true);
-		ejeZ[2].context = new int[][] {
-				{1,1,1},
-				{0,0,1},
-				{0,0,1}
+				{0,0,0},
+				{0,0,0},
+				{0,0,0}
 		};
 		x_pos=1;
 		y_pos=1;
@@ -151,19 +132,6 @@ public class Mapa {
 		z_pos = z;
 	}
 
-	public int getXpos() {
-		return x_pos;
-	}
-	
-	public int getYpos() {
-		return y_pos;
-	}
-	
-	public int getZpos() {
-		return z_pos;
-	}
-	
-	
 	/**
 	 * Comprueba si M es un movimiento posible
 	 * @param aMap Mapa del laberinto
@@ -171,31 +139,35 @@ public class Mapa {
 	 * @param y posición Y del jugador
 	 * @param z posición Z del jugador
 	 * 
-	 *			z   /y		x: derecha e izquierda
-	 * 			|  /		y: delante y detrás
-	 * 			| /			z: arriba y abajo
-	 * ---------|--------x
-	 * 		  /	|
-	 * 		 /	|
-	 * 		/	|
-	 * 
+	 *   y=0\	|
+	 *	 	 \	|			x: derecha e izquierda
+	 * 		  \	|			y: delante y detrás
+	 * 		   \|	   x=0	z: arriba y abajo
+	 * ---------\---------
+	 * 			|\
+	 * 			| \
+	 * 			|  \
+	 *       z=0|	\
 	 */
-	public boolean movimientoPosible(String s) {
-		// Primero miro si estoy en un extremo
-		if ( 	(s.equals(IZQ) && (x_pos == 0       )) ||
-				(s.equals(DER) && (x_pos == tamano-1)) ||
-				(s.equals(ATR) && (y_pos == 0       )) ||
-				(s.equals(ADL) && (y_pos == tamano-1)) ||
-				(s.equals(ABJ) && (z_pos == 0       )) ||
-				(s.equals(ARR) && (z_pos == tamano-1))					
-		)	return false;
-		// Y ahora si el movimiento es posible (la puerta está abierta)
-		if ( 	(s.equals(IZQ) && (ejeX [x_pos-1].context[tamano-1-y_pos][z_pos]          == 1) )||
-				(s.equals(DER) && (ejeX [x_pos  ].context[tamano-1-y_pos][z_pos]          == 1) )||
-				(s.equals(ATR) && (ejeY [y_pos-1].context[x_pos]         [z_pos]          == 1) )||
-				(s.equals(ADL) && (ejeY [y_pos  ].context[x_pos]         [z_pos]          == 1) )||
-				(s.equals(ABJ) && (ejeZ [z_pos-1].context[x_pos]         [tamano-1-y_pos] == 1) )||
-				(s.equals(ARR) && (ejeZ [z_pos  ].context[x_pos]         [tamano-1-y_pos] == 1) )) return true;
+	public boolean movimientoPosiblePuertasAbiertasOCerradas(String s) {
+		if ((s.equals(IZQ) && x_pos != tamano-1 && ejeX [x_pos]  .context[y_pos][z_pos] >=0) ||
+		    (s.equals(DER) && x_pos != 0        && ejeX [x_pos-1].context[y_pos][z_pos] >=0) ||
+			(s.equals(ATR) && y_pos != tamano-1 && ejeY [y_pos]  .context[x_pos][z_pos] >=0) ||
+			(s.equals(ADL) && y_pos != 0        && ejeY [y_pos-1].context[x_pos][z_pos] >=0) ||
+			(s.equals(ARR) && z_pos != tamano-1 && ejeZ [z_pos]  .context[x_pos][y_pos] >=0) ||
+			(s.equals(ABJ) && z_pos != 0        && ejeZ [z_pos-1].context[x_pos][y_pos] >=0)
+		)	return true;
+		else return false;
+	}
+
+	public boolean movimientoPosiblePuertasAbiertas(String s) {
+		if ((s.equals(IZQ) && x_pos != tamano-1 && ejeX [x_pos]  .context[y_pos][z_pos] ==1) ||
+		    (s.equals(DER) && x_pos != 0        && ejeX [x_pos-1].context[y_pos][z_pos] ==1) ||
+			(s.equals(ATR) && y_pos != tamano-1 && ejeY [y_pos]  .context[x_pos][z_pos] ==1) ||
+			(s.equals(ADL) && y_pos != 0        && ejeY [y_pos-1].context[x_pos][z_pos] ==1) ||
+			(s.equals(ARR) && z_pos != tamano-1 && ejeZ [z_pos]  .context[x_pos][y_pos] ==1) ||
+			(s.equals(ABJ) && z_pos != 0        && ejeZ [z_pos-1].context[x_pos][y_pos] ==1)
+		)	return true;
 		else return false;
 	}
 
@@ -205,10 +177,10 @@ public class Mapa {
 	 * @param s el movimiento a hacer
 	 */
 	public void mover(String s) {
-		if     (s.equals(IZQ)) x_pos--;
-		else if(s.equals(DER)) x_pos++;
-		else if(s.equals(ATR)) y_pos--;
-		else if(s.equals(ADL)) y_pos++;
+		if     (s.equals(IZQ)) x_pos++;
+		else if(s.equals(DER)) x_pos--;
+		else if(s.equals(ATR)) y_pos++;
+		else if(s.equals(ADL)) y_pos--;
 		else if(s.equals(ABJ)) z_pos--;
 		else if(s.equals(ARR)) z_pos++;
 	}
@@ -230,9 +202,9 @@ public class Mapa {
 		}
 		Mapa aMapa = (Mapa) o;
 
-		if (x_pos != aMapa.getXpos()) return false;  
-		if (y_pos != aMapa.getYpos()) return false;
-		if (z_pos != aMapa.getZpos()) return false;
+		if (x_pos != aMapa.x_pos) return false;  
+		if (y_pos != aMapa.y_pos) return false;
+		if (z_pos != aMapa.z_pos) return false;
 
 		return true;
 	}

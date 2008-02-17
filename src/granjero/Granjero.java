@@ -21,7 +21,7 @@ public class Granjero extends main.Puzzle {
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Granjero(Display display) {
-		super (display, "Granjero",300,300);
+		super (display, "Granjero",300,300, true);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo = new Image(display, Granjero.class.getResourceAsStream("rio.png"));

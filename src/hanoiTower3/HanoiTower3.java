@@ -26,7 +26,7 @@ public class HanoiTower3 extends main.Puzzle{
 	 */
 	public HanoiTower3(Display display) {
 
-		super(display,"HanoiTower",300,200);
+		super(display,"HanoiTower",300,200, false);
 		
 		compPuzzle.setLayout(new GridLayout(1,true));
 		
@@ -34,13 +34,10 @@ public class HanoiTower3 extends main.Puzzle{
 		pequeno  = new Image(display, HanoiTower3.class.getResourceAsStream("Petit.png"));
 		medio = new Image(display, HanoiTower3.class.getResourceAsStream("moyen.png"));
 		gran = new Image(display, HanoiTower3.class.getResourceAsStream("grand.png"));
-
 		
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
 
-		
-		
 		/** 
 		 * Hanoi Tower
 		 */

@@ -19,7 +19,7 @@ public class nReinas extends main.Puzzle {
 	 */
 	public nReinas(Display display, int n) {
 		
-		super(display,"N-Reinas",50*n,50*n);
+		super(display,"N-Reinas",50*n,50*n, true);
 		this.tamano = n;
 		canvas = addCanvas(false);
 		

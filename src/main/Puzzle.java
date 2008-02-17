@@ -51,13 +51,15 @@ public abstract class Puzzle extends Thread {
 	protected SearchAgent agent;
 	protected TabFolder tabFolder;
 	protected Composite compPuzzle;
+	protected boolean biyectivo;
 	protected int ancho, alto;
 	private Problem problem;
 	private int profMaxDLS;
 	private String salida;
 	final int TMAX = 20000;
 	private HeuristicFunction h;
-
+	public boolean solucionEncontrada = false;
+	
 	public class DLSSolver implements Runnable { 
 		public synchronized void run() {
 			try {
@@ -140,12 +142,21 @@ public abstract class Puzzle extends Thread {
 		h= null;
 	}
 	
-	public Puzzle(Display display, String nombrePuzzle, int ancho, int alto) {
-		shell = new Shell(display);
+	/**
+	 * Constructor del puzzle
+	 * @param display display actual
+	 * @param nombrePuzzle nombre que se mostrará en el título de la ventana
+	 * @param ancho ancho del interfaz gráfico
+	 * @param alto alto del interfaz gráfico
+	 * @param biyectivo true si se puede retroceder en la solución, false en caso contrario
+	 */
+	public Puzzle(Display display, String nombrePuzzle, int ancho, int alto, boolean biyectivo) {
+		shell = new Shell(display, SWT.CLOSE | SWT.APPLICATION_MODAL);
 		shell.setText(nombrePuzzle);
 		shell.setLayout(new GridLayout(2,false));
 		this.ancho = ancho;
 		this.alto = alto;
+		this.biyectivo = biyectivo;
 		final Composite compIzq = new Composite(shell,SWT.NONE);
 		compIzq.setLayout(new GridLayout(2,true));
 		GridData gdComIzq = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
@@ -177,7 +188,8 @@ public abstract class Puzzle extends Thread {
 				}
 			}
 		});
-
+		if (!biyectivo) botonAnterior.setEnabled(false);
+		final boolean b = biyectivo;
 		botonSiguiente = new Button(compIzq, SWT.PUSH);
 		botonSiguiente.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		botonSiguiente.setText("Siguiente ->");
@@ -189,7 +201,7 @@ public abstract class Puzzle extends Thread {
 					if (accion_actual==agent.getActions().size())
 						botonSiguiente.setEnabled(false);
 					// Desbloquear botón anterior si no está en el principio
-					if (accion_actual!=0)
+					if (accion_actual!=0 && !b)
 						botonAnterior.setEnabled(true);
 					actualizarTablero();
 				}
@@ -248,13 +260,12 @@ public abstract class Puzzle extends Thread {
 	 * @param nombre
 	 * @return
 	 */
-	protected Composite addTab(String nombre) {
+	protected Composite addTabResolutor(String nombre) {
 		final Composite cTab = new Composite(tabFolder, SWT.NONE);
 		final TabItem tabItem = new TabItem(tabFolder, SWT.NONE);
 		tabItem.setText(nombre);
 		tabItem.setControl(cTab);
 		cTab.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-
 		return cTab;
 	}
 
@@ -286,11 +297,18 @@ public abstract class Puzzle extends Thread {
 		tabIntro.setControl(cReglas);
 		cReglas.setLayout(new GridLayout());
 		final Label textoIntro = new Label(cReglas, SWT.WRAP);
-		textoIntro.setText(reglas + "\n\nSelecciona una pestaña para elegir un método de resolución y " +
+		String s = reglas + "\n\nSelecciona una pestaña para elegir un método de resolución y " +
 				"pulsa el botón resolver.\n" +
-				"Si quieres ver cómo funciona la solución pulsa los botones siguiente y anterior.\n" +
-		"Si quieres volver a empezar, pulsa el botón reiniciar.\n");
+				"Si quieres ver cómo funciona la solución pulsa ";
+		if (biyectivo) s+= "los botones siguiente y anterior.\n";
+		else s+= "el botón siguiente.";		
+		s+= "Si quieres volver a empezar, pulsa el botón reiniciar.\n";
+		textoIntro.setText(s);
 		textoIntro.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		//final Label textoSeleccion = new Label(cReglas, SWT.WRAP);
+		//textoSeleccion.setText("Elige un método de resolución para continuar:");
+		//final Combo combo = new Combo(cReglas, SWT.NONE);
+		//combo.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true));
 		return cReglas;
 	}
 
@@ -303,6 +321,7 @@ public abstract class Puzzle extends Thread {
 			salida += "No se ha encontrado solución.\n";
 		else {
 			// TODO Quitarle el punto al número de pasos
+			solucionEncontrada = true;
 			salida += "¡Solución encontrada en "+ agent.getInstrumentation().getProperty("pathCost") +" pasos! Pasos de la solución:\n\n";
 			// Mostrar acciones por consola
 			for (int i = 0; i < agent.getActions().size(); i++) {
@@ -323,7 +342,7 @@ public abstract class Puzzle extends Thread {
 		final Object o = estadoInicial;
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
-		Composite cTabDSL = addTab("DLS");
+		Composite cTabDSL = addTabResolutor("DLS");
 		cTabDSL.setLayout(new GridLayout(2,false));
 
 		final Label labelIntro = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
@@ -333,7 +352,7 @@ public abstract class Puzzle extends Thread {
 				"búsqueda no informada que expande el árbol en profundidad hasta llegar a " +
 				"un límite para evitar ciclos.\n" +
 				"No es completa si la profundidad es menor que el diámetro de la solución y " +
-		"no puede garantizarse que la primera solución encontrada sea la mejor.");
+				"no puede garantizarse que la primera solución encontrada sea la mejor.");
 
 		final Label labelConfig = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
 		labelConfig.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, true, 1, 1));
@@ -405,7 +424,7 @@ public abstract class Puzzle extends Thread {
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
 		// Tab Bidireccional
-		Composite cTabDSL = addTab("IDS");
+		Composite cTabDSL = addTabResolutor("IDS");
 		cTabDSL.setLayout(new GridLayout(2,false));
 
 		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
@@ -458,7 +477,7 @@ public abstract class Puzzle extends Thread {
 		final Object o = estadoInicial;
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
-		Composite cTabDSL = addTab("BFS");
+		Composite cTabDSL = addTabResolutor("BFS");
 		cTabDSL.setLayout(new GridLayout(2,false));
 
 		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
@@ -510,7 +529,7 @@ public abstract class Puzzle extends Thread {
 		final Object o = estadoInicial;
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
-		Composite cTabDSL = addTab("DFS");
+		Composite cTabDSL = addTabResolutor("DFS");
 		cTabDSL.setLayout(new GridLayout(2,false));
 
 		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
@@ -567,7 +586,7 @@ public abstract class Puzzle extends Thread {
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
 		
-		Composite cAStar = addTab("A*");
+		Composite cAStar = addTabResolutor("A*");
 		cAStar.setLayout(new GridLayout(1,false));
 		
 		final Button botonResolverAStar = new Button(cAStar, SWT.PUSH);

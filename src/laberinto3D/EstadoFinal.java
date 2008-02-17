@@ -8,16 +8,16 @@ import aima.search.framework.GoalTest;
  */
 
 public class EstadoFinal implements GoalTest {
-	int t = 4;
+	int t = 3;
 	// Mapas que representan estados finales
-	Mapa goal0 = new Mapa(0,0,0,t);
-	Mapa goal1 = new Mapa(0,0,t,t);
-	Mapa goal2 = new Mapa(0,t,0,t);
-	Mapa goal3 = new Mapa(0,t,t,t);
-	Mapa goal4 = new Mapa(t,0,0,t);
-	Mapa goal5 = new Mapa(t,0,t,t);
-	Mapa goal6 = new Mapa(t,t,0,t);
-	Mapa goal7 = new Mapa(t,t,t,t);
+	Mapa goal0 = new Mapa(0,  0,  0,  t);
+	Mapa goal1 = new Mapa(0,  0,  t-1,t);
+	Mapa goal2 = new Mapa(0,  t-1,0,  t);
+	Mapa goal3 = new Mapa(0,  t-1,t-1,t);
+	Mapa goal4 = new Mapa(t-1,0,  0,  t);
+	Mapa goal5 = new Mapa(t-1,0,  t-1,t);
+	Mapa goal6 = new Mapa(t-1,t-1,0,  t);
+	Mapa goal7 = new Mapa(t-1,t-1,t-1,t);
 	
 	/**
 	 * Comprueba si el jugador a llegado una la salida

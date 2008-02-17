@@ -21,7 +21,7 @@ public class Misioneros extends main.Puzzle {
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Misioneros(Display display) {
-		super (display, "Misioneros",300,300);
+		super (display, "Misioneros",300,300, true);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo = new Image(display, Misioneros.class.getResourceAsStream("rio.png"));

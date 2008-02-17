@@ -24,7 +24,7 @@ public class Garrafas extends main.Puzzle{
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Garrafas(Display display) {
-		super (display, "Garrafas",300,300);
+		super (display, "Garrafas",300,300, true);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo  = new Image(display, Garrafas.class.getResourceAsStream("fondo.png"));

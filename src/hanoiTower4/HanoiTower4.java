@@ -27,7 +27,7 @@ public class HanoiTower4 extends main.Puzzle{
 	 */
 	public HanoiTower4(Display display) {
 
-		super(display,"HanoiTower",300,200);
+		super(display,"HanoiTower",300,200, false);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		
