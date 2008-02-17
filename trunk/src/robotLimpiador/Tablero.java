@@ -40,9 +40,9 @@ public class Tablero {
 	
 	// W S E N 
 	public static int[][] puertas = { 
-		{ 0010 , 1110 , 1100 },
-		{ 0010 , 1101 , 1101 },
-		{ 0010 , 1011 , 1001 },
+		{ 10 , 1110 , 1100 },
+		{ 10 , 1111 , 1101 },
+		{ 10 , 1011 , 1001 },
 	};
 	
 	/**
@@ -122,7 +122,7 @@ public class Tablero {
 	}
 	
 	/**
-	 * Coloca el tablero en configuración inicial
+	 * Coloca el tablero en configuraciï¿½n inicial
 	 */
 	public void reset() {
 		Tablero Tab = new Tablero();
@@ -138,15 +138,15 @@ public class Tablero {
 	 */
 	public void mover(String mov){
 
-		if( mov.equals(Clean)) setRoomClean();
+		if( mov.equals(Clean) ) setRoomClean();
 		
-		if( mov.equals(MoveN)) goNorth();
+		if( mov.equals(MoveN) ) goNorth();
 		
-		if( mov.equals(MoveW)) goWest();
+		if( mov.equals(MoveW) ) goWest();
 		
-		if( mov.equals(MoveS)) goSouth();
+		if( mov.equals(MoveS) ) goSouth();
 		
-		if( mov.equals(MoveE)) goEast();
+		if( mov.equals(MoveE) ) goEast();
 	}
 	
 	/**
@@ -162,7 +162,7 @@ public class Tablero {
 	 */
 	void goNorth()
 	{
-		y++;
+		y--;
 	}
 	
 	/**
@@ -191,23 +191,23 @@ public class Tablero {
 	
 	/**
 	 * Determina si el robot puede mover o limpar
-	 * @param where hacia dónde queremos moverlo
+	 * @param where hacia dï¿½nde queremos moverlo
 	 * @return si se puede mover o no
 	 */
 	public boolean canMove(String where) {
 		
 		int i =0;
 		
-		for(; i<operadores.length-1; i++){
-			if ( where.equals(operadores[i]) )
-				break;
+		while( ! where.equals(operadores[i]) ){
+				i++;
 		}
+	
 		if( i ==4 ){ // Case of Cleaning
 			if( getEstadoAt(x,y) == false )
 				return true;
 		}
 		else{ // Case of Moving
-			if( ( ((int)(getPuertasAt(x,y)/Math.pow(10,i))) & 1 ) == 1)
+			if( ( ( (int)(getPuertasAt(x,y)/Math.pow(10,i))) & 1 ) == 1)
 				return true;
 		}
 		
@@ -231,6 +231,9 @@ public class Tablero {
 				}
 			}
 		}
+		if(this.x!=aBoard.x & this.y!=aBoard.y)
+			return false;
+		
 		return true;
 	}
 }
