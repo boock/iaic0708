@@ -23,7 +23,7 @@ public class Viaje extends main.Puzzle{
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Viaje(Display display) {
-		super (display, "Viaje",425,245);
+		super (display, "Viaje",425,245, true);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo  = new Image(display, Viaje.class.getResourceAsStream("fondo.PNG"));

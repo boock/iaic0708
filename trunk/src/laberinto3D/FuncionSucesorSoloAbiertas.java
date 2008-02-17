@@ -11,7 +11,7 @@ import aima.search.framework.SuccessorFunction;
  * @author Daniel Dionne
  */
 
-public class FuncionSucesor implements SuccessorFunction {
+public class FuncionSucesorSoloAbiertas implements SuccessorFunction {
 
 	/**
 	 * Comprueba que el sucesor existe y lo añade a la lista de sucesores
@@ -23,7 +23,8 @@ public class FuncionSucesor implements SuccessorFunction {
 		
 		for(int i=0;i<Mapa.operadores.length;i++)
 		{
-			if (mapa.movimientoPosible(Mapa.operadores[i])) {
+			
+			if (mapa.movimientoPosiblePuertasAbiertas(Mapa.operadores[i])) {
 				Mapa newMapa = copyOf(mapa);
 				newMapa.mover(Mapa.operadores[i]);
 				successors.add(new Successor(Mapa.operadores[i], newMapa));
@@ -34,7 +35,7 @@ public class FuncionSucesor implements SuccessorFunction {
 	}
 
 	private Mapa copyOf(Mapa mapa) {
-		Mapa newMapa = new Mapa(mapa.ejeX, mapa.ejeY, mapa.ejeZ, mapa.getXpos(), mapa.getYpos(), mapa.getZpos(), mapa.tamano);
+		Mapa newMapa = new Mapa(mapa.ejeX, mapa.ejeY, mapa.ejeZ, mapa.x_pos, mapa.y_pos, mapa.z_pos, mapa.tamano);
 		return newMapa;
 	}
 

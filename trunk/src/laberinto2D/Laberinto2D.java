@@ -33,7 +33,7 @@ public class Laberinto2D extends main.Puzzle{
 	public Laberinto2D(Display display) {
 	
 		
-		super(display,"Laberinto-2D", 400, 400);
+		super(display,"Laberinto-2D", 400, 400, true);
 		Lab_0		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_0.png"));
 		Lab_1_E		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_1_E.png"));
 		Lab_1_N		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_1_N.png"));

@@ -4,9 +4,15 @@ package main;
 import granjero.Granjero;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Combo;
@@ -26,9 +32,31 @@ import viaje.Viaje;
 
 public class Main {
 	public Main(){
-		final Display display = new Display ();
+		final Display display = new Display();
 		final Shell shell = new Shell(display);
-		shell.setLayout(new FillLayout());
+		shell.setLayout(new GridLayout(1,false));
+		
+		final Canvas canvas = new Canvas(shell, SWT.NONE);
+		final Image intro = new Image(display, Main.class.getResourceAsStream("intro.png"));
+		final Button bEmpezar = new Button(shell, SWT.PUSH);
+		
+		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+		canvas.addPaintListener(new PaintListener(){
+			public void paintControl(PaintEvent e) {
+				e.gc.drawImage(intro, 0, 0);
+			}
+		});
+		bEmpezar.setText("Empezar");
+		bEmpezar.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
+		bEmpezar.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			public void widgetSelected(SelectionEvent arg0) {
+				shell.close();
+				Laberinto3D lab = new Laberinto3D(display);
+			}
+			
+		});
+		//TODO quitar esto
 		final Combo combo = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
 		combo.add("Puzzle8");
 		combo.add("Misioneros");
@@ -82,10 +110,9 @@ public class Main {
 					break;
 				}
 			}
-			
 		});
 		
-		shell.pack();
+		shell.setSize(500,400);
 		// Centrar ventana
 		shell.setLocation(shell.getDisplay().getClientArea().width/2 - shell.getSize().x/2, shell.getDisplay().getClientArea().height/2 - shell.getSize().y/2);
 		shell.open();		
@@ -96,8 +123,6 @@ public class Main {
 				shell.getDisplay().sleep();
 			}
 		}
-
-
 	}
 	
 	public static void main (String[] args) {

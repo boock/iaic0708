@@ -7,7 +7,7 @@ import org.eclipse.swt.widgets.Display;
 public class NegrasBlancas extends main.Puzzle{
 
 	public NegrasBlancas(Display display, String nombrePuzzle, int ancho, int alto) {
-		super(display, nombrePuzzle, ancho, alto);
+		super(display, nombrePuzzle, ancho, alto, true);
 		// TODO Auto-generated constructor stub
 	}
 
