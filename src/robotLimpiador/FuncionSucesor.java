@@ -36,8 +36,7 @@ public class FuncionSucesor implements SuccessorFunction {
 	}
 
 	private Tablero copyOf(Tablero board) {	// Hace un copy de un estado
-		Tablero newBoard = new Tablero();
-		newBoard.setBoard(board.getBoard(),board.x,board.y);
+		Tablero newBoard = new Tablero(board);
 		return newBoard;
 	}
 
