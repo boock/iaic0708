@@ -1,5 +1,9 @@
 package viaje;
 
+import viaje.EstadoFinal;
+import viaje.FuncionSucesor;
+import viaje.HeuristicaViaje;
+
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
@@ -7,6 +11,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
+
+import aima.search.framework.HeuristicFunction;
 
 
 
@@ -52,7 +58,8 @@ public class Viaje extends main.Puzzle{
 		addTabBFS(situacion, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(situacion, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(situacion, 7, new FuncionSucesor(), new EstadoFinal());
-		
+		HeuristicFunction h[] = {new HeuristicaViaje()};
+		addTabAStar(situacion, new FuncionSucesor(), new EstadoFinal(), h);
 
 		
 		// Dibujar puzzle
