@@ -41,6 +41,7 @@ import hanoiTower3.HanoiTower3;
 import hanoiTower4.HanoiTower4;
 import ticTacToe.TicTacToe;
 import viaje.Viaje;
+import pollitos.Pollitos;
 
 /**
  * @param <Mapa>************************************************************************************************/
@@ -392,7 +393,7 @@ public class Laberinto3D{
 	}
 	
 	private boolean ejecutarPuzzle(){
-		int r = rnd.nextInt(9);
+		int r = rnd.nextInt(10);
 		Puzzle p;
 		switch (r) {
 			case 0:
@@ -408,7 +409,7 @@ public class Laberinto3D{
 				p = new Laberinto2D(display);
 				break;	
 			case 4:
-				p = new Granjero(display);
+				p = new Pollitos(display);
 				break;
 			case 5:
 				p = new Garrafas(display);
@@ -422,6 +423,8 @@ public class Laberinto3D{
 			case 8:
 				p = new Viaje(display);
 				break;
+			case 9:
+				p = new Granjero(display);
 			default:
 				p = new TicTacToe(display);		
 		}
