@@ -42,7 +42,7 @@ public class Huevera {
 	public Huevera() {
 		huevera = new int[][]{
 				{ 1 , 2 , 0 , 3 , 3 },
-				{ 2 , 1 , 3 ,03 , 2 }
+				{ 2 , 1 , 3 , 0 , 2 }
 		};
 	}
 	
