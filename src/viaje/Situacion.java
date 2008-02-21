@@ -76,7 +76,7 @@ public class Situacion {
 		else if (s.equals(IR_CA))   { situacion = "CADIZ"; }
 		else if (s.equals(IR_CO))   { situacion = "CORDOBA"; }
 		else if (s.equals(IR_GR))   { situacion = "GRANADA"; }
-		if      (s.equals(IR_HU)) 	{ situacion = "HUELVA"; }
+		else if (s.equals(IR_HU)) 	{ situacion = "HUELVA"; }
 		else if (s.equals(IR_JA)) 	{ situacion = "JAEN"; }
 		else if (s.equals(IR_MA))  	{ situacion = "MALAGA"; }
 		else if (s.equals(IR_SE))  	{ situacion = "SEVILLA"; }		
