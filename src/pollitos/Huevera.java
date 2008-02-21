@@ -41,8 +41,8 @@ public class Huevera {
 	 */
 	public Huevera() {
 		huevera = new int[][]{
-				{ 1 , 2 , 3 , 0 , 3 },
-				{ 2 , 1 , 0 , 3 , 2 }
+				{ 1 , 2 , 0 , 3 , 3 },
+				{ 2 , 1 , 3 ,03 , 2 }
 		};
 	}
 	
@@ -135,8 +135,11 @@ public class Huevera {
 			return false;
 		}
 		Huevera aHuevera = (Huevera) o;
-
-		if (huevera	!= aHuevera.getHuevera())	return false;  
+		
+		for(int i=0;i<=1;i++)
+			for(int j=0;j<=4;j++)
+				if(huevera[i][j]!=aHuevera.getHuevera()[i][j])
+					return false;
 				
 		return true;
 	}
