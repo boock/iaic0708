@@ -27,6 +27,7 @@ import hanoiTower3.HanoiTower3;
 import hanoiTower4.HanoiTower4;
 import ticTacToe.TicTacToe;
 import viaje.Viaje;
+import pollitos.Pollitos;
 
 /**************************************************************************************************/
 
@@ -69,6 +70,7 @@ public class Main {
 		combo.add("El viaje");
 		combo.add("Laberinto 3D");
 		combo.add("Tic Tac Toe");
+		combo.add("Los Pollitos");
 		
 		combo.addSelectionListener(new SelectionListener() {
 
@@ -107,6 +109,9 @@ public class Main {
 					break;
 				case 10:
 					new TicTacToe(display);
+					break;
+				case 11:
+					new Pollitos(display);
 					break;
 				}
 			}
