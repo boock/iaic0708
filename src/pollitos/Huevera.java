@@ -41,8 +41,8 @@ public class Huevera {
 	 */
 	public Huevera() {
 		huevera = new int[][]{
-				{ 1 , 2 , 0 , 3 , 3 },
-				{ 2 , 1 , 3 , 0 , 2 }
+				{ 0 , 0 , 0 , 0 , 0 },
+				{ 0 , 0 , 0 , 0 , 0 }
 		};
 	}
 	
@@ -63,7 +63,10 @@ public class Huevera {
 	 * @param h Huevera a copiar
 	 */
 	public Huevera(int[][] h){
-		huevera = h;
+		huevera = new int[2][5];
+		for(int i=0;i<=1;i++)
+			for(int j=0;j<=4;j++)
+				huevera[i][j] = h[i][j];
 	}
 	
 	/**
