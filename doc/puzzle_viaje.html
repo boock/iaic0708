@@ -35,50 +35,49 @@
 </div>
 <div id="content">
 <div id="mainpage">
-<h2>Las garrafas</h2>
+<h2>Titulo puzzle</h2>
 <span class="subhead">Descripci&oacute;n</span>
-    <p> Para el problema de representación de las garrafas, cuyo enunciado es el siguiente: Tenemos 2 garrafas vacías con capacidades de 4l y 3l respectivamente. El objetivo es que la garrafa de 4l acabe conteniendo la mitad (2l). Para ello se pueden llenar las garrafas desde un grifo, trasvasar líquido de una garrafa a la otra y vaciar su contenido en el suelo.</p>
+    <p> Para el problema de representación del viaje, tenemos el siguiente enunciado: Nos encontramos en una ciudad andaluza (por ejemplo, Sevilla) y queremos viajar hasta otra de esa misma comunidad (en este caso, Almería). Para ello sólo podemos viajar de una capital de provincia a otra siempre que sean vecinas, es decir, que sus fronteras sean colindantes.</p>
 
 <span class="subhead">Representaci&oacute;n</span>
-    <p> A partir de este enunciado hemos tomado como estado la cantidad de líquido que contienen las garrafas en cada momento, y hemos representado el estado como (x,y), con x el nº de litros que contiene la garrafa grande e y el nº de litros que contiene la garrafa pequeña. </p>
-    <ul>
-    <li> Estado inicial:	(0,0), las dos garrafas están vacías.</li>
-    <li> Estado objetivo:	(2,y), en la garrafa de 4l hay exactamente 2. </li>
-    </ul>
-    
-    <p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+    <p> A partir de este enunciado hemos tomado como estado el lugar de Andalucía en el que nos encontramos en cada momento.</p>
 	<ul>
-    <li> ll_g4   	"Llenar la jarra de 4 l con la bomba."</li> 
-	<li> ll_g3   	"Llenar la jarra de 3 l con la bomba."</li>
-	<li> v_g4   	"Vaciar la jarra de 4 l en el suelo."</li>
-	<li> v_g3   	"Vaciar la jarra de 3 l en el suelo."</li>
-	<li> g4_con_g3  "Llenar la jarra de 4 l con la jarra de 3 l."</li>
-	<li> g3_con_g4  "Llenar la jarra de 3 l con la jarra de 4 l."</li>
-	<li> g3_en_g4  	"Vaciar la jarra de 3 l en la jarra de 4 l."</li>
-	<li> g4_en_g3   "Vaciar la jarra de 4 l en la jarra de 3 l."</li>
-    </ul>
-    
-    <p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
-    <ul>
-    <li> Ejemplo: ll_g3, sólo se puede aplicar si y < 3.</li>
-    </ul>
-    
-     
+	<li> Estado inicial: Sevilla, ciudad de partida del viaje.</li>
+	<li> Estado objetivo: Almería, ciudad a la que se pretende llegar.</li>
+	</ul>
+	
+	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<ul>
+	<li> IR_AL 	 "Ir a Almería."</li>
+	<li> IR_CA 	 "Ir a Cádiz."</li>
+	<li> IR_CO 	 "Ir a Córdoba."</li>
+	<li> IR_GR 	 "Ir a Granada."</li>
+	<li> IR_HU 	 "Ir a Huelva."</li>
+	<li> IR_JA 	 "Ir a Jaen."</li>
+	<li> IR_MA 	 "Ir a Málaga."</li>
+	<li> IR_SE 	 "Ir a Sevilla."</li>
+	</ul>
+	
+	<p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
+	<ul>
+	<li> Ejemplo:  IR_AL, este operador sólo se podrá utilizar cuando nos 	encontremos en provincias colindantes con Almería, en este caso,  en 	Granada o en Jaén.</li>
+	</ul>
+	
 <span class="subhead">Estrategias</span>
-    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado únicamente estrategias no informadas:</p>
+    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado estrategias no informadas:</p>
     <ul>
     <li> Búsqueda con Profundización Iterativa (IDS)</li>
     	<ul>
-    	<li> Tiempo de ejecución: Aprox. 170 ms.</li>
-		<li> Número de nodos expandidos: 523</li>
-		<li> Solución: En 6 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4)</li>
-    	</ul>
+    	<li> Tiempo de ejecución: Aprox. 13 ms.</li>
+		<li> Número de nodos expandidos: 20</li>
+		<li> Solución: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
+		</ul>    	
 	<li> Búsqueda Primero en Anchura (BFS)</li>
 		<ul>
-		<li> Tiempo de ejecución: Aprox. 60 ms.</li>
-		<li> Número de nodos expandidos: 1216</li>
-		<li> Solución: En 6 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4)</li>
-		</ul>
+		<li> Tiempo de ejecución: Aprox. 40 ms.</li>
+		<li> Número de nodos expandidos: 28</li>	
+		<li> Solución: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
+		</ul>		
 	<li> Búsqueda Primero en Profundidad (DFS)</li>
 		<ul>
 		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
@@ -86,13 +85,20 @@
 	<li> Búsqueda con límite de Profundidad (DLS)</li>
 		<ul>
 		<li> El límite en profundidad utilizado es 7.</li>
-		<li> Tiempo de ejecución: Aprox. 80 ms.
-		<li> Número de nodos expandidos: 426
-		<li> Solución: En 7 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4, v_g3)
+		<li> Tiempo de ejecución: Aprox. 30 ms.</li>
+		<li> Número de nodos expandidos: 21</li>
+		<li> Solución: En 7 pasos(IR_CA, IR_HU, IR_CA, IR_MA, IR_CO, IR_GR, IR_AL)</li>
 		</ul>
 	</ul>
+    
+    <p> Además de una heurística, basada en la distancia de Manhattan, que asocia a cada estado el nº mínimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado HeurísticaViaje.</p>
+    <ul>
+    <li> Tiempo de ejecución: Aprox. 60 ms.</li>
+	<li> Número de nodos expandidos: 6</li>
+	<li> Solución: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
+	</ul>
 	
-	<p> Por lo que se puede apreciar en este problema en concreto es que para todas las estrategias utilizadas, excepto DFS, el resultado es parecido, todas se resuelven en torno a los 100 ms y el número de pasos es muy similar, lo único que es más apreciable es que en Primero en Anchura se expanden el doble de nodos que en las demás, algo que está asociado a la forma de proceder de esta estrategia.</p>
+	<p> Para este problema podemos observar que a pesar de que es bastante sencillo, la heurística hace que el número de nodos expandidos se mínimo por lo que es eficiente. Además podemos ver, que la búsqueda con límite en profundidad no es óptima ya que pasamos por estados que son intrascendentes para la solución, pasando de 3 pasos que nos ofrecen el resto de estrategias a 7.</p>    
 
 </div>
 

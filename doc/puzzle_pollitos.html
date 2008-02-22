@@ -35,64 +35,62 @@
 </div>
 <div id="content">
 <div id="mainpage">
-<h2>Las garrafas</h2>
+<h2>Los pollitos</h2>
 <span class="subhead">Descripci&oacute;n</span>
-    <p> Para el problema de representación de las garrafas, cuyo enunciado es el siguiente: Tenemos 2 garrafas vacías con capacidades de 4l y 3l respectivamente. El objetivo es que la garrafa de 4l acabe conteniendo la mitad (2l). Para ello se pueden llenar las garrafas desde un grifo, trasvasar líquido de una garrafa a la otra y vaciar su contenido en el suelo.</p>
+    <p> Para el problema de representación de los pollitos, se plantea lo siguiente: Nos encontramos con una huevera que contiene 10 huevos. En un primer momento, todos los huevos son blancos, pero cada vez que se selecciona uno cambiará a azul, de azul a rojo y de rojo, finalmente, a pollito. Cada vez que se selecciona un huevo además de cambiar el estado del mismo, cambian el de sus vecinos. Por último, hacer patente que si se selecciona un pollito, volverá a ser un huevo blanco.</p>
 
 <span class="subhead">Representaci&oacute;n</span>
-    <p> A partir de este enunciado hemos tomado como estado la cantidad de líquido que contienen las garrafas en cada momento, y hemos representado el estado como (x,y), con x el nº de litros que contiene la garrafa grande e y el nº de litros que contiene la garrafa pequeña. </p>
-    <ul>
-    <li> Estado inicial:	(0,0), las dos garrafas están vacías.</li>
-    <li> Estado objetivo:	(2,y), en la garrafa de 4l hay exactamente 2. </li>
-    </ul>
-    
-    <p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+    <p> A partir de este enunciado hemos tomado como estado la fase de gestación en la que se encuentran los 10 huevos que componen la huevera.</p>
 	<ul>
-    <li> ll_g4   	"Llenar la jarra de 4 l con la bomba."</li> 
-	<li> ll_g3   	"Llenar la jarra de 3 l con la bomba."</li>
-	<li> v_g4   	"Vaciar la jarra de 4 l en el suelo."</li>
-	<li> v_g3   	"Vaciar la jarra de 3 l en el suelo."</li>
-	<li> g4_con_g3  "Llenar la jarra de 4 l con la jarra de 3 l."</li>
-	<li> g3_con_g4  "Llenar la jarra de 3 l con la jarra de 4 l."</li>
-	<li> g3_en_g4  	"Vaciar la jarra de 3 l en la jarra de 4 l."</li>
-	<li> g4_en_g3   "Vaciar la jarra de 4 l en la jarra de 3 l."</li>
-    </ul>
-    
-    <p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
-    <ul>
-    <li> Ejemplo: ll_g3, sólo se puede aplicar si y < 3.</li>
-    </ul>
-    
-     
+	<li> Estado inicial: Todos los huevos son blancos.</li>
+	<li> Estado objetivo: En todos los huevos hay un pollito.</li>
+	</ul>
+	
+	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<ul>
+	<li> SEL_00 	 "Selecciona el huevo (0,0)"</li>
+	<li> SEL_01 	 "Selecciona el huevo (0,1)"</li>
+	<li> SEL_02 	 "Selecciona el huevo (0,2)"</li>
+	<li> SEL_03 	 "Selecciona el huevo (0,3)"</li>
+	<li> SEL_04 	 "Selecciona el huevo (0,4)"</li>
+	<li> SEL_10 	 "Selecciona el huevo (1,0)"</li>
+	<li> SEL_11 	 "Selecciona el huevo (1,1)"</li>	
+	<li> SEL_12 	 "Selecciona el huevo (1,2)"</li>
+	<li> SEL_13 	 "Selecciona el huevo (1,3)"</li>
+	<li> SEL_14 	 "Selecciona el huevo (1,4)"</li>
+	</ul>
+	
+	<p> Para este problema se pueden aplicar todos y cada uno de los operadores independientemente del estado en el que nos encontremos, estos operadores carecen de precondición.</p>
+	
 <span class="subhead">Estrategias</span>
-    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado únicamente estrategias no informadas:</p>
+    <p>Las estrategias no informadas que hemos incluido, son:</p>
     <ul>
     <li> Búsqueda con Profundización Iterativa (IDS)</li>
     	<ul>
-    	<li> Tiempo de ejecución: Aprox. 170 ms.</li>
-		<li> Número de nodos expandidos: 523</li>
-		<li> Solución: En 6 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4)</li>
-    	</ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>    
 	<li> Búsqueda Primero en Anchura (BFS)</li>
 		<ul>
-		<li> Tiempo de ejecución: Aprox. 60 ms.</li>
-		<li> Número de nodos expandidos: 1216</li>
-		<li> Solución: En 6 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4)</li>
-		</ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>		
 	<li> Búsqueda Primero en Profundidad (DFS)</li>
 		<ul>
 		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
 		</ul>
 	<li> Búsqueda con límite de Profundidad (DLS)</li>
 		<ul>
-		<li> El límite en profundidad utilizado es 7.</li>
-		<li> Tiempo de ejecución: Aprox. 80 ms.
-		<li> Número de nodos expandidos: 426
-		<li> Solución: En 7 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4, v_g3)
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
 		</ul>
+    </ul>
+    
+    <p> Además de una heurística, que consiste en la suma total de los pasos que les quedan para llegar a ser pollito a todos los huevos que componen la huevera, a estas estrategia la hemos denominando HeurísticaPollitos.</p>
+    <ul>
+    <li> Tiempo de ejecución: Aprox. 521 ms.</li>
+	<li> Número de nodos expandidos: 3547</li>
+	<li> Solución: En 13 pasos(SEL_01, SEL_01, SEL_01, SEL_14, SEL_04, SEL_04, SEL_12, 	SEL_12, SEL_02, SEL_01, SEL_00, SEL_00, SEL_10)</li>
 	</ul>
 	
-	<p> Por lo que se puede apreciar en este problema en concreto es que para todas las estrategias utilizadas, excepto DFS, el resultado es parecido, todas se resuelven en torno a los 100 ms y el número de pasos es muy similar, lo único que es más apreciable es que en Primero en Anchura se expanden el doble de nodos que en las demás, algo que está asociado a la forma de proceder de esta estrategia.</p>
+	<p> En este problema nos encontramos que las estrategias no informadas, no nos ayudan para la resolución del problema. Esto se debe a que ninguno de los operadores tiene precondición, por lo que todos ellos se pueden aplicar a cualquier estado, esto hace que el árbol sea enorme, y se acabe incurriendo en ciclos. Gracias a la heurística que hemos implementado, conseguimos que el problema se solucione en un número de pasos bastante aceptable.</p>    
 
 </div>
 
