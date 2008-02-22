@@ -45,10 +45,10 @@ h1, h2, h3, h4, h5 {color:#669900; font-weight:bold;font-family: Arial, Helvetic
 .postlist a:hover { background: url(images/bullet2.jpg) no-repeat 3px #FFFEE6; color:#000000; text-decoration:none;}
 #content #mainpage ol {margin:10px 10px 10px 25px;}
 #content #mainpage ol li {padding:5px 5px 5px 20px;}
-#content #mainpage ul li {display:block; padding:0px; border-bottom: dashed 1px #D6E4A7;}
+#content #mainpage ul li {display:block; margin:10px 30px; padding:0px; border-bottom: dashed 1px #D6E4A7;}
 
 /*Tables*/
-table { width:98%; border:solid 3px #CCCCCC; background:#efefef;}
+#gray table { width:98%; border:solid 3px #CCCCCC; background:#efefef;}
 th {background: #FFFFCC; padding:3px; border-bottom:dashed 1px #CCCCCC; text-align:left;}
 td {padding:3px;}
 /*forms*/
