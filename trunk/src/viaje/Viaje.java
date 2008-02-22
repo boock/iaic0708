@@ -22,7 +22,7 @@ public class Viaje extends main.Puzzle{
 	
 	final Situacion situacion ;
 	private final Canvas canvas;
-	private final Image fondo,canibal;
+	private final Image fondo,coche;
 	
 	
 	/**
@@ -33,7 +33,7 @@ public class Viaje extends main.Puzzle{
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo  = new Image(display, Viaje.class.getResourceAsStream("fondo.PNG"));
-		canibal  = new Image(display, Viaje.class.getResourceAsStream("canibal.png"));
+		coche  = new Image(display, Viaje.class.getResourceAsStream("coche.PNG"));
 		
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
@@ -61,32 +61,32 @@ public class Viaje extends main.Puzzle{
 		HeuristicFunction h[] = {new HeuristicaViaje()};
 		addTabAStar(situacion, new FuncionSucesor(), new EstadoFinal(), h);
 
-		
 		// Dibujar puzzle
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
 				
-								
+				if(accion_actual==0)
+					gc.drawImage(coche,85,95);				
 				// Dibujar la acción actual
 				if (agent!=null && accion_actual>0 && accion_actual<=agent.getActions().size()) {
 					String accion = (String) agent.getActions().get(accion_actual-1);
 					if (accion.equals(Situacion.IR_AL)) 
-						gc.drawImage(canibal,360,145);
+						gc.drawImage(coche,360,145);
 					else if (accion.equals(Situacion.IR_CA)) 
-						gc.drawImage(canibal,85,175);
+						gc.drawImage(coche,85,175);
 					else if (accion.equals(Situacion.IR_CO)) 
-						gc.drawImage(canibal,175,55);
+						gc.drawImage(coche,175,55);
 					else if (accion.equals(Situacion.IR_GR)) 
-						gc.drawImage(canibal,255,100);
+						gc.drawImage(coche,255,100);
 					else if (accion.equals(Situacion.IR_HU)) 
-						gc.drawImage(canibal,30,115);
+						gc.drawImage(coche,30,115);
 					else if (accion.equals(Situacion.IR_JA)) 
-						gc.drawImage(canibal,240,60);
+						gc.drawImage(coche,240,60);
 					else if (accion.equals(Situacion.IR_MA)) 
-						gc.drawImage(canibal,210,160);
+						gc.drawImage(coche,210,160);
 					else if (accion.equals(Situacion.IR_SE)) 
-						gc.drawImage(canibal,85,90);
+						gc.drawImage(coche,85,95);
 					
 				}
 					
