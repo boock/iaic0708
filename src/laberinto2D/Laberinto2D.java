@@ -80,7 +80,7 @@ public class Laberinto2D extends main.Puzzle{
 			labels[i].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		}
 
-		addTabIntro("El objetivo es de salir del laberinto en un mimio de pasos");
+		addTabIntro("El objetivo es de salir del laberinto en un mínimo número de pasos");
 		
 		addTabIDS(map, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(map, new FuncionSucesor(), new EstadoFinal());
