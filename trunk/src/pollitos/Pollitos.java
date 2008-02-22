@@ -48,14 +48,16 @@ public class Pollitos extends main.Puzzle{
 		actualizarTablero();
 
 		// Tab Intro
-		addTabIntro("Nos encontramos con una huevera que contiene 10 huevos\n"+
-					"Cada vez que se selecciona un huevo ocurre lo siguiente:\n" +
+		addTabIntro(" Nos encontramos con una huevera que contiene 10 huevos.\n"+
+					" Cada vez que se selecciona un huevo ocurre lo siguiente:\n" +
 					"	1 - Si el huevo es blanco pasa a azul\n" +
 					"	2 - Si el huevo es azul pasa a rojo\n" +
 					"	3 - Si el huevo es rojo sale el pollito\n " +
 					"	NOTA: Además si se selecciona un pollito volverá a\n" +
-					"		  su estado original\n "+
-					"Tenemos que conseguir que de todos los huevos salga un pollito.");
+					"	su estado original\n "+
+					"Cuando cambia el estado de un huevo también cambia el de\n"+
+					" sus vecinos.\n"+
+					" Tenemos que conseguir que de todos los huevos salga un pollito.");
 
 		addTabIDS(huevera, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(huevera, new FuncionSucesor(), new EstadoFinal());
