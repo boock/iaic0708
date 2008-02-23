@@ -37,16 +37,16 @@
 <div id="mainpage">
 <h2>Puzzle-8</h2>
 <span class="subhead">Descripci&oacute;n</span>
-    <p> En el problema del Puzzle-8, nos plantean lo siguiente: Tenemos un tablero de 3x3 con con 8 fichas numeradas del 1 al 8. En un primer momento están descolocadas, hay que colocarlas de tal forma que el hueco quede en medio y se siga la secuencia 1-2-3-4-5-6-7-8 alrededor del perímetro del mismo.</p>
+    <p> En el problema del Puzzle-8, nos plantean lo siguiente: Tenemos un tablero de 3x3 con con 8 fichas numeradas del 1 al 8. En un primer momento estÃ¡n descolocadas, hay que colocarlas de tal forma que el hueco quede en medio y se siga la secuencia 1-2-3-4-5-6-7-8 alrededor del perÃ­metro del mismo.</p>
 
 <span class="subhead">Representaci&oacute;n</span>
-    <p> A partir de este enunciado hemos tomado como estado la colocación de las fichas en el tablero en cada instante.</p>
+    <p> A partir de este enunciado hemos tomado como estado la colocaciÃ³n de las fichas en el tablero en cada instante.</p>
     <ul>
     <li> Estado inicial: {6,0,3,5,7,1,2,8,4}, piezas descolocadas</li>
     <li> Estado objetivo: {1,2,3,4,0,5,6,7,8}, tablero colocado, con el hueco en medio</li>
     </ul>
     
-    <p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+    <p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basÃ¡ndonos en el enunciado:</p>
 	<ul>
     <li> LEFT  	"Izquierda."</li> 
 	<li> RIGHT  "Derecha."</li>
@@ -54,48 +54,48 @@
 	<li> DOWN   "Abajo."</li>
 	</ul>
     
-    <p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
+    <p> Cada uno de  estos operadores se podrÃ¡ aplicar a un estado siempre y cuando Ã©ste cumpla su precondiciÃ³n:</p>
     <ul>
-    <li> Ejemplo: "Derecha" , Sólo se podrá aplicar este operador si la ficha que se pretende mover no se encuentra en el borde derecho del tablero. </li> 
+    <li> Ejemplo: "Derecha" , SÃ³lo se podrÃ¡ aplicar este operador si la ficha que se pretende mover no se encuentra en el borde derecho del tablero. </li> 
     </ul> 
 
 
 <span class="subhead">Estrategias</span>
-    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado estrategias no informadas:</p>
+    <p> En cuanto a las estrategias utilizadas para este problema de representaciÃ³n, hemos utilizado estrategias no informadas:</p>
     <ul>
-    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    <li> BÃºsqueda con ProfundizaciÃ³n Iterativa (IDS)</li>
     	<ul>
-    	<li> Tiempo de ejecución: Aprox. 10 ms.</li>
-		<li> Número de nodos expandidos: 162</li>
-		<li> Solución: En 6 pasos(DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
+    	<li> Tiempo de ejecuciÃ³n: Aprox. 10 ms.</li>
+		<li> NÃºmero de nodos expandidos: 162</li>
+		<li> SoluciÃ³n: En 6 pasos(DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
 		</ul>    	
-	<li> Búsqueda Primero en Anchura (BFS)</li>
+	<li> BÃºsqueda Primero en Anchura (BFS)</li>
 		<ul>
-		<li> Tiempo de ejecución: Aprox. 10 ms.</li>
-		<li> Número de nodos expandidos: 293</li>	
-		<li> Solución: En 6 pasos(DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
+		<li> Tiempo de ejecuciÃ³n: Aprox. 10 ms.</li>
+		<li> NÃºmero de nodos expandidos: 293</li>	
+		<li> SoluciÃ³n: En 6 pasos(DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
 		</ul>		
-	<li> Búsqueda Primero en Profundidad (DFS)</li>
+	<li> BÃºsqueda Primero en Profundidad (DFS)</li>
 		<ul>
-		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		<li> No se llega a la soluciÃ³n, debido a que se queda infinitamente ciclando.</li>
 		</ul>
-	<li> Búsqueda con límite de Profundidad (DLS)</li>
+	<li> BÃºsqueda con lÃ­mite de Profundidad (DLS)</li>
 		<ul>
-		<li> El límite en profundidad utilizado es 7.</li>
-		<li> Tiempo de ejecución: Aprox. 20 ms.</li>
-		<li> Número de nodos expandidos: 151</li>
-		<li> Solución: En 14 pasos(...,DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
+		<li> El lÃ­mite en profundidad utilizado es 7.</li>
+		<li> Tiempo de ejecuciÃ³n: Aprox. 20 ms.</li>
+		<li> NÃºmero de nodos expandidos: 151</li>
+		<li> SoluciÃ³n: En 14 pasos(...,DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
 		</ul>
 	</ul>
     
-    <p> Además de una heurística, basada en la distancia de Manhattan, que asocia a cada estado el nº mínimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado FuncionHeuristicManhattan.</p>
+    <p> AdemÃ¡s de una heurÃ­stica, basada en la distancia de Manhattan, que asocia a cada estado el nÃºumero mÃ­nimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado FuncionHeuristicManhattan.</p>
     <ul>
-    <li> Tiempo de ejecución: Aprox. 10 ms.</li>
-	<li> Número de nodos expandidos: 7</li>
-	<li> Solución: En 6 pasos(DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
+    <li> Tiempo de ejecuciÃ³n: Aprox. 10 ms.</li>
+	<li> NÃºmero de nodos expandidos: 7</li>
+	<li> SoluciÃ³n: En 6 pasos(DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
 	</ul>
 	
-	<p> Para este problema podemos observar que a pesar de que es bastante sencillo, la heurística hace que el número de nodos expandidos sea mínimo por lo que es eficiente. Además podemos ver, que la búsqueda con límite en profundidad no es óptima ya que pasamos por estados que son intrascendentes para la solución, pasando de 6 pasos que nos ofrecen el resto de estrategias a 14.</p>    
+	<p> Para este problema podemos observar que a pesar de que es bastante sencillo, la heurÃ­stica hace que el nÃºmero de nodos expandidos sea mÃ­nimo por lo que es eficiente. AdemÃ¡s podemos ver, que la bÃºsqueda con lÃ­mite en profundidad no es Ã³ptima ya que pasamos por estados que son intrascendentes para la soluciÃ³n, pasando de 6 pasos que nos ofrecen el resto de estrategias a 14.</p>    
 
 
 </div>
