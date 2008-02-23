@@ -11,7 +11,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import aima.search.framework.HeuristicFunction;
-
 import main.Puzzle;
 
 public class RobotLimpiador extends Puzzle {
@@ -28,8 +27,7 @@ public class RobotLimpiador extends Puzzle {
 	 */
 	public RobotLimpiador(Display display) {
 	
-		
-		super(display,"Laberinto-2D", 300, 300, true);
+		super(display,"Robot Limpiador", "Robot", 300, 300, false);
 		Robot		= new Image(display, RobotLimpiador.class.getResourceAsStream("robot.png"));
 		Lab_L_S		= new Image(display, RobotLimpiador.class.getResourceAsStream("Lab_L_S.png"));
 		Lab_L_E		= new Image(display, RobotLimpiador.class.getResourceAsStream("Lab_L_E.png"));
@@ -84,6 +82,11 @@ public class RobotLimpiador extends Puzzle {
 		open();
 	}
 	
+	@Override
+	protected void cargar() {
+		
+	}
+
 	private void dibujarCasilla(int i, int j, GC gc) {
 		
 		boolean limpia = tab.getEstadoAt(i,j);
@@ -163,7 +166,6 @@ public class RobotLimpiador extends Puzzle {
 		return true;
 	
 	}
-
 	
 	protected void reiniciar() {
 		// Reinicia la mapa
