@@ -22,19 +22,18 @@ import org.eclipse.swt.widgets.TabFolder;
 
 
 /**
- * @author Ravi Mohan
+ * @author Jim Mainprice, Daniel Dionne
  * 
  */
-public class TicTacToe extends main.Puzzle{
+public class TresEnRaya extends main.Puzzle{
 
 	private final Label[] labels;
 	private Display disp;
 	private static TresEnRayaJuego t3;
 	
-	public TicTacToe(Display display) {
+	public TresEnRaya(Display display) {
 		
-		super("tictactoe",200,200);
-		
+		super("treseneraya",200,200);
 		disp = display;
 		shell = new Shell(display);
 		shell.setText("TicTacToe");
@@ -65,7 +64,6 @@ public class TicTacToe extends main.Puzzle{
 						botonSiguiente.setEnabled(false);
 					actualizarTablero();
 				}
-
 			}
 		});
 
@@ -96,7 +94,6 @@ public class TicTacToe extends main.Puzzle{
 		
 		addTabSolucion();
 		
-		
 		open();
 	}
 
@@ -110,7 +107,7 @@ public class TicTacToe extends main.Puzzle{
 
 			t4.makeAlphaBetaMove();
 			GameState presentState = t4.getState();
-			TicTacToeBoard board = t4.getBoard(presentState);
+			TresEnRayaTab board = t4.getBoard(presentState);
 			board.print();
 		}
 		System.out.println("ALPHA BETA DEMO done");
@@ -124,7 +121,7 @@ public class TicTacToe extends main.Puzzle{
 		tabFolder.setSelection(1);
 		
 		GameState presentState = t3.getState();
-		TicTacToeBoard board = t3.getBoard(presentState);
+		TresEnRayaTab board = t3.getBoard(presentState);
 		
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {

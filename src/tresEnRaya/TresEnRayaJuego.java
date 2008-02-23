@@ -20,14 +20,14 @@ public class TresEnRayaJuego extends Game {
 		initialState.put("moves", moves);
 		initialState.put("player", "X");
 		initialState.put("utility", new Integer(0));
-		initialState.put("board", new TicTacToeBoard());
+		initialState.put("board", new TresEnRayaTab());
 		initialState.put("level", new Integer(0));
 		presentState = initialState;
 	}
 
-	public TicTacToeBoard getBoard(GameState state) {
+	public TresEnRayaTab getBoard(GameState state) {
 
-		return (TicTacToeBoard) state.get("board");
+		return (TresEnRayaTab) state.get("board");
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class TresEnRayaJuego extends Game {
 			retVal = new GameState();
 
 			retVal.put("moves", newMoves);
-			TicTacToeBoard newBoard = getBoard(state).cloneBoard();
+			TresEnRayaTab newBoard = getBoard(state).cloneBoard();
 			if (getPlayerToMove(state) == "X") {
 				newBoard.markX(x, y);
 				retVal.put("player", "O");
@@ -104,12 +104,12 @@ public class TresEnRayaJuego extends Game {
 
 	@Override
 	public int computeUtility(GameState state) {
-		int utility = computeUtility((TicTacToeBoard) state.get("board"),
+		int utility = computeUtility((TresEnRayaTab) state.get("board"),
 				(getPlayerToMove(state)));
 		return utility;
 	}
 
-	private int computeUtility(TicTacToeBoard aBoard, String playerToMove) {
+	private int computeUtility(TresEnRayaTab aBoard, String playerToMove) {
 		int retVal = 0;
 		if (aBoard.lineThroughBoard()) {
 			if (playerToMove.equals("X")) {
@@ -124,7 +124,7 @@ public class TresEnRayaJuego extends Game {
 
 	@Override
 	public boolean terminalTest(GameState state) {
-		TicTacToeBoard board = (TicTacToeBoard) state.get("board");
+		TresEnRayaTab board = (TresEnRayaTab) state.get("board");
 		boolean line = board.lineThroughBoard();
 		boolean filled = board.getNumberOfMarkedPositions() == 9;
 		return (line || filled);
@@ -138,7 +138,7 @@ public class TresEnRayaJuego extends Game {
 			XYLocation moveLoc = (XYLocation) moves.get(i);
 			GameState newState = getMove(presentState,
 					moveLoc.getXCoOrdinate(), moveLoc.getYCoOrdinate());
-			TicTacToeBoard board = (TicTacToeBoard) newState.get("board");
+			TresEnRayaTab board = (TresEnRayaTab) newState.get("board");
 			System.out.println("utility = " + computeUtility(newState));
 			System.out.println("");
 		}

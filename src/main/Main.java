@@ -26,7 +26,7 @@ import laberinto3D.Laberinto3D;
 import garrafas.Garrafas;
 import hanoiTower3.HanoiTower3;
 import hanoiTower4.HanoiTower4;
-import tresEnRaya.TicTacToe;
+import tresEnRaya.TresEnRaya;
 import viaje.Viaje;
 import pollitos.Pollitos;
 
@@ -110,7 +110,7 @@ public class Main {
 						new Laberinto3D(display);
 						break;
 					case 10:
-						new TicTacToe(display);
+						new TresEnRaya(display);
 						break;
 					case 11:
 						new Pollitos(display);
