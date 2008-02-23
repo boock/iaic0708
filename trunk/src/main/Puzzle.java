@@ -41,7 +41,7 @@ import aima.search.uninformed.DepthFirstSearch;
  * Esta clase representa un interfaz gráfico genérico para un puzzle.
  */
 public abstract class Puzzle extends Thread {
-	
+
 	protected Shell shell;
 
 	// Este entero es para saber por qué paso vamos de la solución
@@ -54,15 +54,16 @@ public abstract class Puzzle extends Thread {
 	protected Composite compPuzzle;
 	protected boolean biyectivo;
 	protected int ancho, alto;
-	private Problem problem;
+	protected Problem problem;
 	private int profMaxDLS;
 	private String salida;
-	final int TMAX = 20000;
+	private final int TMAX = 20000;
+	private int tiempo = 20000;
 	private HeuristicFunction h;
 	public boolean solucionEncontrada = false;
 	protected String data;
 	private ProgressBar pb;
-	
+
 	public class DLSSolver implements Runnable { 
 		public synchronized void run() {
 			try {
@@ -86,7 +87,7 @@ public abstract class Puzzle extends Thread {
 			}
 		}
 	}
-	
+
 	public class BFSSolver implements Runnable { 
 		public synchronized void run() {
 			try {
@@ -98,7 +99,7 @@ public abstract class Puzzle extends Thread {
 			}
 		}
 	}
-	
+
 	public class DFSSolver implements Runnable { 
 		public synchronized void run() {
 			try {
@@ -110,7 +111,7 @@ public abstract class Puzzle extends Thread {
 			}
 		}
 	}
-	
+
 	public class AStarSolver implements Runnable { 
 		public synchronized void run() {
 			try {
@@ -122,7 +123,7 @@ public abstract class Puzzle extends Thread {
 			}
 		}
 	}
-	
+
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 * @param display el display de la aplicación
@@ -146,7 +147,7 @@ public abstract class Puzzle extends Thread {
 		cargarData(nombreAbreviado);
 		cargar();
 	}
-	
+
 	/**
 	 * Constructor del puzzle
 	 * @param display display actual
@@ -168,9 +169,9 @@ public abstract class Puzzle extends Thread {
 		gdComIzq.minimumHeight = alto+80;
 		gdComIzq.minimumWidth  = ancho+20;
 		compIzq.setLayoutData(gdComIzq);
-		
+
 		cargarData(nombreAbreviado);
-		
+
 		tabFolder = new TabFolder(shell,SWT.NONE);
 		tabFolder.setLayout(new GridLayout(1,true));
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -234,7 +235,7 @@ public abstract class Puzzle extends Thread {
 		pb.setSelection(100);
 		pb.setMaximum(100);
 		pb.setMinimum(0);
-		
+
 		cargar();
 
 	}
@@ -318,8 +319,8 @@ public abstract class Puzzle extends Thread {
 		cReglas.setLayout(new GridLayout());
 		final Label textoIntro = new Label(cReglas, SWT.WRAP);
 		String s = reglas + "\n\nSelecciona una pestaña para elegir un método de resolución y " +
-				"pulsa el botón resolver.\n" +
-				"Si quieres ver cómo funciona la solución pulsa ";
+		"pulsa el botón resolver.\n" +
+		"Si quieres ver cómo funciona la solución pulsa ";
 		if (biyectivo) s+= "los botones siguiente y anterior.\n";
 		else s+= "el botón siguiente.";		
 		s+= "Si quieres volver a empezar, pulsa el botón reiniciar.\nTienes 20 segundos.\n";
@@ -368,7 +369,7 @@ public abstract class Puzzle extends Thread {
 				"búsqueda no informada que expande el árbol en profundidad hasta llegar a " +
 				"un límite para evitar ciclos.\n" +
 				"No es completa si la profundidad es menor que el diámetro de la solución y " +
-				"no puede garantizarse que la primera solución encontrada sea la mejor.");
+		"no puede garantizarse que la primera solución encontrada sea la mejor.");
 
 		final Label labelConfig = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
 		labelConfig.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, true, 1, 1));
@@ -386,54 +387,62 @@ public abstract class Puzzle extends Thread {
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					if (Integer.valueOf(textConfig.getText())>profMaxDLS) {
-						MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-						// TODO Dar la opción de continuar
-						m.setMessage("Una profundidad mayor de "+ String.valueOf(profMaxDLS) +" puede tardar demasiado en terminar. Por favor, prueba un valor más bajo.");
-						m.setText("Error");
-						m.open();
-					}
-					else {
-						salida = "Búsqueda con límite de profundidad (DLS)\n\nLímite: "
-							+ String.valueOf(profMaxDLS) + "\n";
-						salida +=       "-------------------------\n\n";
-						// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-						problem = new Problem(o, fs, gt);
-
-						// Resolver el problema con DLS
-
-						Date t= new Date(0);		
-						Long x,y;
-						t = new Date();
-						x = t.getTime();
-
-						Thread solver = new Thread(new DLSSolver());
-						solver.start();
-						pb.setSelection(100);
-						for (int i=0; i<=50; i++) {
-							pb.setSelection(100-2*i);
-							solver.join(TMAX/50);
-						}
-						solver.interrupt();
-
-						t = new Date();
-						y = t.getTime();
-						mostrarSolucion(salida, y-x);
-
-						if (agent!=null && agent.getActions().size()>0) {
-							botonSiguiente.setEnabled(true);
-						}
-					}
-				}
-				catch (NumberFormatException ex) {
+				if (tiempo<=0) {
 					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("El tiempo y la profundidad máxima del árbol DSL de búsqueda deben ser un número entero.");
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
 					m.setText("Error");
 					m.open();
 				}
-				catch (Exception ex) {
-					ex.printStackTrace();
+				else {
+					try {
+						if (Integer.valueOf(textConfig.getText())>profMaxDLS) {
+							MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+							// TODO Dar la opción de continuar
+							m.setMessage("Una profundidad mayor de "+ String.valueOf(profMaxDLS) +" puede tardar demasiado en terminar. Por favor, prueba un valor más bajo.");
+							m.setText("Error");
+							m.open();
+						}
+						else {
+							salida = "Búsqueda con límite de profundidad (DLS)\n\nLímite: "
+								+ String.valueOf(profMaxDLS) + "\n";
+							salida +=       "-------------------------\n\n";
+							// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
+							problem = new Problem(o, fs, gt);
+
+							// Resolver el problema con DLS
+
+							Date t= new Date(0);		
+							Long x,y;
+							t = new Date();
+							x = t.getTime();
+
+							Thread solver = new Thread(new DLSSolver());
+							solver.start();
+							while (tiempo>=0 && agent==null) {
+								tiempo-=500;
+								pb.setSelection((100*tiempo)/TMAX);
+								solver.join(500);
+							}
+							solver.interrupt();
+
+							t = new Date();
+							y = t.getTime();
+							mostrarSolucion(salida, y-x);
+
+							if (agent!=null && agent.getActions().size()>0) {
+								botonSiguiente.setEnabled(true);
+							}
+						}
+					}
+					catch (NumberFormatException ex) {
+						MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+						m.setMessage("El tiempo y la profundidad máxima del árbol DSL de búsqueda deben ser un número entero.");
+						m.setText("Error");
+						m.open();
+					}
+					catch (Exception ex) {
+						ex.printStackTrace();
+					}
 				}
 			}
 		});	
@@ -452,7 +461,7 @@ public abstract class Puzzle extends Thread {
 		labelIntroDSL.setText("Búsqueda con Profundización Iterativa.\n\n" +
 				"La búsqueda con profundización iterativa (IDS) es un tipo de búsqueda no informada " +
 				"que va variando el límite de profundidad de forma creciente.\n" +
-				"Es óptima y completa.");
+		"Es óptima y completa.");
 
 		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
 		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
@@ -461,7 +470,13 @@ public abstract class Puzzle extends Thread {
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				try {
+				if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setText("Error");
+					m.open();
+				}
+				else {try {
 					String salida = "Búsqueda de profundización iterativa\n";
 					salida +=       "-------------------------\n\n";
 					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
@@ -472,16 +487,16 @@ public abstract class Puzzle extends Thread {
 					Long x,y;
 					t = new Date();
 					x = t.getTime();
-					
+
 					Thread solver = new Thread(new IDSSolver());
 					solver.start();
-					pb.setSelection(100);
-					for (int i=0; i<=50; i++) {
-						pb.setSelection(100-2*i);
-						solver.join(TMAX/50);
+					while (tiempo>=0 && agent==null) {
+						tiempo-=500;
+						pb.setSelection((100*tiempo)/TMAX);
+						solver.join(500);
 					}
 					solver.interrupt();
-					
+
 					t = new Date();
 					y = t.getTime();
 
@@ -492,6 +507,7 @@ public abstract class Puzzle extends Thread {
 				}
 				if (agent!=null && agent.getActions().size()>0) {
 					botonSiguiente.setEnabled(true);
+				}
 				}
 			}
 		});	
@@ -518,36 +534,44 @@ public abstract class Puzzle extends Thread {
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					String salida = "Búsqueda primero en anchura\n";
-					salida +=       "-------------------------\n\n";
-					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-					problem = new Problem(o, fs, gt);
-
-					// Resolver el problema con BFS
-					Date t= new Date(0);		
-					Long x,y;
-					t = new Date();
-					x = t.getTime();
-					
-					Thread solver = new Thread(new BFSSolver());
-					solver.start();
-					pb.setSelection(100);
-					for (int i=0; i<=50; i++) {
-						pb.setSelection(100-2*i);
-						solver.join(TMAX/50);
-					}
-					solver.interrupt();
-					
-					t = new Date();
-					y = t.getTime();
-					mostrarSolucion(salida, y-x);
-
-				} catch (Exception ex) {
-					ex.printStackTrace();
+				if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setText("Error");
+					m.open();
 				}
-				if (agent!=null && agent.getActions().size()>0) {
-					botonSiguiente.setEnabled(true);
+				else {
+					try {
+						String salida = "Búsqueda primero en anchura\n";
+						salida +=       "-------------------------\n\n";
+						// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
+						problem = new Problem(o, fs, gt);
+
+						// Resolver el problema con BFS
+						Date t= new Date(0);		
+						Long x,y;
+						t = new Date();
+						x = t.getTime();
+
+						Thread solver = new Thread(new BFSSolver());
+						solver.start();
+						while (tiempo>=0 && agent==null) {
+							tiempo-=500;
+							pb.setSelection((100*tiempo)/TMAX);
+							solver.join(500);
+						}
+						solver.interrupt();
+
+						t = new Date();
+						y = t.getTime();
+						mostrarSolucion(salida, y-x);
+
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					if (agent!=null && agent.getActions().size()>0) {
+						botonSiguiente.setEnabled(true);
+					}
 				}
 			}
 		});	
@@ -576,37 +600,45 @@ public abstract class Puzzle extends Thread {
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					String salida = "Búsqueda primero en prunfidad\n";
-					salida +=       "-------------------------\n\n";
-					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-					problem = new Problem(o, fs, gt);
-					// Resolver el problema con DFS
-					Date t= new Date(0);		
-					Long x,y;
-					
-					t = new Date();
-					x = t.getTime();
-					
-					Thread solver = new Thread(new DFSSolver());
-					solver.start();
-					pb.setSelection(100);
-					for (int i=0; i<=50; i++) {
-						pb.setSelection(100-2*i);
-						solver.join(TMAX/50);
-					}
-					solver.interrupt();
-					
-					t = new Date();
-					y = t.getTime();
-
-					mostrarSolucion(salida, y-x);
-
-				} catch (Exception ex) {
-					ex.printStackTrace();
+				if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setText("Error");
+					m.open();
 				}
-				if (agent!=null && agent.getActions().size()>0) {
-					botonSiguiente.setEnabled(true);
+				else {
+					try {
+						String salida = "Búsqueda primero en prunfidad\n";
+						salida +=       "-------------------------\n\n";
+						// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
+						problem = new Problem(o, fs, gt);
+						// Resolver el problema con DFS
+						Date t= new Date(0);		
+						Long x,y;
+
+						t = new Date();
+						x = t.getTime();
+
+						Thread solver = new Thread(new DFSSolver());
+						solver.start();
+						while (tiempo>=0 && agent==null) {
+							tiempo-=500;
+							pb.setSelection((100*tiempo)/TMAX);
+							solver.join(500);
+						}
+						solver.interrupt();
+
+						t = new Date();
+						y = t.getTime();
+
+						mostrarSolucion(salida, y-x);
+
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					if (agent!=null && agent.getActions().size()>0) {
+						botonSiguiente.setEnabled(true);
+					}
 				}
 			}
 		});	
@@ -617,67 +649,74 @@ public abstract class Puzzle extends Thread {
 		final HeuristicFunction[] heuri = heuristica;
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
-		
+
 		Composite cAStar = addTabResolutor("A*");
 		cAStar.setLayout(new GridLayout(1,false));
-		
+
 		final Button botonResolverAStar = new Button(cAStar, SWT.PUSH);
 		botonResolverAStar.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		botonResolverAStar.setText("Resolver");
-		
+
 		if(heuri.length > 1){
 			botonResolverAStar.setEnabled(false);
-			
+
 			final Combo combo = new Combo(cAStar, SWT.NONE | SWT.READ_ONLY);
-			
+
 			for(int i=0;i<heuri.length;i++){
-			combo.add(heuri[i].toString());
+				combo.add(heuri[i].toString());
 			}
 			combo.addSelectionListener(new SelectionListener() {
 				public void widgetDefaultSelected(SelectionEvent e) {}
 				public void widgetSelected(SelectionEvent e) {
 					h = heuri[combo.getSelectionIndex()];
 					botonResolverAStar.setEnabled(true);
-					}
-				});
+				}
+			});
 		}
 		else h = heuri[0];
 
 		// Resolución AStar
 		botonResolverAStar.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				try {
-					String salida = "Búsqueda con heurística (A*)\n";
-					salida +=       "-------------------------\n\n";
-					// Crea el problema con el tablero inicial, la función sucesor, el tablero solución y la heurística usada
-					problem = new Problem(o, fs, gt, h);
+				if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setText("Error");
+					m.open();
+				}
+				else {
+					try {
+						String salida = "Búsqueda con heurística (A*)\n";
+						salida +=       "-------------------------\n\n";
+						// Crea el problema con el tablero inicial, la función sucesor, el tablero solución y la heurística usada
+						problem = new Problem(o, fs, gt, h);
 
-					// Resolver el problema con A*
-					Date t= new Date(0);		
-					Long x,y;
-					t = new Date();
-					x = t.getTime();
-					
-					Thread solver = new Thread(new AStarSolver());
-					solver.start();
-					pb.setSelection(100);
-					for (int i=0; i<=50; i++) {
-						pb.setSelection(100-2*i);
-						solver.join(TMAX/50);
+						// Resolver el problema con A*
+						Date t= new Date(0);		
+						Long x,y;
+						t = new Date();
+						x = t.getTime();
+
+						Thread solver = new Thread(new AStarSolver());
+						solver.start();
+						while (tiempo>=0 && agent==null) {
+							tiempo-=500;
+							pb.setSelection((100*tiempo)/TMAX);
+							solver.join(500);
+						}
+						solver.interrupt();
+
+						t = new Date();
+						y = t.getTime();
+
+						mostrarSolucion(salida, y-x);
+					} catch (Exception ex) {
+						ex.printStackTrace();
 					}
-					solver.interrupt();
-					
-					t = new Date();
-					y = t.getTime();
-					
-					mostrarSolucion(salida, y-x);
-				} catch (Exception ex) {
-					ex.printStackTrace();
+					if (agent!=null && agent.getActions().size()>0) {
+						botonSiguiente.setEnabled(true);
+					}
 				}
-				if (agent!=null && agent.getActions().size()>0) {
-					botonSiguiente.setEnabled(true);
-				}
-
 			}
 		});
 	}
@@ -728,11 +767,11 @@ public abstract class Puzzle extends Thread {
 		m.setText(title);
 		m.open();
 	}
-	
+
 	public void cargarData(String nombrePuzzle) {
 		data = xmlReader.read(nombrePuzzle, "data");
 	}
-	
+
 	/**
 	 * Este método debe procesar el string data e iniciar los datos del puzzle
 	 */

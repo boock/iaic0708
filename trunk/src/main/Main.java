@@ -41,6 +41,7 @@ public class Main {
 		final Canvas canvas = new Canvas(shell, SWT.NONE);
 		final Image intro = new Image(display, Main.class.getResourceAsStream("intro.png"));
 		final Button bEmpezar = new Button(shell, SWT.PUSH);
+		final Button bAyuda = new Button(shell, SWT.PUSH);
 
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		canvas.addPaintListener(new PaintListener(){
@@ -51,6 +52,15 @@ public class Main {
 		bEmpezar.setText("Empezar");
 		bEmpezar.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
 		bEmpezar.addSelectionListener(new SelectionListener() {
+			public void widgetDefaultSelected(SelectionEvent arg0) {}
+			public void widgetSelected(SelectionEvent arg0) {
+				shell.close();
+				new Laberinto3D(display);
+			}
+		});
+		bAyuda.setText("Ayuda");
+		bAyuda.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false));
+		bAyuda.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 			public void widgetSelected(SelectionEvent arg0) {
 				shell.close();
