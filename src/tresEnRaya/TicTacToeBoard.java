@@ -2,7 +2,7 @@
  * Created on Feb 15, 2005
  *
  */
-package ticTacToe;
+package tresEnRaya;
 
 import java.util.ArrayList;
 import java.util.List;

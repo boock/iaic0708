@@ -1,20 +1,15 @@
-/*
- * Created on Feb 15, 2005
- *
- */
-package ticTacToe;
+package tresEnRaya;
 
 import java.util.ArrayList;
-
 import aima.basic.XYLocation;
 import aima.games.*;
 
 /**
- * @author Ravi Mohan
- * 
+ * Tres en raya
+ * @author Jim Mainprice, Daniel Dionne 
  */
-public class TicTacToeGame extends Game {
-	public TicTacToeGame() {
+public class TresEnRayaJuego extends Game {
+	public TresEnRayaJuego() {
 		ArrayList<XYLocation> moves = new ArrayList<XYLocation>();
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {

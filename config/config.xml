@@ -22,7 +22,7 @@
 	<puzzle nombre="viaje">
 		<info>Los nombres de las ciudades de origen y destino (tienen que ser una del puzzle) en mayusculas.</info>
 		<data>HUELVA</data>
-		<goal>GRANADA</goal>
+		<goal>ALMERIA</goal>
 	</puzzle>
 	<puzzle nombre="hanoi3">
 		<info>Tres caracteres indicando sobre que pieza o base estan las piezas A, B y C, siendo las piezas A, B y C y las bases 1, 2 y 3. Por defecto BC1.</info>
@@ -30,7 +30,7 @@
 	</puzzle>
 	<puzzle nombre="hanoi4">
 		<info>Cuatro caracteres indicando sobre que pieza o base estan las piezas A, B, C y D, siendo las piezas A, B, C y D y las bases 1, 2, 3 y 4. Por defecto BCD1.</info>
-		<data>BCD2</data>
+		<data>BCD1</data>
 	</puzzle>
 	<puzzle nombre="laberinto2D">
 		<info>En data, la posicion inicial XY. En goal la final. Ocho 0s o 1s por fila, representando las paredes del laberinto (1=pared).</info>
@@ -44,6 +44,10 @@
 		<fila5>11101111</fila5>
 		<fila6>10001000</fila6>
 		<fila7>10011111</fila7>
+	</puzzle>
+	<puzzle nombre="negrasblancas">
+		<info>Siete caracteres B, N u O indicando si hay una ficha Blanca, Negra, o un hueco. Por defecto BBBONNN.</info>
+		<data>BBBONNN</data>
 	</puzzle>
 
 </config>

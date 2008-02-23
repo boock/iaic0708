@@ -21,7 +21,7 @@ public class nReinas extends main.Puzzle {
 		
 		super(display,"N-Reinas","nreinas", 50*n, 50*n, true);
 		this.tamano = n;
-		tab = new Tablero(tamano);
+		tab = new Tablero(tamano); //Este puzzle no se carga
 		canvas = addCanvas(false);
 		
 		final Image reina	= new Image(display, nReinas.class.getResourceAsStream("reina.png"));

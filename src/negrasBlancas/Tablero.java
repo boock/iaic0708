@@ -32,7 +32,6 @@ public class Tablero {
 	
 	/**
 	 * Constructor por defecto.
-	 * @see #EightPuzzleBoard(int[])
 	 */
 	public Tablero() {
 		board = new char[]  { 'B', 'B', 'B', '0', 'N', 'N', 'N' };
@@ -40,8 +39,7 @@ public class Tablero {
 
 	/**
 	 * Constructor del tablero.
-	 * @param aBoard el array de enteros (9 posiciones) que representa al tablero
-	 * @see #EightPuzzleBoard()
+	 * @param aBoard el array de enteros (7 posiciones) que representa al tablero
 	 */
 	public Tablero(char[] aBoard) {
 		board = aBoard;
@@ -109,7 +107,7 @@ public class Tablero {
 	 */
 	private int getPositionOf(char val) {
 		int retVal = -1;
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < 7; i++) {
 			if (board[i] == val) {
 				retVal = i;
 			}
@@ -288,7 +286,7 @@ public class Tablero {
 	public String toString() {
 		String retVal = board[0] + " " + board[1] + " " + board[2] + "\n"
 				+ board[3] + " " + board[4] + " " + board[5] + " " + "\n"
-				+ board[6] + " " + board[7] + " " + board[8];
+				+ board[6] + " " + board[7];
 		return retVal;
 	}
 

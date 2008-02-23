@@ -20,12 +20,13 @@ import org.eclipse.swt.widgets.Combo;
 import puzzle8.Puzzle8;
 import misioneros.Misioneros;
 import nReinas.nReinas;
+import negrasBlancas.NegrasBlancas;
 import laberinto2D.Laberinto2D;
 import laberinto3D.Laberinto3D;
 import garrafas.Garrafas;
 import hanoiTower3.HanoiTower3;
 import hanoiTower4.HanoiTower4;
-import ticTacToe.TicTacToe;
+import tresEnRaya.TicTacToe;
 import viaje.Viaje;
 import pollitos.Pollitos;
 
@@ -71,6 +72,7 @@ public class Main {
 			combo.add("Laberinto 3D");
 			combo.add("Tic Tac Toe");
 			combo.add("Los Pollitos");
+			combo.add("Blancas y negras");
 
 			combo.addSelectionListener(new SelectionListener() {
 
@@ -112,6 +114,9 @@ public class Main {
 						break;
 					case 11:
 						new Pollitos(display);
+						break;
+					case 12:
+						new NegrasBlancas(display);
 						break;
 					}
 				}

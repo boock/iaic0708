@@ -39,7 +39,7 @@ import garrafas.Garrafas;
 import granjero.Granjero;
 import hanoiTower3.HanoiTower3;
 import hanoiTower4.HanoiTower4;
-import ticTacToe.TicTacToe;
+import tresEnRaya.TicTacToe;
 import viaje.Viaje;
 import pollitos.Pollitos;
 
