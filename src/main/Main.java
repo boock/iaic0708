@@ -29,6 +29,7 @@ import hanoiTower4.HanoiTower4;
 import tresEnRaya.TresEnRaya;
 import viaje.Viaje;
 import pollitos.Pollitos;
+import robotLimpiador.RobotLimpiador;
 
 /**************************************************************************************************/
 
@@ -83,6 +84,7 @@ public class Main {
 			combo.add("Tic Tac Toe");
 			combo.add("Los Pollitos");
 			combo.add("Blancas y negras");
+			combo.add("Robot Limpiador");
 
 			combo.addSelectionListener(new SelectionListener() {
 
@@ -128,6 +130,9 @@ public class Main {
 					case 12:
 						new NegrasBlancas(display);
 						break;
+					case 13:
+						new RobotLimpiador(display);
+						break;
 					}
 				}
 			});
@@ -146,7 +151,7 @@ public class Main {
 	}
 
 	public static void main (String[] args) {
-		boolean debug = false;
+		boolean debug = true;
 		if (args.length>0 && args[0].equals("-debug")) debug=true;
 		new Main(debug);
 	}
