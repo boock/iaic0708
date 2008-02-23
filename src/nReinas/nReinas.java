@@ -11,16 +11,17 @@ import org.eclipse.swt.widgets.Display;
 
 public class nReinas extends main.Puzzle {
 	
-	final Tablero tab;
-	final Canvas canvas;
-	final int tamano;
+	private Tablero tab;
+	private final Canvas canvas;
+	private final int tamano;
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public nReinas(Display display, int n) {
 		
-		super(display,"N-Reinas",50*n,50*n, true);
+		super(display,"N-Reinas","nreinas", 50*n, 50*n, true);
 		this.tamano = n;
+		tab = new Tablero(tamano);
 		canvas = addCanvas(false);
 		
 		final Image reina	= new Image(display, nReinas.class.getResourceAsStream("reina.png"));
@@ -28,13 +29,6 @@ public class nReinas extends main.Puzzle {
 		final Image negra	= new Image(display, nReinas.class.getResourceAsStream("negra.png"));
 		final Image ataque	= new Image(display, nReinas.class.getResourceAsStream("ataque.png"));
 	
-	/** 
-	 * N-Reinas
-	 * Tablero de NxN, hay que colocar N reinas de ajedrez sin que se amenacen. 
-	 */
-		
-		tab = new Tablero(n);
-		
 		addTabIntro("El objetivo es colocar N reinas de ajedrez en un tablero de NxN, evitando que se amenacen " +
 				"unas a otras.");
 		
@@ -66,11 +60,6 @@ public class nReinas extends main.Puzzle {
 		canvas.redraw();
 	}
 	
-	protected void reiniciar() {
-		tab.clear();
-		actualizarTablero();
-	}
-	
 	/**
 	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "siguiente".
 	 */
@@ -92,6 +81,25 @@ public class nReinas extends main.Puzzle {
 		actualizarTablero();
 		return true;
 	
+	}
+
+	protected void cargar() {
+		// Esto no funciona porque XML no permite nodos tan gordos
+		/*	try {
+			int n = Integer.valueOf(data.charAt(0))-48 * 10 + Integer.valueOf(data.charAt(1))-48;
+			int b[][] = new int[n][n];
+			for(int i=0; i<n; i++) {
+				for(int j=0; j<n; j++) {
+					b[i][j] = Integer.valueOf(data.charAt(n*i+j))-48;
+					if (b[i][j]<0 || b[i][j]>1) throw new Exception();
+				}
+			}
+			tab = new Tablero(n,b);
+		}
+		catch (Exception e) {
+			System.out.println("El archivo de configuración no es correcto");
+			tab = new Tablero(tamano);
+		}*/
 	}
 	
 }

@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class Granjero extends main.Puzzle {
 	
-	final Rio rio;
+	private Rio rio;
 	private final Canvas canvas;
 	private final Image fondo, barco, granjero, lobo, cabra, col;
 	
@@ -21,7 +21,7 @@ public class Granjero extends main.Puzzle {
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Granjero(Display display) {
-		super (display, "Granjero",300,300, true);
+		super (display, "El granjero, el lobo, la cabra y la col", "granjero",300,300, true);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo = new Image(display, Granjero.class.getResourceAsStream("rio.png"));
@@ -33,15 +33,6 @@ public class Granjero extends main.Puzzle {
 		
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
-
-
-	/** 
-	 * Misioneros y caníbales
-	 * Río con 3 misioneros y 3 caníbales en la orilla izquierda. Bla bla bla.
-	 */
-		// Crea un tablero colocado (para que lo descoloque el usuario)
-
-		rio = new Rio();
 
 		actualizarTablero();
 
@@ -145,9 +136,19 @@ public class Granjero extends main.Puzzle {
 		return b;
 	}
 	
-	protected void reiniciar() {
-		rio.reset();
-		agent = null;
-		accion_actual=0;
+	protected void cargar() {
+		try {
+			System.out.println(data);
+			boolean gr = data.charAt(0) == '0';
+			boolean lo = data.charAt(1) == '0';
+			boolean ca = data.charAt(2) == '0';
+			boolean co = data.charAt(3) == '0';
+			rio = new Rio(gr,lo,ca,co);
+
+		}
+		catch (Exception e) {
+			System.out.println("El fichero de configuración no es correcto.");
+			rio = new Rio();
+		}
 	}
 }

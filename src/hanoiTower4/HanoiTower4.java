@@ -18,7 +18,7 @@ public class HanoiTower4 extends main.Puzzle{
 	static int[] ypos = { 80 , 70 , 60 , 50 };
 	static int[] xpos = { 0 , 100 , 200 };
 	
-	final Base tab;
+	private Base tab;
 	private final Canvas canvas;
 	private final Image pequeno, medio, gran, fondo, muygran;
 	
@@ -27,7 +27,7 @@ public class HanoiTower4 extends main.Puzzle{
 	 */
 	public HanoiTower4(Display display) {
 
-		super(display,"HanoiTower",300,200, false);
+		super(display,"HanoiTower", "hanoi4",300,200, false);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		
@@ -39,14 +39,7 @@ public class HanoiTower4 extends main.Puzzle{
 		
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
-
-		
-		
-		/** 
-		 * Hanoi Tower
-		 */
-		tab = new Base();
-			
+	
 		addTabIDS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(tab, new FuncionSucesor(), new EstadoFinal());
@@ -212,30 +205,21 @@ public class HanoiTower4 extends main.Puzzle{
 		return false;
 	}
 
-	/**
-	 * Este mï¿½todo es para la representaciï¿½n UI. Modifica el tablero del interfaz al pulsar el botï¿½n "anterior".
-	 */
 	protected boolean retroceder() {
-//		int i=0;
-//		String accion = (String) agent.getActions().get(accion_actual);
-//
-//		accion_actual--;
-//		while( i < Base.operadores.length ){
-//			
-//			if ( accion.equals(Base.operadores[i]) ) {
-//				tab.mover(Base.operadores[i]);
-//				actualizarTablero();
-//				return true;
-//			}
-//			i++;
-//		}
-//		accion_actual++;
+//	no biyectiva
 		return false;
 	}
 	
-	protected void reiniciar() {
-		tab.reset();
-		agent = null;
-		accion_actual=0;
+	protected void cargar() {
+		try {
+			char[] aux = new char[4];
+			for (int i=0; i<4; i++)
+				aux[i] = data.charAt(i);
+			tab = new Base(aux);
+		}
+		catch (Exception ex) {
+			System.out.println("El archivo de configuración no es correcto");
+			tab = new Base();
+		}			
 	}
 }

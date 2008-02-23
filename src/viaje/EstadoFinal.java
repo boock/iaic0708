@@ -1,5 +1,6 @@
 package viaje;
 
+import main.xmlReader;
 import aima.search.framework.GoalTest;
 
 /**
@@ -8,10 +9,8 @@ import aima.search.framework.GoalTest;
  */
 
 public class EstadoFinal implements GoalTest  {
-	
-	//Contenido de las garrafas, que representa el estado final
-	Situacion goal = new Situacion("ALMERIA");
-	
+	String destino = xmlReader.read("viaje", "goal");
+	Situacion goal = new Situacion(destino);
 	/**
 	 * Comprueba si la ciudad de destino es Almería
 	 */

@@ -59,6 +59,7 @@ public abstract class Puzzle extends Thread {
 	final int TMAX = 20000;
 	private HeuristicFunction h;
 	public boolean solucionEncontrada = false;
+	protected String data;
 	
 	public class DLSSolver implements Runnable { 
 		public synchronized void run() {
@@ -127,7 +128,7 @@ public abstract class Puzzle extends Thread {
 	 * @param ancho el ancho del puzzle
 	 * @param alto el alto del puzzle
 	 */
-	public Puzzle(int ancho, int alto){
+	public Puzzle(String nombreAbreviado, int ancho, int alto){
 		this.ancho = ancho;
 		this.alto = alto;
 		botonAnterior = null;
@@ -140,6 +141,8 @@ public abstract class Puzzle extends Thread {
 		problem = null;
 		salida = null;
 		h= null;
+		cargarData(nombreAbreviado);
+		cargar();
 	}
 	
 	/**
@@ -150,7 +153,7 @@ public abstract class Puzzle extends Thread {
 	 * @param alto alto del interfaz gráfico
 	 * @param biyectivo true si se puede retroceder en la solución, false en caso contrario
 	 */
-	public Puzzle(Display display, String nombrePuzzle, int ancho, int alto, boolean biyectivo) {
+	public Puzzle(Display display, String nombrePuzzle, String nombreAbreviado, int ancho, int alto, boolean biyectivo) {
 		shell = new Shell(display, SWT.CLOSE | SWT.APPLICATION_MODAL);
 		shell.setText(nombrePuzzle);
 		shell.setLayout(new GridLayout(2,false));
@@ -163,7 +166,9 @@ public abstract class Puzzle extends Thread {
 		gdComIzq.minimumHeight = alto+80;
 		gdComIzq.minimumWidth  = ancho+20;
 		compIzq.setLayoutData(gdComIzq);
-
+		
+		cargarData(nombreAbreviado);
+		
 		tabFolder = new TabFolder(shell,SWT.NONE);
 		tabFolder.setLayout(new GridLayout(1,true));
 		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -201,7 +206,7 @@ public abstract class Puzzle extends Thread {
 					if (accion_actual==agent.getActions().size())
 						botonSiguiente.setEnabled(false);
 					// Desbloquear botón anterior si no está en el principio
-					if (accion_actual!=0 && !b)
+					if (accion_actual!=0 && b)
 						botonAnterior.setEnabled(true);
 					actualizarTablero();
 				}
@@ -222,6 +227,7 @@ public abstract class Puzzle extends Thread {
 				"el puzzle con uno de los algoritmos disponibles.");
 			}
 		});
+		cargar();
 
 	}
 
@@ -245,7 +251,11 @@ public abstract class Puzzle extends Thread {
 	/**
 	 * Este método reinicia el tablero.
 	 */
-	protected abstract void reiniciar();
+	protected void reiniciar() {
+		cargar();
+		agent = null;
+		accion_actual=0;
+	}
 
 	/**
 	 * Devuelve el composite donde va la representación del juego.
@@ -718,4 +728,13 @@ public abstract class Puzzle extends Thread {
 		m.setText(title);
 		m.open();
 	}
+	
+	public void cargarData(String nombrePuzzle) {
+		data = xmlReader.read(nombrePuzzle, "data");
+	}
+	
+	/**
+	 * Este método debe procesar el string data e iniciar los datos del puzzle
+	 */
+	protected abstract void cargar();
 }
