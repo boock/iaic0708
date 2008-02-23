@@ -189,11 +189,13 @@ public class Puzzle8 extends main.Puzzle{
 		}
 		return b;
 	}
-	
+
 	protected void reiniciar() {
 		// Reinicia el tablero y borra la solución
 		cargar();
 		agent = null;
+		search = null;
+		problem = null;
 		accion_actual=0;
 		botonMezclar.setEnabled(true);
 	}
