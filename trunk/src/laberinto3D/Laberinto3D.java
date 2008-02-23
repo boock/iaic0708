@@ -39,7 +39,7 @@ import garrafas.Garrafas;
 import granjero.Granjero;
 import hanoiTower3.HanoiTower3;
 import hanoiTower4.HanoiTower4;
-import tresEnRaya.TicTacToe;
+import tresEnRaya.TresEnRaya;
 import viaje.Viaje;
 import pollitos.Pollitos;
 
@@ -426,7 +426,7 @@ public class Laberinto3D{
 			case 9:
 				p = new Granjero(display);
 			default:
-				p = new TicTacToe(display);		
+				p = new TresEnRaya(display);		
 		}
 		return p.solucionEncontrada;
 	}

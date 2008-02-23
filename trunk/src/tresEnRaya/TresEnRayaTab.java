@@ -13,7 +13,7 @@ import aima.basic.XYLocation;
  * @author Ravi Mohan
  * 
  */
-public class TicTacToeBoard {
+public class TresEnRayaTab {
 	private static final String O = "O";
 
 	private static final String X = "X";
@@ -146,13 +146,13 @@ public class TicTacToeBoard {
 		return buf.toString();
 	}
 
-	public TicTacToeBoard cloneBoard() {
-		return (TicTacToeBoard) clone();
+	public TresEnRayaTab cloneBoard() {
+		return (TresEnRayaTab) clone();
 	}
 
 	@Override
 	public Object clone() {
-		TicTacToeBoard newBoard = new TicTacToeBoard();
+		TresEnRayaTab newBoard = new TresEnRayaTab();
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				String s = getValue(i, j);
@@ -191,7 +191,7 @@ public class TicTacToeBoard {
 	@Override
 	public boolean equals(Object anObj) {
 		boolean retVal = true;
-		TicTacToeBoard anotherBoard = (TicTacToeBoard) anObj;
+		TresEnRayaTab anotherBoard = (TresEnRayaTab) anObj;
 		boolean secondBreak = false;
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
