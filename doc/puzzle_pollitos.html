@@ -37,16 +37,16 @@
 <div id="mainpage">
 <h2>Los pollitos</h2>
 <span class="subhead">Descripci&oacute;n</span>
-    <p> Para el problema de representación de los pollitos, se plantea lo siguiente: Nos encontramos con una huevera que contiene 10 huevos. En un primer momento, todos los huevos son blancos, pero cada vez que se selecciona uno cambiará a azul, de azul a rojo y de rojo, finalmente, a pollito. Cada vez que se selecciona un huevo además de cambiar el estado del mismo, cambian el de sus vecinos. Por último, hacer patente que si se selecciona un pollito, volverá a ser un huevo blanco.</p>
+    <p> Para el problema de representaciÃ³n de los pollitos, se plantea lo siguiente: Nos encontramos con una huevera que contiene 10 huevos. En un primer momento, todos los huevos son blancos, pero cada vez que se selecciona uno cambiarÃ¡ a azul, de azul a rojo y de rojo, finalmente, a pollito. Cada vez que se selecciona un huevo ademÃ¡s de cambiar el estado del mismo, cambian el de sus vecinos. Por Ãºltimo, hacer patente que si se selecciona un pollito, volverÃ¡ a ser un huevo blanco.</p>
 
 <span class="subhead">Representaci&oacute;n</span>
-    <p> A partir de este enunciado hemos tomado como estado la fase de gestación en la que se encuentran los 10 huevos que componen la huevera.</p>
+    <p> A partir de este enunciado hemos tomado como estado la fase de gestaciÃ³n en la que se encuentran los 10 huevos que componen la huevera.</p>
 	<ul>
 	<li> Estado inicial: Todos los huevos son blancos.</li>
 	<li> Estado objetivo: En todos los huevos hay un pollito.</li>
 	</ul>
 	
-	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basÃ¡ndonos en el enunciado:</p>
 	<ul>
 	<li> SEL_00 	 "Selecciona el huevo (0,0)"</li>
 	<li> SEL_01 	 "Selecciona el huevo (0,1)"</li>
@@ -60,37 +60,37 @@
 	<li> SEL_14 	 "Selecciona el huevo (1,4)"</li>
 	</ul>
 	
-	<p> Para este problema se pueden aplicar todos y cada uno de los operadores independientemente del estado en el que nos encontremos, estos operadores carecen de precondición.</p>
+	<p> Para este problema se pueden aplicar todos y cada uno de los operadores independientemente del estado en el que nos encontremos, estos operadores carecen de precondiciÃ³n.</p>
 	
 <span class="subhead">Estrategias</span>
     <p>Las estrategias no informadas que hemos incluido, son:</p>
     <ul>
-    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    <li> BÃºsqueda con ProfundizaciÃ³n Iterativa (IDS)</li>
     	<ul>
-		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		<li> No se llega a la soluciÃ³n, debido a que se queda infinitamente ciclando.</li>
 		</ul>    
-	<li> Búsqueda Primero en Anchura (BFS)</li>
+	<li> BÃºsqueda Primero en Anchura (BFS)</li>
 		<ul>
-		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		<li> No se llega a la soluciÃ³n, debido a que se queda infinitamente ciclando.</li>
 		</ul>		
-	<li> Búsqueda Primero en Profundidad (DFS)</li>
+	<li> BÃºsqueda Primero en Profundidad (DFS)</li>
 		<ul>
-		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		<li> No se llega a la soluciÃ³n, debido a que se queda infinitamente ciclando.</li>
 		</ul>
-	<li> Búsqueda con límite de Profundidad (DLS)</li>
+	<li> BÃºsqueda con lÃ­mite de Profundidad (DLS)</li>
 		<ul>
-		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		<li> No se llega a la soluciÃ³n, debido a que se queda infinitamente ciclando.</li>
 		</ul>
     </ul>
     
-    <p> Además de una heurística, que consiste en la suma total de los pasos que les quedan para llegar a ser pollito a todos los huevos que componen la huevera, a estas estrategia la hemos denominando HeurísticaPollitos.</p>
+    <p> AdemÃ¡s de una heurÃ­stica, que consiste en la suma total de los pasos que les quedan para llegar a ser pollito a todos los huevos que componen la huevera, a estas estrategia la hemos denominando HeurÃ­sticaPollitos.</p>
     <ul>
-    <li> Tiempo de ejecución: Aprox. 521 ms.</li>
-	<li> Número de nodos expandidos: 3547</li>
-	<li> Solución: En 13 pasos(SEL_01, SEL_01, SEL_01, SEL_14, SEL_04, SEL_04, SEL_12, 	SEL_12, SEL_02, SEL_01, SEL_00, SEL_00, SEL_10)</li>
+    <li> Tiempo de ejecuciÃ³n: Aprox. 521 ms.</li>
+	<li> NÃºmero de nodos expandidos: 3547</li>
+	<li> SoluciÃ³n: En 13 pasos(SEL_01, SEL_01, SEL_01, SEL_14, SEL_04, SEL_04, SEL_12, 	SEL_12, SEL_02, SEL_01, SEL_00, SEL_00, SEL_10)</li>
 	</ul>
 	
-	<p> En este problema nos encontramos que las estrategias no informadas, no nos ayudan para la resolución del problema. Esto se debe a que ninguno de los operadores tiene precondición, por lo que todos ellos se pueden aplicar a cualquier estado, esto hace que el árbol sea enorme, y se acabe incurriendo en ciclos. Gracias a la heurística que hemos implementado, conseguimos que el problema se solucione en un número de pasos bastante aceptable.</p>    
+	<p> En este problema nos encontramos que las estrategias no informadas, no nos ayudan para la resoluciÃ³n del problema. Esto se debe a que ninguno de los operadores tiene precondiciÃ³n, por lo que todos ellos se pueden aplicar a cualquier estado, esto hace que el Ã¡rbol sea enorme, y se acabe incurriendo en ciclos. Gracias a la heurÃ­stica que hemos implementado, conseguimos que el problema se solucione en un nÃºmero de pasos bastante aceptable.</p>    
 
 </div>
 

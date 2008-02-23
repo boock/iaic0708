@@ -37,68 +37,68 @@
 <div id="mainpage">
 <h2>Titulo puzzle</h2>
 <span class="subhead">Descripci&oacute;n</span>
-    <p> Para el problema de representación del viaje, tenemos el siguiente enunciado: Nos encontramos en una ciudad andaluza (por ejemplo, Sevilla) y queremos viajar hasta otra de esa misma comunidad (en este caso, Almería). Para ello sólo podemos viajar de una capital de provincia a otra siempre que sean vecinas, es decir, que sus fronteras sean colindantes.</p>
+    <p> Para el problema de representaciÃ³n del viaje, tenemos el siguiente enunciado: Nos encontramos en una ciudad andaluza (por ejemplo, Sevilla) y queremos viajar hasta otra de esa misma comunidad (en este caso, AlmerÃ­a). Para ello sÃ³lo podemos viajar de una capital de provincia a otra siempre que sean vecinas, es decir, que sus fronteras sean colindantes.</p>
 
 <span class="subhead">Representaci&oacute;n</span>
-    <p> A partir de este enunciado hemos tomado como estado el lugar de Andalucía en el que nos encontramos en cada momento.</p>
+    <p> A partir de este enunciado hemos tomado como estado el lugar de AndalucÃ­a en el que nos encontramos en cada momento.</p>
 	<ul>
 	<li> Estado inicial: Sevilla, ciudad de partida del viaje.</li>
-	<li> Estado objetivo: Almería, ciudad a la que se pretende llegar.</li>
+	<li> Estado objetivo: AlmerÃ­a, ciudad a la que se pretende llegar.</li>
 	</ul>
 	
-	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basÃ¡ndonos en el enunciado:</p>
 	<ul>
-	<li> IR_AL 	 "Ir a Almería."</li>
-	<li> IR_CA 	 "Ir a Cádiz."</li>
-	<li> IR_CO 	 "Ir a Córdoba."</li>
+	<li> IR_AL 	 "Ir a AlmerÃ­a."</li>
+	<li> IR_CA 	 "Ir a CÃ¡diz."</li>
+	<li> IR_CO 	 "Ir a CÃ³rdoba."</li>
 	<li> IR_GR 	 "Ir a Granada."</li>
 	<li> IR_HU 	 "Ir a Huelva."</li>
 	<li> IR_JA 	 "Ir a Jaen."</li>
-	<li> IR_MA 	 "Ir a Málaga."</li>
+	<li> IR_MA 	 "Ir a MÃ¡laga."</li>
 	<li> IR_SE 	 "Ir a Sevilla."</li>
 	</ul>
 	
-	<p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
+	<p> Cada uno de  estos operadores se podrÃ¡ aplicar a un estado siempre y cuando Ã©ste cumpla su precondiciÃ³n:</p>
 	<ul>
-	<li> Ejemplo:  IR_AL, este operador sólo se podrá utilizar cuando nos 	encontremos en provincias colindantes con Almería, en este caso,  en 	Granada o en Jaén.</li>
+	<li> Ejemplo:  IR_AL, este operador sÃ³lo se podrÃ¡ utilizar cuando nos 	encontremos en provincias colindantes con AlmerÃ­a, en este caso,  en 	Granada o en JaÃ©n.</li>
 	</ul>
 	
 <span class="subhead">Estrategias</span>
-    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado estrategias no informadas:</p>
+    <p> En cuanto a las estrategias utilizadas para este problema de representaciÃ³n, hemos utilizado estrategias no informadas:</p>
     <ul>
-    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    <li> BÃºsqueda con ProfundizaciÃ³n Iterativa (IDS)</li>
     	<ul>
-    	<li> Tiempo de ejecución: Aprox. 13 ms.</li>
-		<li> Número de nodos expandidos: 20</li>
-		<li> Solución: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
+    	<li> Tiempo de ejecuciÃ³n: Aprox. 13 ms.</li>
+		<li> NÃºmero de nodos expandidos: 20</li>
+		<li> SoluciÃ³n: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
 		</ul>    	
-	<li> Búsqueda Primero en Anchura (BFS)</li>
+	<li> BÃºsqueda Primero en Anchura (BFS)</li>
 		<ul>
-		<li> Tiempo de ejecución: Aprox. 40 ms.</li>
-		<li> Número de nodos expandidos: 28</li>	
-		<li> Solución: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
+		<li> Tiempo de ejecuciÃ³n: Aprox. 40 ms.</li>
+		<li> NÃºmero de nodos expandidos: 28</li>	
+		<li> SoluciÃ³n: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
 		</ul>		
-	<li> Búsqueda Primero en Profundidad (DFS)</li>
+	<li> BÃºsqueda Primero en Profundidad (DFS)</li>
 		<ul>
-		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		<li> No se llega a la soluciÃ³n, debido a que se queda infinitamente ciclando.</li>
 		</ul>
-	<li> Búsqueda con límite de Profundidad (DLS)</li>
+	<li> BÃºsqueda con lÃ­mite de Profundidad (DLS)</li>
 		<ul>
-		<li> El límite en profundidad utilizado es 7.</li>
-		<li> Tiempo de ejecución: Aprox. 30 ms.</li>
-		<li> Número de nodos expandidos: 21</li>
-		<li> Solución: En 7 pasos(IR_CA, IR_HU, IR_CA, IR_MA, IR_CO, IR_GR, IR_AL)</li>
+		<li> El lÃ­mite en profundidad utilizado es 7.</li>
+		<li> Tiempo de ejecuciÃ³n: Aprox. 30 ms.</li>
+		<li> NÃºmero de nodos expandidos: 21</li>
+		<li> SoluciÃ³n: En 7 pasos(IR_CA, IR_HU, IR_CA, IR_MA, IR_CO, IR_GR, IR_AL)</li>
 		</ul>
 	</ul>
     
-    <p> Además de una heurística, basada en la distancia de Manhattan, que asocia a cada estado el nº mínimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado HeurísticaViaje.</p>
+    <p> AdemÃ¡s de una heurÃ­stica, basada en la distancia de Manhattan, que asocia a cada estado el nÃºmero mÃ­nimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado HeurÃ­sticaViaje.</p>
     <ul>
-    <li> Tiempo de ejecución: Aprox. 60 ms.</li>
-	<li> Número de nodos expandidos: 6</li>
-	<li> Solución: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
+    <li> Tiempo de ejecuciÃ³n: Aprox. 60 ms.</li>
+	<li> NÃºmero de nodos expandidos: 6</li>
+	<li> SoluciÃ³n: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
 	</ul>
 	
-	<p> Para este problema podemos observar que a pesar de que es bastante sencillo, la heurística hace que el número de nodos expandidos sea mínimo por lo que es eficiente. Además podemos ver, que la búsqueda con límite en profundidad no es óptima ya que pasamos por estados que son intrascendentes para la solución, pasando de 3 pasos que nos ofrecen el resto de estrategias a 7.</p>    
+	<p> Para este problema podemos observar que a pesar de que es bastante sencillo, la heurÃ­stica hace que el nÃºmero de nodos expandidos sea mÃ­nimo por lo que es eficiente. AdemÃ¡s podemos ver, que la bÃºsqueda con lÃ­mite en profundidad no es Ã³ptima ya que pasamos por estados que son intrascendentes para la soluciÃ³n, pasando de 3 pasos que nos ofrecen el resto de estrategias a 7.</p>    
 
 </div>
 
