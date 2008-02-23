@@ -2,7 +2,7 @@
  * Created on Feb 15, 2005
  *
  */
-package ticTacToe;
+package tresEnRaya;
 
 import aima.games.*;
 
@@ -29,11 +29,11 @@ public class TicTacToe extends main.Puzzle{
 
 	private final Label[] labels;
 	private Display disp;
-	private static TicTacToeGame t3;
+	private static TresEnRayaJuego t3;
 	
 	public TicTacToe(Display display) {
 		
-		super(200,200);
+		super("tictactoe",200,200);
 		
 		disp = display;
 		shell = new Shell(display);
@@ -96,26 +96,25 @@ public class TicTacToe extends main.Puzzle{
 		
 		addTabSolucion();
 		
-		t3 = new TicTacToeGame();
 		
 		open();
 	}
 
-//	private static void alphaBetaDemo() {
-//		System.out.println("ALPHA BETA ");
-//		System.out.println("");
-//		TicTacToeGame t4 = new TicTacToeGame();
-//		while (!(t4.hasEnded())) {
-//			System.out.println("\n" + t4.getPlayerToMove(t4.getState())
-//					+ "  playing ... ");
-//
-//			t4.makeAlphaBetaMove();
-//			GameState presentState = t4.getState();
-//			TicTacToeBoard board = t4.getBoard(presentState);
-//			board.print();
-//		}
-//		System.out.println("ALPHA BETA DEMO done");
-//	}
+	private static void alphaBetaDemo() {
+		System.out.println("ALPHA BETA ");
+		System.out.println("");
+		TresEnRayaJuego t4 = new TresEnRayaJuego();
+		while (!(t4.hasEnded())) {
+			System.out.println("\n" + t4.getPlayerToMove(t4.getState())
+					+ "  playing ... ");
+
+			t4.makeAlphaBetaMove();
+			GameState presentState = t4.getState();
+			TicTacToeBoard board = t4.getBoard(presentState);
+			board.print();
+		}
+		System.out.println("ALPHA BETA DEMO done");
+	}
 	
 	protected void actualizarTablero() {
 		
@@ -142,13 +141,17 @@ public class TicTacToe extends main.Puzzle{
 	}
 
 	protected boolean retroceder() {
-		boolean b = true;
-		return b;
+		// no biyectiva
+		return false;
 	}
 	
 	protected void reiniciar() {
-		t3 = new TicTacToeGame();
+		t3 = new TresEnRayaJuego();
 		botonSiguiente.setEnabled(true);
 		tSolucion.setText("");
+	}
+
+	protected void cargar() {
+		t3 = new TresEnRayaJuego();		
 	}
 }
