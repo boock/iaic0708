@@ -18,7 +18,7 @@ import aima.search.framework.HeuristicFunction;
 /**************************************************************************************************/
 
 public class Puzzle8 extends main.Puzzle{
-	final Tablero tab;
+	private Tablero tab;
 	private final Label[] labels;
 	private final Button botonMezclar;
 	private Display disp;
@@ -29,19 +29,12 @@ public class Puzzle8 extends main.Puzzle{
 	 */
 	public Puzzle8(Display display) {
 
-		super(display,"Puzzle-8",200,200, true);
+		super(display,"Puzzle-8","puzzle8",200,200, true);
 		
 		disp = display;
 		
-
-	/** 
-	 * Puzzle 8
-	 * Tablero de 3x3, el hueco está representado por el cero, y debe quedar en el centro.
-	 */
 		// Crea un tablero colocado (para que lo descoloque el usuario)
 		labels = new Label[9];
-		tab = new Tablero();
-		
 		compPuzzle.setLayout(new GridLayout(3,true));
 		for (int i = 0; i < 9; i++) {
 			labels[i] = new Label(compPuzzle,SWT.CENTER | SWT.BORDER);
@@ -199,11 +192,22 @@ public class Puzzle8 extends main.Puzzle{
 	
 	protected void reiniciar() {
 		// Reinicia el tablero y borra la solución
-		tab.reset();
+		cargar();
 		agent = null;
 		accion_actual=0;
 		botonMezclar.setEnabled(true);
 	}
-	
 
+	protected void cargar() {
+		try {
+			int[] tabAux = new int[9];
+			for (int i=0; i<9; i++)
+				tabAux[i] = Integer.valueOf(data.charAt(i))-48;
+			tab = new Tablero(tabAux);
+		}
+		catch (Exception e) {
+			System.out.println("El fichero de configuración no es correcto.");
+			tab = new Tablero();
+		}
+	}
 }

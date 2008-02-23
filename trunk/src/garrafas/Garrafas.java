@@ -14,7 +14,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class Garrafas extends main.Puzzle{
 	
-	final Contenido contenido;
+	private Contenido contenido;
 	private final Canvas canvas;
 	private final Image fondo,grifo,jar1_0,jar1_1,jar1_2,jar1_3,
 	jar2_0,jar2_1,jar2_2,jar2_3,jar2_4,vierte1_2,vierte2_1;
@@ -24,8 +24,7 @@ public class Garrafas extends main.Puzzle{
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Garrafas(Display display) {
-		super (display, "Garrafas",300,300, true);
-
+		super (display, "Garrafas", "garrafas",300,300, true);
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo  = new Image(display, Garrafas.class.getResourceAsStream("fondo.png"));
 		grifo  = new Image(display, Garrafas.class.getResourceAsStream("grifo.png"));
@@ -43,13 +42,6 @@ public class Garrafas extends main.Puzzle{
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
 
-
-	/** 
-	 * Garrafas
-	 */
-		// Crea un tablero colocado (para que lo descoloque el usuario)
-
-		contenido = new Contenido();
 
 		actualizarTablero();
 
@@ -119,46 +111,36 @@ public class Garrafas extends main.Puzzle{
 	}
 	
 	private void dibujarJarra3(GC gc) {
-		if (accion_actual==0) {
-			gc.drawImage(jar1_0, 40, 125);
-		}
-		else {
-			switch (contenido.isG3()) {
-			case 0:
-				gc.drawImage(jar1_0, 40, 125);					
-				break;
-			case 1:
-				gc.drawImage(jar1_1, 40, 125);
-				break;
-			case 2:
-				gc.drawImage(jar1_2, 40, 125);
-				break;
-			case 3:
-				gc.drawImage(jar1_3, 40, 125);
-			}
+		switch (contenido.isG3()) {
+		case 0:
+			gc.drawImage(jar1_0, 40, 125);					
+			break;
+		case 1:
+			gc.drawImage(jar1_1, 40, 125);
+			break;
+		case 2:
+			gc.drawImage(jar1_2, 40, 125);
+			break;
+		case 3:
+			gc.drawImage(jar1_3, 40, 125);
 		}
 	}
 	private void dibujarJarra4(GC gc) {
-		if (accion_actual==0) {
+		switch (contenido.isG4()) {
+		case 0:
 			gc.drawImage(jar2_0, 150, 100);
-		}
-		else {
-			switch (contenido.isG4()) {
-			case 0:
-				gc.drawImage(jar2_0, 150, 100);
-				break;
-			case 1:
-				gc.drawImage(jar2_1, 150, 100);
-				break;
-			case 2:
-				gc.drawImage(jar2_2, 150, 100);
-				break;
-			case 3:
-				gc.drawImage(jar2_3, 150, 100);
-				break;
-			case 4:
-				gc.drawImage(jar2_4, 150, 100);
-			}
+			break;
+		case 1:
+			gc.drawImage(jar2_1, 150, 100);
+			break;
+		case 2:
+			gc.drawImage(jar2_2, 150, 100);
+			break;
+		case 3:
+			gc.drawImage(jar2_3, 150, 100);
+			break;
+		case 4:
+			gc.drawImage(jar2_4, 150, 100);
 		}
 	}
 	protected void actualizarTablero() {
@@ -246,10 +228,18 @@ public class Garrafas extends main.Puzzle{
 		return b;
 	}
 	
-	protected void reiniciar() {
-		contenido.reset();
-		agent = null;
-		accion_actual=0;
-	}
 
+	protected void cargar() {
+		try {
+			int tres =  Integer.valueOf(data.charAt(0))-48;
+ 			int cuatro =  Integer.valueOf(data.charAt(1))-48;
+ 			if (tres<0 || tres>3 || cuatro<0 || cuatro>4) throw new Exception();
+ 			contenido = new Contenido(cuatro, tres);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("El archivo de configuración no es correcto.");
+			contenido = new Contenido();
+		}	
+	}
 }

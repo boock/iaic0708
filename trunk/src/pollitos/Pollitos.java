@@ -16,7 +16,7 @@ import aima.search.framework.HeuristicFunction;
  */
 public class Pollitos extends main.Puzzle{
 	
-	final Huevera huevera ;
+	private Huevera huevera ;
 	private final Canvas canvas;
 	private final Image caja,hB,hA,hR,p;
 	
@@ -25,7 +25,7 @@ public class Pollitos extends main.Puzzle{
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Pollitos(Display display) {
-		super (display, "Pollitos",365,245, true);
+		super (display, "Pollitos", "pollitos",365,245, true);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		caja  = new Image(display, Pollitos.class.getResourceAsStream("Huevera.PNG"));
@@ -36,14 +36,6 @@ public class Pollitos extends main.Puzzle{
 				
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(caja);
-
-
-	/** 
-	 * Huevera
-	 */
-		// Creamos una huevera 
-
-		huevera = new Huevera();
 
 		actualizarTablero();
 
@@ -191,9 +183,17 @@ public class Pollitos extends main.Puzzle{
 		return b;
 	}
 	
-	protected void reiniciar() {
-		huevera.reset();
-		agent = null;
-		accion_actual=0;
+	protected void cargar() {
+		try {
+			int[][] hueveraAux = new int[2][5];
+			for(int i=0;i<=1;i++)
+				for(int j=0;j<=4;j++)
+					hueveraAux[i][j] = Integer.valueOf(data.charAt(i*5+j))-48;
+			huevera = new Huevera(hueveraAux);
+		}
+		catch (Exception e) {
+			System.out.println("El archivo de configuracion no es correcto.");
+			huevera = new Huevera();
+		}
 	}
 }

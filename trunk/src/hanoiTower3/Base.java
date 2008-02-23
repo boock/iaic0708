@@ -45,7 +45,6 @@ public class Base {
 	
 	/**
 	 * Constructor por defecto.
-	 * @see #EightPuzzleBoard(int[])
 	 */
 	public Base() {
 		board = new char[]  { 'B' , 'C' ,  '1' };
@@ -54,7 +53,6 @@ public class Base {
 	/**
 	 * Constructor del base.
 	 * @param aBoard el array de char que representa las p
-	 * @see #EightPuzzleBoard()
 	 */
 	public Base(char[] aBoard) {
 		board = aBoard;
@@ -66,14 +64,6 @@ public class Base {
 	public void reset() {
 		board = new char[]  { 'B' , 'C' ,  '1' };
 	}
-	
-	/**
-	 * Contrario
-	 * @param i 
-	 */
-//	public void contrario(String where,) {
-//		switch
-//	}
 	
 	/**
 	 * En que plaza esta A , B o C
@@ -180,32 +170,32 @@ public class Base {
 		
 		boolean retVal = true;
 		
-		// No es possible porque ya estas en este lugar (1)
+		// No es posible porque ya estas en este lugar (1)
 		if ( where.equals(MA_1) && ('1' == quePlaza('A') ) ) retVal = false;
 		if ( where.equals(MB_1) && ('1' == quePlaza('B') ) ) retVal = false;
 		if ( where.equals(MC_1) && ('1' == quePlaza('C') ) ) retVal = false;
-		// No es possible porque ya estas en este lugar (2)
+		// No es posible porque ya estas en este lugar (2)
 		if ( where.equals(MA_2) && ('2' == quePlaza('A') ) ) retVal = false;
 		if ( where.equals(MB_2) && ('2' == quePlaza('B') ) ) retVal = false;
 		if ( where.equals(MC_2) && ('2' == quePlaza('C') ) ) retVal = false;
-		// No es possible porque ya estas este lugar (3)
+		// No es posible porque ya estas este lugar (3)
 		if ( where.equals(MA_3) && ('3' == quePlaza('A') ) ) retVal = false;
 		if ( where.equals(MB_3) && ('3' == quePlaza('B') ) ) retVal = false;
 		if ( where.equals(MC_3) && ('3' == quePlaza('C') ) ) retVal = false;
-		// No es possible porque hay algo sobre 1s
+		// No es posible porque hay algo sobre 1s
 		if ( where.equals(MA_1) && hayAlgoSobre('A') ) 	retVal = false;
 		if ( where.equals(MB_1) && hayAlgoSobre('B') )  retVal = false;
 		if ( where.equals(MC_1) && hayAlgoSobre('C') )  retVal = false;
-		// No es possible porque hay algo sobre 2s
+		// No es posible porque hay algo sobre 2s
 		if ( where.equals(MA_2) && hayAlgoSobre('A') ) 	retVal = false;
 		if ( where.equals(MB_2) && hayAlgoSobre('B') )  retVal = false;
 		if ( where.equals(MC_2) && hayAlgoSobre('C') )  retVal = false;
-		// No es possible porque hay algo sobre 3s
+		// No es posible porque hay algo sobre 3s
 		if ( where.equals(MA_3) && hayAlgoSobre('A') ) 	retVal = false;
 		if ( where.equals(MB_3) && hayAlgoSobre('B') )  retVal = false;
 		if ( where.equals(MC_3) && hayAlgoSobre('C') )  retVal = false;
 		
-		// No es possible si hay un mas Pequeno en este
+		// No es posible si hay un mas Pequeno en este
 		if ( where.equals(MB_1) && ( '1' == quePlaza('A') ) ) retVal = false;
 		if ( where.equals(MC_1) && ( '1' == quePlaza('B') ) ) retVal = false;
 		if ( where.equals(MC_1) && ( '1' == quePlaza('A') ) ) retVal = false;

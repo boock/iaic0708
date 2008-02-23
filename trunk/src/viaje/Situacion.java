@@ -41,6 +41,11 @@ public class Situacion {
 	public void setSituacion(String sit) {
 		situacion = sit;
 	}
+	
+
+	public String getSituacion() {
+		return situacion;
+	}
 
 	//Sólo nos podemos mover hacia una ciudad vecina de la que
 	//nos encontremos

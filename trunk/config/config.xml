@@ -1,0 +1,49 @@
+<config>
+	<puzzle nombre="granjero">
+		<info>Cuatro 0s y 1s que indican donde comienzan granjero, lobo, cabra y col (0=izq). Por defecto 0000.</info>
+		<data>0000</data>
+	</puzzle>
+	<puzzle nombre="misioneros">
+		<info>Tres enteros indican donde comienzan el barco (0=izq, 1=der) y cuantos misioneros y canibales hay en la orilla izquierda. Por defecto 033.</info>
+		<data>033</data>
+	</puzzle>
+	<puzzle nombre="puzzle8">
+		<info>Nueve enteros que definen la colocacion del tablero. El cero es el hueco. Por defecto 123405678.</info>
+		<data>123405678</data>
+	</puzzle>
+	<puzzle nombre="garrafas">
+		<info>Dos enteros con el contenido inicial de las garrafas de tres y cuatro litros. Por defecto 00.</info>
+		<data>00</data>
+	</puzzle>
+	<puzzle nombre="pollitos">
+		<info>Diez enteros del 0 al 3 que indican el estado de cada huevo. Por defecto 0000000000.</info>
+		<data>0000000000</data>
+	</puzzle>
+	<puzzle nombre="viaje">
+		<info>Los nombres de las ciudades de origen y destino (tienen que ser una del puzzle) en mayusculas.</info>
+		<data>HUELVA</data>
+		<goal>GRANADA</goal>
+	</puzzle>
+	<puzzle nombre="hanoi3">
+		<info>Tres caracteres indicando sobre que pieza o base estan las piezas A, B y C, siendo las piezas A, B y C y las bases 1, 2 y 3. Por defecto BC1.</info>
+		<data>BC1</data>
+	</puzzle>
+	<puzzle nombre="hanoi4">
+		<info>Cuatro caracteres indicando sobre que pieza o base estan las piezas A, B, C y D, siendo las piezas A, B, C y D y las bases 1, 2, 3 y 4. Por defecto BCD1.</info>
+		<data>BCD2</data>
+	</puzzle>
+	<puzzle nombre="laberinto2D">
+		<info>En data, la posicion inicial XY. En goal la final. Ocho 0s o 1s por fila, representando las paredes del laberinto (1=pared).</info>
+		<data>07</data>
+		<goal>77</goal>
+		<fila0>01110111</fila0>
+		<fila1>11000101</fila1>
+		<fila2>01111101</fila2>
+		<fila3>00101001</fila3>
+		<fila4>00101000</fila4>
+		<fila5>11101111</fila5>
+		<fila6>10001000</fila6>
+		<fila7>10011111</fila7>
+	</puzzle>
+
+</config>

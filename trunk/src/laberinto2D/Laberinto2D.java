@@ -1,5 +1,7 @@
 package laberinto2D;
 
+import main.xmlReader;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -17,7 +19,7 @@ import aima.search.framework.HeuristicFunction;
 
 public class Laberinto2D extends main.Puzzle{
 	private final Label[] labels;
-	final Mapa map;
+	private Mapa map;
 	private final Canvas canvas;
 	private final Image Lab_0,
 						Lab_1_E, Lab_1_N, Lab_1_O, Lab_1_S,
@@ -33,7 +35,7 @@ public class Laberinto2D extends main.Puzzle{
 	public Laberinto2D(Display display) {
 	
 		
-		super(display,"Laberinto-2D", 400, 400, true);
+		super(display,"Laberinto-2D", "laberinto2D", 400, 400, true);
 		Lab_0		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_0.png"));
 		Lab_1_E		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_1_E.png"));
 		Lab_1_N		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_1_N.png"));
@@ -55,24 +57,6 @@ public class Laberinto2D extends main.Puzzle{
 
 		canvas = addCanvas(false);
 
-	/** 
-	 * Laberinto-2D
-	 * El objetivo es de salir del laberinto. 
-	 */
-
-		map = new Mapa( new int[][]{
-				
-			{ 0 , 1 , 1 , 1 , 0 , 1 , 1 , 1 },
-			{ 0 , 1 , 0 , 0 , 0 , 1 , 0 , 1 },
-			{ 0 , 1 , 1 , 1 , 1 , 1 , 0 , 1 },
-			{ 0 , 0 , 1 , 0 , 1 , 0 , 0 , 1 },
-			{ 0 , 0 , 1 , 0 , 1 , 0 , 0 , 0 },
-			{ 1 , 1 , 1 , 0 , 1 , 0 , 0 , 1 },
-			{ 1 , 0 , 0 , 0 , 1 , 0 , 0 , 1 },
-			{ 1 , 0 , 0 , 1 , 1 , 1 , 1 , 1 } }, 
-			
-			0 , 7);
-		
 		labels = new Label[20];
 
 		for (int i = 0; i < 20; i++) {
@@ -212,11 +196,36 @@ public class Laberinto2D extends main.Puzzle{
 	
 	}
 
-	
-	protected void reiniciar() {
-		// Reinicia la mapa
-		map.reset();
-		agent = null;
-		accion_actual=0;
+	protected void cargar() {
+		try {
+		int [][] filas = new int[8][8];
+		int inicioX = Integer.valueOf(data.charAt(0)-48);
+		int inicioY = Integer.valueOf(data.charAt(1)-48);
+		String s;
+		for (int i=0; i<8; i++) {
+			s = xmlReader.read("laberinto2D", "fila"+String.valueOf(i));
+			for (int j=0; j<8; j++) {
+				filas[i][j] = Integer.valueOf(s.charAt(j))-48;
+				if (filas[i][j]!=0 && filas[i][j]!=1) throw new Exception();
+			}
+		}
+		map = new Mapa(filas, inicioX , inicioY);
+		}
+		catch (Exception ex) {
+			System.out.println("El archivo de configuración es incorrecto.");
+			map = new Mapa( new int[][]{
+					{ 0 , 1 , 1 , 1 , 0 , 1 , 1 , 1 },
+					{ 0 , 1 , 0 , 0 , 0 , 1 , 0 , 1 },
+					{ 0 , 1 , 1 , 1 , 1 , 1 , 0 , 1 },
+					{ 0 , 0 , 1 , 0 , 1 , 0 , 0 , 1 },
+					{ 0 , 0 , 1 , 0 , 1 , 0 , 0 , 0 },
+					{ 1 , 1 , 1 , 0 , 1 , 0 , 0 , 1 },
+					{ 1 , 0 , 0 , 0 , 1 , 0 , 0 , 1 },
+					{ 1 , 0 , 0 , 1 , 1 , 1 , 1 , 1 } }, 
+					0, 7);
+			
+		}
 	}
+
+
 }

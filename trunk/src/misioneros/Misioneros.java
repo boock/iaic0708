@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Display;
 
 public class Misioneros extends main.Puzzle {
 	
-	final Rio rio;
+	private Rio rio;
 	private final Canvas canvas;
 	private final Image fondo, barco, misionero, canibal;
 	
@@ -21,7 +21,7 @@ public class Misioneros extends main.Puzzle {
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Misioneros(Display display) {
-		super (display, "Misioneros",300,300, true);
+		super (display, "Misioneros","misioneros",300,300, true);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo = new Image(display, Misioneros.class.getResourceAsStream("rio.png"));
@@ -31,15 +31,6 @@ public class Misioneros extends main.Puzzle {
 
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
-
-
-	/** 
-	 * Misioneros y caníbales
-	 * Río con 3 misioneros y 3 caníbales en la orilla izquierda. Bla bla bla.
-	 */
-		// Crea un tablero colocado (para que lo descoloque el usuario)
-
-		rio = new Rio();
 
 		actualizarTablero();
 
@@ -147,9 +138,16 @@ public class Misioneros extends main.Puzzle {
 		return b;
 	}
 	
-	protected void reiniciar() {
-		rio.reset();
-		agent = null;
-		accion_actual=0;
+	protected void cargar() {
+		try {
+			boolean ba = data.charAt(0)=='0';
+			int ca =  Integer.valueOf(data.charAt(1))-48;
+ 			int mi =  Integer.valueOf(data.charAt(2))-48;
+			rio = new Rio(ca,mi,ba);
+		}
+		catch (Exception ex) {
+			System.out.println("El fichero de configuración no es correcto.");
+			rio = new Rio();
+		}
 	}
 }

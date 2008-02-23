@@ -20,7 +20,7 @@ import aima.search.framework.HeuristicFunction;
 
 public class Viaje extends main.Puzzle{
 	
-	final Situacion situacion ;
+	private Situacion situacion ;
 	private final Canvas canvas;
 	private final Image fondo,coche;
 	
@@ -29,7 +29,7 @@ public class Viaje extends main.Puzzle{
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Viaje(Display display) {
-		super (display, "Viaje",425,245, true);
+		super (display, "Viaje","viaje",425,245, true);
 
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo  = new Image(display, Viaje.class.getResourceAsStream("fondo.PNG"));
@@ -42,9 +42,6 @@ public class Viaje extends main.Puzzle{
 	/** 
 	 * Viaje
 	 */
-		// Creamos un viaje 
-
-		situacion = new Situacion();
 
 		actualizarTablero();
 
@@ -65,34 +62,31 @@ public class Viaje extends main.Puzzle{
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
-				
-				if(accion_actual==0)
-					gc.drawImage(coche,85,95);				
 				// Dibujar la acción actual
-				if (agent!=null && accion_actual>0 && accion_actual<=agent.getActions().size()) {
-					String accion = (String) agent.getActions().get(accion_actual-1);
-					if (accion.equals(Situacion.IR_AL)) 
-						gc.drawImage(coche,360,145);
-					else if (accion.equals(Situacion.IR_CA)) 
-						gc.drawImage(coche,85,175);
-					else if (accion.equals(Situacion.IR_CO)) 
-						gc.drawImage(coche,175,55);
-					else if (accion.equals(Situacion.IR_GR)) 
-						gc.drawImage(coche,255,100);
-					else if (accion.equals(Situacion.IR_HU)) 
-						gc.drawImage(coche,30,115);
-					else if (accion.equals(Situacion.IR_JA)) 
-						gc.drawImage(coche,240,60);
-					else if (accion.equals(Situacion.IR_MA)) 
-						gc.drawImage(coche,210,160);
-					else if (accion.equals(Situacion.IR_SE)) 
-						gc.drawImage(coche,85,95);
-					
-				}
-					
+				String accion = "";
+				if(accion_actual==0)
+					accion = situacion.getSituacion();
+				else if (agent!=null && accion_actual>0 && accion_actual<=agent.getActions().size()) 
+					accion = (String) agent.getActions().get(accion_actual-1);
+
+				if (accion.equals(Situacion.IR_AL) || accion.equals("ALMERIA")) 
+					gc.drawImage(coche,360,145);
+				else if (accion.equals(Situacion.IR_CA) || accion.equals("ALMERIA")) 
+					gc.drawImage(coche,85,175);
+				else if (accion.equals(Situacion.IR_CO) || accion.equals("CORDOBA"))
+					gc.drawImage(coche,175,55);
+				else if (accion.equals(Situacion.IR_GR) || accion.equals("GRANADA"))
+					gc.drawImage(coche,255,100);
+				else if (accion.equals(Situacion.IR_HU) || accion.equals("HUELVA")) 
+					gc.drawImage(coche,30,115);
+				else if (accion.equals(Situacion.IR_JA) || accion.equals("JAEN")) 
+					gc.drawImage(coche,240,60);
+				else if (accion.equals(Situacion.IR_MA) || accion.equals("MALAGA")) 
+					gc.drawImage(coche,210,160);
+				else if (accion.equals(Situacion.IR_SE) || accion.equals("SEVILLA")) 
+					gc.drawImage(coche,85,95);
 			}
 		});
-	
 		addTabSolucion();
 		actualizarTablero();
 		open();
@@ -183,12 +177,8 @@ public class Viaje extends main.Puzzle{
 		}
 		return b;
 	}
-	
-	protected void reiniciar() {
-		situacion.reset();
-		agent = null;
-		accion_actual=0;
+
+	protected void cargar() {
+		situacion = new Situacion(data);
 	}
-
 }
-

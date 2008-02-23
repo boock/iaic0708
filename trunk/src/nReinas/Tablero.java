@@ -26,6 +26,11 @@ public class Tablero {
 		}
 	}
 	
+	public Tablero(int n, int[][] b) {
+		size = n;
+		board = b;
+	}
+	
 	public void addQueenAt(int x, int y) {
 		board[x][y] = 1;
 	}

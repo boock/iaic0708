@@ -37,16 +37,16 @@
 <div id="mainpage">
 <h2>Las garrafas</h2>
 <span class="subhead">Descripci&oacute;n</span>
-    <p> Para el problema de representación de las garrafas, cuyo enunciado es el siguiente: Tenemos 2 garrafas vacías con capacidades de 4l y 3l respectivamente. El objetivo es que la garrafa de 4l acabe conteniendo la mitad (2l). Para ello se pueden llenar las garrafas desde un grifo, trasvasar líquido de una garrafa a la otra y vaciar su contenido en el suelo.</p>
+    <p> Para el problema de representaciÃ³n de las garrafas, cuyo enunciado es el siguiente: Tenemos 2 garrafas vacÃ­as con capacidades de 4l y 3l respectivamente. El objetivo es que la garrafa de 4l acabe conteniendo la mitad (2l). Para ello se pueden llenar las garrafas desde un grifo, trasvasar lÃ­quido de una garrafa a la otra y vaciar su contenido en el suelo.</p>
 
 <span class="subhead">Representaci&oacute;n</span>
-    <p> A partir de este enunciado hemos tomado como estado la cantidad de líquido que contienen las garrafas en cada momento, y hemos representado el estado como (x,y), con x el nº de litros que contiene la garrafa grande e y el nº de litros que contiene la garrafa pequeña. </p>
+    <p> A partir de este enunciado hemos tomado como estado la cantidad de lÃ­quido que contienen las garrafas en cada momento, y hemos representado el estado como (x,y), con x el nÂº de litros que contiene la garrafa grande e y el nÂº de litros que contiene la garrafa pequeÃ±a. </p>
     <ul>
-    <li> Estado inicial:	(0,0), las dos garrafas están vacías.</li>
+    <li> Estado inicial:	(0,0), las dos garrafas estÃ¡n vacÃ­as.</li>
     <li> Estado objetivo:	(2,y), en la garrafa de 4l hay exactamente 2. </li>
     </ul>
     
-    <p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+    <p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basÃ¡ndonos en el enunciado:</p>
 	<ul>
     <li> ll_g4   	"Llenar la jarra de 4 l con la bomba."</li> 
 	<li> ll_g3   	"Llenar la jarra de 3 l con la bomba."</li>
@@ -58,41 +58,48 @@
 	<li> g4_en_g3   "Vaciar la jarra de 4 l en la jarra de 3 l."</li>
     </ul>
     
-    <p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
+    <p> Cada uno de  estos operadores se podrÃ¡ aplicar a un estado siempre y cuando Ã©ste cumpla su precondiciÃ³n:</p>
     <ul>
-    <li> Ejemplo: ll_g3, sólo se puede aplicar si y < 3.</li>
+    <li> Ejemplo: ll_g3, sÃ³lo se puede aplicar si y < 3.</li>
     </ul>
     
      
 <span class="subhead">Estrategias</span>
-    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado únicamente estrategias no informadas:</p>
+    <p> En cuanto a las estrategias utilizadas para este problema de representaciÃ³n, hemos utilizado Ãºnicamente estrategias no informadas:</p>
     <ul>
-    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    <li> BÃºsqueda con ProfundizaciÃ³n Iterativa (IDS)</li>
     	<ul>
-    	<li> Tiempo de ejecución: Aprox. 170 ms.</li>
-		<li> Número de nodos expandidos: 523</li>
-		<li> Solución: En 6 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4)</li>
+    	<li> Tiempo de ejecuciï¿½n: Aprox. 170 ms.</li>
+		<li> Nï¿½mero de nodos expandidos: 523</li>
+		<li> Soluciï¿½n: En 6 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4)</li>
     	</ul>
-	<li> Búsqueda Primero en Anchura (BFS)</li>
+	<li> BÃºsqueda Primero en Anchura (BFS)</li>
 		<ul>
-		<li> Tiempo de ejecución: Aprox. 60 ms.</li>
-		<li> Número de nodos expandidos: 1216</li>
-		<li> Solución: En 6 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4)</li>
+		<li> Tiempo de ejecuciï¿½n: Aprox. 60 ms.</li>
+		<li> Nï¿½mero de nodos expandidos: 1216</li>
+		<li> Soluciï¿½n: En 6 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4)</li>
 		</ul>
-	<li> Búsqueda Primero en Profundidad (DFS)</li>
+	<li> BÃºsqueda Primero en Profundidad (DFS)</li>
 		<ul>
-		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		<li> No se llega a la soluciÃ³n, debido a que se queda infinitamente ciclando.</li>
 		</ul>
-	<li> Búsqueda con límite de Profundidad (DLS)</li>
+	<li> BÃºsqueda con lÃ­mite de Profundidad (DLS)</li>
 		<ul>
-		<li> El límite en profundidad utilizado es 7.</li>
-		<li> Tiempo de ejecución: Aprox. 80 ms.</li>
-		<li> Número de nodos expandidos: 426</li>
-		<li> Solución: En 7 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4, v_g3)
+<<<<<<< .mine
+		<li> El lÃ­mite en profundidad utilizado es 7.</li>
+		<li> Tiempo de ejecuciÃ³n: Aprox. 80 ms.
+		<li> NÂº de nodos expandidos: 426
+		<li> SoluciÃ³n: En 7 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4, v_g3)
+=======
+		<li> El lï¿½mite en profundidad utilizado es 7.</li>
+		<li> Tiempo de ejecuciï¿½n: Aprox. 80 ms.</li>
+		<li> Nï¿½mero de nodos expandidos: 426</li>
+		<li> Soluciï¿½n: En 7 pasos(ll_g3, g3_en_g4, ll_g3, g4_con_g3, v_g4, g3_g4, v_g3)
+>>>>>>> .r143
 		</ul>
 	</ul>
 	
-	<p> Por lo que se puede apreciar en este problema en concreto es que para todas las estrategias utilizadas, excepto DFS, el resultado es parecido, todas se resuelven en torno a los 100 ms y el número de pasos es muy similar, lo único que es más apreciable es que en Primero en Anchura se expanden el doble de nodos que en las demás, algo que está asociado a la forma de proceder de esta estrategia.</p>
+	<p> Por lo que se puede apreciar en este problema en concreto es que para todas las estrategias utilizadas, excepto DFS, el resultado es parecido, todas se resuelven en torno a los 100 ms y el nï¿½mero de pasos es muy similar, lo ï¿½nico que es mï¿½s apreciable es que en Primero en Anchura se expanden el doble de nodos que en las demï¿½s, algo que estï¿½ asociado a la forma de proceder de esta estrategia.</p>
 
 </div>
 

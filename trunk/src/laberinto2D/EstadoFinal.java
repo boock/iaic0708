@@ -1,5 +1,6 @@
 package laberinto2D;
 
+import main.xmlReader;
 import aima.search.framework.GoalTest;
 
 /**
@@ -9,8 +10,8 @@ import aima.search.framework.GoalTest;
 
 public class EstadoFinal implements GoalTest {
 	// Mapa que representa el estado final
-	Mapa goal = new Mapa(7,7);
-	
+	String s = xmlReader.read("laberinto2D", "goal");
+	Mapa goal = new Mapa(Integer.valueOf(s.charAt(0))-48,Integer.valueOf(s.charAt(1))-48);
 	/**
 	 * Comprueba si el jugador a llegado a la salida
 	 */

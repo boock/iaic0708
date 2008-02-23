@@ -32,15 +32,15 @@ import pollitos.Pollitos;
 /**************************************************************************************************/
 
 public class Main {
-	public Main(){
+	public Main(boolean debug){
 		final Display display = new Display();
 		final Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(1,false));
-		
+
 		final Canvas canvas = new Canvas(shell, SWT.NONE);
 		final Image intro = new Image(display, Main.class.getResourceAsStream("intro.png"));
 		final Button bEmpezar = new Button(shell, SWT.PUSH);
-		
+
 		canvas.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		canvas.addPaintListener(new PaintListener(){
 			public void paintControl(PaintEvent e) {
@@ -53,70 +53,70 @@ public class Main {
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 			public void widgetSelected(SelectionEvent arg0) {
 				shell.close();
-				Laberinto3D lab = new Laberinto3D(display);
+				new Laberinto3D(display);
 			}
-			
 		});
-		//TODO quitar esto
-		final Combo combo = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
-		combo.add("Puzzle8");
-		combo.add("Misioneros");
-		combo.add("N-Reinas");
-		combo.add("Laberinto-2D");
-		combo.add("El granjero");
-		combo.add("Las garrafas");
-		combo.add("Hanoi Tower 3");
-		combo.add("Hanoi Tower 4");
-		combo.add("El viaje");
-		combo.add("Laberinto 3D");
-		combo.add("Tic Tac Toe");
-		combo.add("Los Pollitos");
-		
-		combo.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected(SelectionEvent e) {}
-			public void widgetSelected(SelectionEvent e) {
-				switch (combo.getSelectionIndex()) {
-				case 0:
-					new Puzzle8(display);
-					break;
-				case 1:
-					new Misioneros(display);
-					break;
-				case 2:
-					new nReinas(display,10);
-					break;		
-				case 3:
-					new Laberinto2D(display);
-					break;	
-				case 4:
-					new Granjero(display);
-					break;
-				case 5:
-					new Garrafas(display);
-					break;
-				case 6:
-					new HanoiTower3(display);
-					break;
-				case 7:
-					new HanoiTower4(display);
-					break;
-				case 8:
-					new Viaje(display);
-					break;
-				case 9:
-					new Laberinto3D(display);
-					break;
-				case 10:
-					new TicTacToe(display);
-					break;
-				case 11:
-					new Pollitos(display);
-					break;
+		if (debug) {
+			final Combo combo = new Combo(shell, SWT.NONE | SWT.READ_ONLY);
+			combo.add("Puzzle8");
+			combo.add("Misioneros");
+			combo.add("N-Reinas");
+			combo.add("Laberinto-2D");
+			combo.add("El granjero");
+			combo.add("Las garrafas");
+			combo.add("Hanoi Tower 3");
+			combo.add("Hanoi Tower 4");
+			combo.add("El viaje");
+			combo.add("Laberinto 3D");
+			combo.add("Tic Tac Toe");
+			combo.add("Los Pollitos");
+
+			combo.addSelectionListener(new SelectionListener() {
+
+				public void widgetDefaultSelected(SelectionEvent e) {}
+				public void widgetSelected(SelectionEvent e) {
+					switch (combo.getSelectionIndex()) {
+					case 0:
+						new Puzzle8(display);
+						break;
+					case 1:
+						new Misioneros(display);
+						break;
+					case 2:
+						new nReinas(display,10);
+						break;		
+					case 3:
+						new Laberinto2D(display);
+						break;	
+					case 4:
+						new Granjero(display);
+						break;
+					case 5:
+						new Garrafas(display);
+						break;
+					case 6:
+						new HanoiTower3(display);
+						break;
+					case 7:
+						new HanoiTower4(display);
+						break;
+					case 8:
+						new Viaje(display);
+						break;
+					case 9:
+						new Laberinto3D(display);
+						break;
+					case 10:
+						new TicTacToe(display);
+						break;
+					case 11:
+						new Pollitos(display);
+						break;
+					}
 				}
-			}
-		});
-		
+			});
+		}
 		shell.setSize(500,400);
 		// Centrar ventana
 		shell.setLocation(shell.getDisplay().getClientArea().width/2 - shell.getSize().x/2, shell.getDisplay().getClientArea().height/2 - shell.getSize().y/2);
@@ -129,8 +129,10 @@ public class Main {
 			}
 		}
 	}
-	
+
 	public static void main (String[] args) {
-		new Main();
+		boolean debug = false;
+		if (args.length>0 && args[0].equals("-debug")) debug=true;
+		new Main(debug);
 	}
 }
