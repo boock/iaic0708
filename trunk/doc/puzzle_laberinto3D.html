@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cUbE-sAPiEnS :: IAIC 2007-2008 </title>
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+  <style>
+  /*<![CDATA[*/
+#sidebarbottom {background:url(images/sidebarbottom.jpg) no-repeat -3px;}
+  /*]]>*/
+  </style>
+<![endif]-->
+</head>
+
+<body>
+<div id="wrap">
+<div id="topbar">
+  
+</div>
+<div id="header">
+<ul id="topmenu">
+<li><a href="index.html">Inicio</a>
+</li>
+<li class="active"><a href="styles.html">Puzzles</a>
+</li>
+<li><a href="styles.html">Implementación</a>
+</li>
+<li><a href="styles.html">Referencias</a>
+</li>
+<li><a href="notes.html">Conclusiones</a>
+</li>
+</ul>
+</div>
+<div id="content">
+<div id="mainpage">
+
+
+<!-- A partir de aquí está lo que hay que editar -->
+
+
+<h2>Laberinto 3D</h2>
+<span class="subhead">Descripción</span>
+    <p> Este es el puzzle principal de la aplicación. Se trata de un laberinto tridimensional.
+    El laberinto tiene forma de cubo de Rubik: una serie de habitaciones cúbicas para formar un gran
+    cubo de 3x3x3 habitaciones.</p>
+    <p>En principio, se puede abrir una puerta en cualquier pared de cualquier habitación, salvo que
+    forme parte de una pared exterior, o se haya fallado en el intento de abrirla y esté bloqueada.</p>
+    <p>Para abrir una puerta, hay que resolver un puzzle. Una vez resuelto, se puede pasar por la puerta, 
+    pero si no se consigue resolver, la puerta se bloquea y el aventurero tendrá que buscar un camino 
+    alternativo.</p>
+    <p>El laberinto tiene salidas en las cuatro esquinas del cubo.</p>
+<span class="subhead">Representación</span>
+    <p>Para representar el estado de las puertas del puzzle hemos utilizado tres arrays de arrays bidimensionales.</p>
+    <p>De otra manera, un array representa una dimensión y contiene las paredes perpendiculares a esa dimensión.
+    Las paredes contienen el estado de las puertas, que puede ser:</p>
+	<ul>
+	<li>-1: bloqueada</li>
+	<li>0: cerrada</li>
+	<li>1: abierta</li>
+	</ul>
+	<p>El estado también almacena la posición actual del aventurero.</p> 
+	<p>El estado inicial del laberinto es con todas las puertas cerradas (0) y el aventurero en la posición que se desee.
+	El estado final es cuando la posición del aventurero corresponde con una casilla de salida.</p>
+	<div id="gray">
+	<table>
+	<tr>
+	<td>Esto es una tabla</td>
+	<td>Dentro de un div &quot;gray&quot;.</td>
+	</tr>
+	<tr>
+	<td>Celda 3</td>
+	<td>Celda 4</td>
+	</tr>
+	</table>
+	</div>
+<span class="subhead">Estrategias</span>
+    <p>Aqui van las distintas estrategias, heuristicas y demas.</p>
+
+
+<!-- Por debajo de aquí no hay más que editar -->
+
+</div>
+<div id="sidebar">
+<div id="sidebarcontents"> 
+<ul id="menu">
+<li><h2>Puzzles</h2></li>
+<li>
+   <ul>
+		<li><a href="puzzle_laberinto3D.html"  >Laberinto 3D</a></li>
+		<li><a href="puzzle_garrafas.html"     >Las garrafas</a></li>
+		<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
+		<li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
+		<li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
+		<li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
+		<li><a href="puzzle_misioneros.html"   >Misioneros y can&iacute;bales</a></li>
+		<li><a href="puzzle_negrasBlancas.html">Negras y blancas</a></li>
+		<li><a href="puzzle_nreinas.html"      >N Reinas</a></li>
+		<li><a href="puzzle_pollitos.html"     >Los pollitos</a></li>
+		<li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
+		<li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
+		<li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
+		<li><a href="puzzle_tictactoe.html"    >Tres en raya</a></li>
+		<li><a href="puzzle_viaje.html"        >El viaje</a></li>
+   </ul>
+</li>
+</ul>
+</div>
+  <div id="sidebarbottom"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="footer">
+cUbE-sAPiEnS :: IAIC 2007-2008</div>
+<div id="credit"><a href="http://www.ramblingsoul.com">CSS Layout</a> by Rambling Soul</div></div>
+
+</body>
+</html>
