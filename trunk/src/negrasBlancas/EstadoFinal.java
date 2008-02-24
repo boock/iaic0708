@@ -14,7 +14,7 @@ import aima.search.framework.GoalTest;
 
 public class EstadoFinal implements GoalTest {
 	// Tablero que representa el estado final, con el hueco en el centro
-	Tablero goal = new Tablero(new char[] { 'N', 'N', 'N', '0', 'B', 'B', 'B'});
+	Tablero goal = new Tablero(new char[] { 'N', 'N', 'N', 'o', 'B', 'B', 'B'});
 
 	
 	/**

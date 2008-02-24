@@ -14,7 +14,7 @@ public class Tablero {
 	public static String RIGHT_1 = "Colocar el hueco a la Derecha de 1";
 	public static String RIGHT_2 = "Colocar el hueco a la Derecha de 2";
 	public static String RIGHT_3 = "Colocar el hueco a la Derecha de 3";
-	public static int MaxR = 5;
+	public static int MaxR = 7;
 	public static int MinL = 0;
 	
 	static String[] operadores = new String[]  { LEFT_1 , LEFT_2 , LEFT_2 , RIGHT_1 , RIGHT_2 , RIGHT_3 };
@@ -34,22 +34,32 @@ public class Tablero {
 	 * Constructor por defecto.
 	 */
 	public Tablero() {
-		board = new char[]  { 'B', 'B', 'B', '0', 'N', 'N', 'N' };
+		board = new char[]  { 'B', 'B', 'B', 'o', 'N', 'N', 'N' };
 	}
 
+	/**
+	 * Constructor por defecto.
+	 */
+	public Tablero(Tablero aBoard) {
+		board = new char[7];
+		for(int i=0;i<7;i++)
+			board[i]=aBoard.board[i];
+	}
 	/**
 	 * Constructor del tablero.
 	 * @param aBoard el array de enteros (7 posiciones) que representa al tablero
 	 */
 	public Tablero(char[] aBoard) {
-		board = aBoard;
+		board = new char[7];
+		for(int i=0;i<7;i++)
+			board[i]=aBoard[i];
 	}
 	
 	/**
 	 * Coloca el tablero en configuración inicial
 	 */
 	public void reset() {
-		board = new char[]  { 'B', 'B', 'B', '0', 'N', 'N', 'N' };
+		board = new char[]  { 'B', 'B', 'B', 'o', 'N', 'N', 'N' };
 	}
 	
 	/**
@@ -103,16 +113,16 @@ public class Tablero {
 	/**
 	 * Busca la posición absoluta de un valor dado
 	 * @param val el valor a buscar
-	 * @return la posición [0..9] o -1 si no lo ha encontrado
+	 * @return la posición [0..7]
 	 */
 	private int getPositionOf(char val) {
-		int retVal = -1;
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < MaxR; i++) {
 			if (board[i] == val) {
-				retVal = i;
+				return i;
 			}
 		}
-		return retVal;
+		/*System.out.println("Error sur '"+val+"' !!!");*/
+		return -1;
 	}
 
 	/**
@@ -120,7 +130,7 @@ public class Tablero {
 	 * @return
 	 */
 	private int getGapPosition() {
-		return getPositionOf('0');
+		return getPositionOf('o');
 	}
 	
 	/**
@@ -139,10 +149,9 @@ public class Tablero {
 		int gPos = getGapPosition();
 		if (gPos >= MinL - 1) {
 			char tmp = board[gPos-1];
-			board[gPos-1] = '0';
+			board[gPos-1] = 'o';
 			board[gPos] = tmp;
 		}
-
 	}
 	
 	/**
@@ -152,10 +161,9 @@ public class Tablero {
 		int gPos = getGapPosition();
 		if (gPos >= MinL + 2) {
 			char tmp = board[gPos-2];
-			board[gPos] = '0';
+			board[gPos] = 'o';
 			board[gPos-2] = tmp;
 		}
-
 	}
 
 	/**
@@ -165,21 +173,21 @@ public class Tablero {
 		int gPos = getGapPosition();
 		if (gPos <= MinL + 3) {
 			char tmp = board[gPos-3];
-			board[gPos-3] = '0';
+			board[gPos-3] = 'o';
 			board[gPos] = tmp;
 		}
 
 	}
 
 	/**
-	 * Mueve el hueco a la izquierda si es posible
+	 * Mueve el hueco a la derecha si es posible
 	 */
 	public void moveGapRight_1() {
 		int gPos = getGapPosition();
-		if (gPos <= MaxR - 1) {
-			char tmp = board[gPos+2];
-			board[gPos] = '0';
-			board[gPos+2] = tmp;
+		if (gPos <= MaxR - 2) {
+			char tmp = board[gPos+1];
+			board[gPos] = 'o';
+			board[gPos+1] = tmp;
 		}
 
 	}
@@ -189,9 +197,9 @@ public class Tablero {
 	 */
 	public void moveGapRight_2() {
 		int gPos = getGapPosition();
-		if (gPos <= MaxR - 2) {
+		if (gPos <= MaxR - 3) {
 			char tmp = board[gPos+2];
-			board[gPos+2] = '0';
+			board[gPos+2] = 'o';
 			board[gPos] = tmp;
 		}
 
@@ -202,9 +210,9 @@ public class Tablero {
 	 */
 	public void moveGapRight_3() {
 		int gPos = getGapPosition();
-		if (gPos <= MaxR - 3) {
+		if (gPos <= MaxR - 4) {
 			char tmp = board[gPos+3];
-			board[gPos] = '0';
+			board[gPos] = 'o';
 			board[gPos+3] = tmp;
 		}
 
@@ -218,6 +226,9 @@ public class Tablero {
 		if ( mov.equals(LEFT_1) ) moveGapLeft_1();
 		if ( mov.equals(LEFT_2) ) moveGapLeft_2();
 		if ( mov.equals(LEFT_3) ) moveGapLeft_3();
+		
+		/*System.out.println("Mover!!");
+		System.out.println(this.board);*/
 	}
 
 	@Override
@@ -264,17 +275,17 @@ public class Tablero {
 			}
 		}
 		if (where.equals(RIGHT_1)) {
-			if (getGapPosition()<=MaxR-1) {
-				retVal = true;
-			}
-		}
-		if (where.equals(RIGHT_2)) {
 			if (getGapPosition()<=MaxR-2) {
 				retVal = true;
 			}
 		}
-		if (where.equals(RIGHT_3)) {
+		if (where.equals(RIGHT_2)) {
 			if (getGapPosition()<=MaxR-3) {
+				retVal = true;
+			}
+		}
+		if (where.equals(RIGHT_3)) {
+			if (getGapPosition()<=MaxR-4) {
 				retVal = true;
 			}
 		}
