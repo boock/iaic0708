@@ -7,6 +7,11 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Display;
 
+import puzzle8.EstadoFinal;
+import puzzle8.FuncionHeuristicManhattan;
+import puzzle8.FuncionSucesor;
+import aima.search.framework.HeuristicFunction;
+
 /**************************************************************************************************/
 
 public class NegrasBlancas extends main.Puzzle{
@@ -20,6 +25,8 @@ public class NegrasBlancas extends main.Puzzle{
 		final Image blanca	= new Image(display, NegrasBlancas.class.getResourceAsStream("blanca.png"));
 		final Image negra	= new Image(display, NegrasBlancas.class.getResourceAsStream("negra.png"));
 		final Image tablero = new Image(display, NegrasBlancas.class.getResourceAsStream("tablero.png"));
+		HeuristicFunction h[] = { new FuncionHeuristicManhattan() };
+		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), h );
 		addTabIntro("El objetivo es mover las blancas a la derecha y las negras a la izquierda.");
 		
 		addTabDLS(tab, 30, new FuncionSucesor(), new EstadoFinal());
