@@ -64,7 +64,7 @@ public class NegrasBlancas extends main.Puzzle{
 	protected boolean avanzar() {
 		String accion = (String) agent.getActions().get(accion_actual);
 		//hacer movimiento
-		
+		tab.mover(accion);
 		accion_actual++;
 		actualizarTablero();
 		return true;
@@ -88,6 +88,4 @@ public class NegrasBlancas extends main.Puzzle{
 			tab = new Tablero();
 		}
 	}
-	
-
 }
