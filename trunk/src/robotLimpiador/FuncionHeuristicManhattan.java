@@ -1,7 +1,3 @@
-/*
- * Created on Sep 12, 2004
- *
- */
 package robotLimpiador;
 
 import aima.search.framework.HeuristicFunction;
@@ -13,7 +9,7 @@ import aima.search.framework.HeuristicFunction;
 
 public class FuncionHeuristicManhattan implements HeuristicFunction {
 	
-	static String nombre = "Manathan";
+	static String nombre = "Manhattan";
 	
 	public double getHeuristicValue(Object state) {
 		Tablero board = (Tablero) state;

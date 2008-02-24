@@ -81,7 +81,12 @@
 	</table>
 	</div>
 <span class="subhead">Estrategias</span>
-    <p>Aqui van las distintas estrategias, heuristicas y demas.</p>
+    <p>Se ha implementado una función de coste que intenta impedir pasar innecesariamente
+    por una puerta cerrada. Se asigna a la acción de cruzar una puerta cerrada un coste
+    de 5, mientras que una puerta abierta tiene un coste de 1. Dicho de otra forma,
+    es preferible dar una pequeña vuelta que tener que abrir otro puzzle.</p>
+    <p>Sobre esto se añade una función heurística que se calcula como la distancia de Manhattan
+    desde la posición actual a cualquiera de las salidas.</p>
 
 
 <!-- Por debajo de aquí no hay más que editar -->

@@ -45,7 +45,7 @@ public class HanoiTower4 extends main.Puzzle{
 		addTabDFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(tab, 15, new FuncionSucesor(), new EstadoFinal());
 		HeuristicFunction h[] = { new HeuristicaPrimera() , new HeuristicaSegunda() , new HeuristicaTercera() };
-		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), h );
+		addTabAStar(tab, new FuncionSucesor(), null, new EstadoFinal(), h );
 		
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {

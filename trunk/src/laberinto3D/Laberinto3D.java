@@ -27,13 +27,16 @@ import aima.search.framework.HeuristicFunction;
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
+import aima.search.framework.StepCostFunction;
 import aima.search.framework.SuccessorFunction;
 import aima.search.informed.AStarSearch;
 
 import puzzle8.Puzzle8;
+import main.Main;
 import main.Puzzle;
 import misioneros.Misioneros;
 import nReinas.nReinas;
+import negrasBlancas.NegrasBlancas;
 import laberinto2D.Laberinto2D;
 import garrafas.Garrafas;
 import granjero.Granjero;
@@ -42,6 +45,7 @@ import hanoiTower4.HanoiTower4;
 import tresEnRaya.TresEnRaya;
 import viaje.Viaje;
 import pollitos.Pollitos;
+import robotLimpiador.RobotLimpiador;
 
 /**
  * @param <Mapa>************************************************************************************************/
@@ -65,6 +69,7 @@ public class Laberinto3D{
 		this.display = display;
 		shell = new Shell(display);
 		shell.setText("cUbE-sAPiEnS");
+		shell.setImage(new Image(display, Main.class.getResourceAsStream("icono.gif")));
 		shell.setLayout(new GridLayout(2,false));
 		int ancho = 400;
 		int alto = 400;
@@ -314,7 +319,7 @@ public class Laberinto3D{
 				}
 			}
 			else if (!positivo) {
-				if (mapa.x_pos==0) { decir("Aima", "Esa es una pared sólida. No parece haber una puerta...", true);}
+				if (mapa.y_pos==0) { decir("Aima", "Esa es una pared sólida. No parece haber una puerta...", true);}
 				else if(mapa.ejeY[mapa.y_pos-1].context[mapa.x_pos][mapa.z_pos]==-1) { decir("cUbE", "¡¡Esa puerta ya nunca se abrirá!! ¡¡Muahahaha!!", true);}
 				else if(mapa.ejeY[mapa.y_pos-1].context[mapa.x_pos][mapa.z_pos]==1) { mapa.y_pos--; actualizarTablero();}				
 				else if(mapa.ejeY[mapa.y_pos-1].context[mapa.x_pos][mapa.z_pos]==0) {
@@ -348,9 +353,9 @@ public class Laberinto3D{
 			// buscar una solución por puertas abiertas, y otra por puertas cerradas, y comparar los costes
 			GoalTest gt = new EstadoFinal();
 			HeuristicFunction h = new Manhattan();
-
+			StepCostFunction scf = new FuncionCoste();
 			SuccessorFunction fs = new FuncionSucesor();
-			Problem problem = new Problem(mapa, fs, gt, h);
+			Problem problem = new Problem(mapa, fs, gt, scf, h);
 			Search search = new AStarSearch(new GraphSearch());
 			SearchAgent agent = new SearchAgent(problem, search);
 
@@ -363,6 +368,7 @@ public class Laberinto3D{
 				decir("Aima", "No encuentro salida. ¡Estamos atrapados!", true);
 			else {
 				decir("Aima","Creo que deberíamos ir por " + agent.getActions().get(0), true);
+				System.out.println(agent.getInstrumentation().getProperty("pathCost"));
 /*				String salida = "";
 				for (int i = 0; i < agent.getActions().size(); i++) {
 					String action = (String) agent.getActions().get(i);
@@ -393,7 +399,7 @@ public class Laberinto3D{
 	}
 	
 	private boolean ejecutarPuzzle(){
-		int r = rnd.nextInt(10);
+		int r = rnd.nextInt(12);
 		Puzzle p;
 		switch (r) {
 			case 0:
@@ -425,8 +431,15 @@ public class Laberinto3D{
 				break;
 			case 9:
 				p = new Granjero(display);
+				break;
+			case 10:
+				p = new TresEnRaya(display);
+				break;
+			case 11:
+				p = new NegrasBlancas(display);
+				break;
 			default:
-				p = new TresEnRaya(display);		
+				p = new RobotLimpiador(display);
 		}
 		return p.solucionEncontrada;
 	}

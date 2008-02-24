@@ -15,7 +15,7 @@ public class NegrasBlancas extends main.Puzzle{
 	private Tablero tab;
 	private Canvas canvas;
 	public NegrasBlancas(Display display) {
-		super(display, "Negras y blancas", "negrasblancas", 300, 300, true);
+		super(display, "Negras y blancas", "negrasblancas", 300, 300, false);
 		
 		canvas = addCanvas(true);
 		
@@ -23,8 +23,8 @@ public class NegrasBlancas extends main.Puzzle{
 		final Image negra	= new Image(display, NegrasBlancas.class.getResourceAsStream("negra.png"));
 		final Image tablero = new Image(display, NegrasBlancas.class.getResourceAsStream("tablero.png"));
 		HeuristicFunction h[] = { new FuncionHeuristicManhattan() };
-		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), h );
 		addTabIntro("El objetivo es mover las blancas a la derecha y las negras a la izquierda.");
+		addTabAStar(tab, new FuncionSucesor(), null, new EstadoFinal(), h );
 		addTabDLS(tab, 30, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabIDS(tab, new FuncionSucesor(), new EstadoFinal());

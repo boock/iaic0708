@@ -91,7 +91,7 @@ public class Puzzle8 extends main.Puzzle{
 		addTabDLS(tab, 15, new FuncionSucesor(), new EstadoFinal());
 		
 		HeuristicFunction h[] = { new FuncionHeuristicManhattan() };
-		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), h );
+		addTabAStar(tab, new FuncionSucesor(), null, new EstadoFinal(), h );
 		
 		addTabSolucion();
 		actualizarTablero();

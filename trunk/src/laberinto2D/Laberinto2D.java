@@ -14,9 +14,11 @@ import org.eclipse.swt.widgets.Label;
 
 import aima.search.framework.HeuristicFunction;
 
-/**
- * @param <Mapa>************************************************************************************************/
 
+/**
+ * Laberinto 2D
+ * @author Daniel Dionne, Jim Mainprice
+ */
 public class Laberinto2D extends main.Puzzle{
 	private final Label[] labels;
 	private Mapa map;
@@ -26,15 +28,13 @@ public class Laberinto2D extends main.Puzzle{
 						Lab_2_EO, Lab_2_ES, Lab_2_NE, Lab_2_NO, Lab_2_NS, Lab_2_OS,
 						Lab_3_EOS, Lab_3_NEO, Lab_3_NES, Lab_3_NOS,
 						Lab_4,
-						Lab_pasado,
+						Lab_barro, Lab_pasado, Lab_meta,
 						Lab_avatar;
 	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Laberinto2D(Display display) {
-	
-		
 		super(display,"Laberinto-2D", "laberinto2D", 400, 400, true);
 		Lab_0		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_0.png"));
 		Lab_1_E		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_1_E.png"));
@@ -52,9 +52,11 @@ public class Laberinto2D extends main.Puzzle{
 		Lab_3_NES	= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_3_NES.png"));
 		Lab_3_NOS	= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_3_NOS.png"));
 		Lab_4		= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_4.png"));
+		Lab_barro	= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_barro.png"));
 		Lab_pasado	= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_pasado.png"));
 		Lab_avatar	= new Image(display, Laberinto2D.class.getResourceAsStream("canibal.png"));
-
+		Lab_meta	= new Image(display, Laberinto2D.class.getResourceAsStream("Lab_meta.png"));
+		
 		canvas = addCanvas(false);
 
 		labels = new Label[20];
@@ -64,15 +66,17 @@ public class Laberinto2D extends main.Puzzle{
 			labels[i].setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 		}
 
-		addTabIntro("El objetivo es de salir del laberinto en un mínimo número de pasos");
+		addTabIntro("El objetivo es de salir del laberinto en un mínimo número de pasos. Intenta " +
+				"no pasar por el barro, o perderás tiempo.");
 		
 		addTabIDS(map, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(map, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(map, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(map, 23, new FuncionSucesor(), new EstadoFinal());
 		HeuristicFunction h[] = { new Pytagore() , new Manhatan() , new Manhatan_extendida() };
-		addTabAStar(map, new FuncionSucesor(), new EstadoFinal(), h );
-		
+		addTabEscalada(map, new FuncionSucesor(), new EstadoFinal(), h);
+		addTabVoraz(map, new FuncionSucesor(), new EstadoFinal(), h);
+		addTabAStar(map, new FuncionSucesor(), new FuncionCoste(), new EstadoFinal(), h );
 		// Dibujar puzzle
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {
@@ -82,7 +86,6 @@ public class Laberinto2D extends main.Puzzle{
 						dibujarCasilla(j,i, gc);
 					}
 			}
-			
 		});
 
 		addTabSolucion();
@@ -93,11 +96,11 @@ public class Laberinto2D extends main.Puzzle{
 		int pieza = 0; // NSEO
 		int x_limit = 7;
 		int y_limit = 7;
-		if (map.context[j][i]==1) {
-			if (i>0			&& map.context[j][i-1]==1) pieza+=1;
-			if (i<x_limit	&& map.context[j][i+1]==1) pieza+=10;
-			if (j>0			&& map.context[j-1][i]==1) pieza+=1000;
-			if (j<y_limit	&& map.context[j+1][i]==1) pieza+=100;
+		if (map.context[j][i]>0) {
+			if (i>0			&& map.context[j][i-1]>0) pieza+=1;
+			if (i<x_limit	&& map.context[j][i+1]>0) pieza+=10;
+			if (j>0			&& map.context[j-1][i]>0) pieza+=1000;
+			if (j<y_limit	&& map.context[j+1][i]>0) pieza+=100;
 		}
 		Image im;
 		switch (pieza) {
@@ -152,15 +155,14 @@ public class Laberinto2D extends main.Puzzle{
 		}
 		//TODO que vaya dibujando el camino hasta aquí
 		gc.drawImage(im, i*50, j*50);
+		// Dibujar barro
+		if (map.context[j][i]==2) gc.drawImage(Lab_barro, i*50, j*50);
 		// Dibujar punto
 		if (i==map.x_pos && j==map.y_pos)
 			gc.drawImage(Lab_avatar, i*50, j*50);
-		
-		if (i==0 && j==7)
-			gc.drawImage(Lab_pasado, i*50, j*50);
-		
-		if (i==7 && j==7)
-			gc.drawImage(Lab_pasado, i*50, j*50);
+
+		if (i==map.x_obj && j==map.y_obj)
+			gc.drawImage(Lab_meta, i*50, j*50);
 		
 	}
 	
@@ -193,7 +195,6 @@ public class Laberinto2D extends main.Puzzle{
 		else if (accion.equals("Abajo"))
 			map.mover("Arriba");
 		return true;
-	
 	}
 
 	protected void cargar() {
@@ -206,26 +207,18 @@ public class Laberinto2D extends main.Puzzle{
 			s = xmlReader.read("laberinto2D", "fila"+String.valueOf(i));
 			for (int j=0; j<8; j++) {
 				filas[i][j] = Integer.valueOf(s.charAt(j))-48;
-				if (filas[i][j]!=0 && filas[i][j]!=1) throw new Exception();
+				if (filas[i][j]!=0 && filas[i][j]!=1 && filas[i][j]!=2) throw new Exception();
 			}
 		}
-		map = new Mapa(filas, inicioX , inicioY);
+		s = xmlReader.read("laberinto2D", "goal");
+		int objX = Integer.valueOf(s.charAt(0))-48;
+		int objY = Integer.valueOf(s.charAt(1))-48;
+
+		map = new Mapa(filas, inicioX , inicioY, objX, objY);
 		}
 		catch (Exception ex) {
 			System.out.println("El archivo de configuración es incorrecto.");
-			map = new Mapa( new int[][]{
-					{ 0 , 1 , 1 , 1 , 0 , 1 , 1 , 1 },
-					{ 0 , 1 , 0 , 0 , 0 , 1 , 0 , 1 },
-					{ 0 , 1 , 1 , 1 , 1 , 1 , 0 , 1 },
-					{ 0 , 0 , 1 , 0 , 1 , 0 , 0 , 1 },
-					{ 0 , 0 , 1 , 0 , 1 , 0 , 0 , 0 },
-					{ 1 , 1 , 1 , 0 , 1 , 0 , 0 , 1 },
-					{ 1 , 0 , 0 , 0 , 1 , 0 , 0 , 1 },
-					{ 1 , 0 , 0 , 1 , 1 , 1 , 1 , 1 } }, 
-					0, 7);
-			
+			map = new Mapa();
 		}
 	}
-
-
 }

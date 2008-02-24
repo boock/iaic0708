@@ -36,13 +36,13 @@
 		<info>En data, la posicion inicial XY. En goal la final. Ocho 0s o 1s por fila, representando las paredes del laberinto (1=pared).</info>
 		<data>07</data>
 		<goal>77</goal>
-		<fila0>01110111</fila0>
+		<fila0>01111111</fila0>
 		<fila1>11000101</fila1>
-		<fila2>01111101</fila2>
+		<fila2>01121121</fila2>
 		<fila3>00101001</fila3>
 		<fila4>00101000</fila4>
 		<fila5>11101111</fila5>
-		<fila6>10001000</fila6>
+		<fila6>10002001</fila6>
 		<fila7>10011111</fila7>
 	</puzzle>
 	<puzzle nombre="negrasblancas">

@@ -1,16 +1,15 @@
-/*
- * Created on Feb 15, 2005
- *
- */
 package tresEnRaya;
 
 import aima.games.*;
+
+import main.Main;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -32,11 +31,10 @@ public class TresEnRaya extends main.Puzzle{
 	private static TresEnRayaJuego t3;
 	
 	public TresEnRaya(Display display) {
-		
-		super("treseneraya",200,200);
-		disp = display;
+		super(display, "Tres en raya", "treseneraya",200,200, false);
+		shell.setImage(new Image(display, Main.class.getResourceAsStream("icono.gif")));
+		solucionEncontrada = true;
 		shell = new Shell(display);
-		shell.setText("TicTacToe");
 		shell.setLayout(new GridLayout(2,false));
 		final Composite compIzq = new Composite(shell,SWT.NONE);
 		compIzq.setLayout(new GridLayout(2,true));
@@ -52,16 +50,16 @@ public class TresEnRaya extends main.Puzzle{
 		compPuzzle = new Composite(compIzq,SWT.BORDER);
 		compPuzzle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 
-		botonSiguiente = new Button(compIzq, SWT.PUSH);
-		botonSiguiente.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		botonSiguiente.setText("Siguiente ->");
-		botonSiguiente.setEnabled(true);
-		botonSiguiente.addSelectionListener(new SelectionAdapter() {
+		botonResolver = new Button(compIzq, SWT.PUSH);
+		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		botonResolver.setText("Siguiente ->");
+		botonResolver.setEnabled(true);
+		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (avanzar()) {
 					// Bloquear botón siguiente si se ha llegado al final
 					if (t3.hasEnded()) 
-						botonSiguiente.setEnabled(false);
+						botonResolver.setEnabled(false);
 					actualizarTablero();
 				}
 			}
@@ -74,8 +72,7 @@ public class TresEnRaya extends main.Puzzle{
 			public void widgetSelected(SelectionEvent e) {
 				reiniciar();
 				actualizarTablero();
-				tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
-				"el puzzle con uno de los algoritmos disponibles.");
+				tSolucion.setText("");
 			}
 		});
 
@@ -90,10 +87,13 @@ public class TresEnRaya extends main.Puzzle{
 			labels[i].setFont(new Font(disp,tmp));
 		}
 		
-		addTabIntro("Eso es el juego de TicTacToe con un algorithmo mimiMax\n");
-		
+		addTabIntro("");
+		textoIntro.setText("Este es el juego del 3 en raya con un algoritmo mimiMax.\n" +
+				"Puesto que no hay selección de algoritmo, simplemente pulsa " +
+				"el botón Siguiente para jugar.\n\nNo te preocupes si gana X o O, " +
+				"abrirás la puerta de este puzzle igualmente.\n\nAdemás, siempre empatan...");
 		addTabSolucion();
-		
+		tSolucion.setText("");
 		open();
 	}
 
@@ -103,7 +103,7 @@ public class TresEnRaya extends main.Puzzle{
 		TresEnRayaJuego t4 = new TresEnRayaJuego();
 		while (!(t4.hasEnded())) {
 			System.out.println("\n" + t4.getPlayerToMove(t4.getState())
-					+ "  playing ... ");
+					+ "  playing\n ");
 
 			t4.makeAlphaBetaMove();
 			GameState presentState = t4.getState();
@@ -114,10 +114,7 @@ public class TresEnRaya extends main.Puzzle{
 	}
 	
 	protected void actualizarTablero() {
-		
-		String txt = tSolucion.getText();
-		txt +=  "" + "\n\n" + t3.getPlayerToMove(t3.getState()) + " playing ";
-		tSolucion.setText( txt );
+		tSolucion.insert("\n" + t3.getPlayerToMove(t3.getState()) + " playing ");
 		tabFolder.setSelection(1);
 		
 		GameState presentState = t3.getState();
@@ -144,7 +141,7 @@ public class TresEnRaya extends main.Puzzle{
 	
 	protected void reiniciar() {
 		t3 = new TresEnRayaJuego();
-		botonSiguiente.setEnabled(true);
+		botonResolver.setEnabled(true);
 		tSolucion.setText("");
 	}
 

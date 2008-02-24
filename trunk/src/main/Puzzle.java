@@ -6,6 +6,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -21,24 +22,27 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.ProgressBar;
 
+import aima.search.framework.DefaultStepCostFunction;
 import aima.search.framework.GraphSearch;
 import aima.search.framework.Problem;
 import aima.search.framework.Search;
 import aima.search.framework.SearchAgent;
+import aima.search.framework.StepCostFunction;
 import aima.search.framework.SuccessorFunction;
 import aima.search.framework.GoalTest;
 import aima.search.framework.TreeSearch;
 import aima.search.framework.HeuristicFunction;
 import aima.search.informed.AStarSearch;
+import aima.search.informed.GreedyBestFirstSearch;
+import aima.search.informed.HillClimbingSearch;
 import aima.search.uninformed.DepthLimitedSearch;
 import aima.search.uninformed.IterativeDeepeningSearch;
 import aima.search.uninformed.BreadthFirstSearch;
 import aima.search.uninformed.DepthFirstSearch;
 
-/**************************************************************************************************/
-
 /**
  * Esta clase representa un interfaz gráfico genérico para un puzzle.
+ * @author Daniel Dionne
  */
 public abstract class Puzzle extends Thread {
 
@@ -46,7 +50,7 @@ public abstract class Puzzle extends Thread {
 
 	// Este entero es para saber por qué paso vamos de la solución
 	protected int accion_actual = 0;
-	protected Button botonAnterior, botonSiguiente; 
+	protected Button botonAnterior, botonResolver; 
 	protected Text tSolucion;
 	protected Search search;
 	protected SearchAgent agent;
@@ -58,12 +62,13 @@ public abstract class Puzzle extends Thread {
 	private int profMaxDLS;
 	private String salida;
 	private final int TMAX = 20000;
-	private int tiempo = 20000;
+	private int tiempo = TMAX;
 	private HeuristicFunction h;
 	public boolean solucionEncontrada = false;
 	protected String data;
 	private ProgressBar pb;
-
+	protected Label textoIntro;
+	
 	public class DLSSolver implements Runnable { 
 		public synchronized void run() {
 			try {
@@ -123,7 +128,31 @@ public abstract class Puzzle extends Thread {
 			}
 		}
 	}
+	
+	public class VorazSolver implements Runnable { 
+		public synchronized void run() {
+			try {
+				search = new GreedyBestFirstSearch(new GraphSearch());
+				agent = new SearchAgent(problem, search);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 
+	public class EscaladaSolver implements Runnable { 
+		public synchronized void run() {
+			try {
+				search = new HillClimbingSearch();
+				agent = new SearchAgent(problem, search);
+			}
+			catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 * @param display el display de la aplicación
@@ -135,7 +164,7 @@ public abstract class Puzzle extends Thread {
 		this.ancho = ancho;
 		this.alto = alto;
 		botonAnterior = null;
-		botonSiguiente = null;
+		botonResolver = null;
 		tSolucion = null;
 		search = null;
 		agent = null;
@@ -158,6 +187,7 @@ public abstract class Puzzle extends Thread {
 	 */
 	public Puzzle(Display display, String nombrePuzzle, String nombreAbreviado, int ancho, int alto, boolean biyectivo) {
 		shell = new Shell(display, SWT.CLOSE | SWT.APPLICATION_MODAL);
+		shell.setImage(new Image(display, Main.class.getResourceAsStream("icono.gif")));
 		shell.setText(nombrePuzzle);
 		shell.setLayout(new GridLayout(2,false));
 		this.ancho = ancho;
@@ -191,23 +221,23 @@ public abstract class Puzzle extends Thread {
 						botonAnterior.setEnabled(false);
 					// Desbloquear botón siguiente si no está en el final
 					if (accion_actual!=agent.getActions().size())
-						botonSiguiente.setEnabled(true);
+						botonResolver.setEnabled(true);
 					actualizarTablero();
 				}
 			}
 		});
 		if (!biyectivo) botonAnterior.setEnabled(false);
 		final boolean b = biyectivo;
-		botonSiguiente = new Button(compIzq, SWT.PUSH);
-		botonSiguiente.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		botonSiguiente.setText("Siguiente ->");
-		botonSiguiente.setEnabled(false);
-		botonSiguiente.addSelectionListener(new SelectionAdapter() {
+		botonResolver = new Button(compIzq, SWT.PUSH);
+		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		botonResolver.setText("Siguiente ->");
+		botonResolver.setEnabled(false);
+		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (avanzar()) {
 					// Bloquear botón siguiente si se ha llegado al final
 					if (accion_actual==agent.getActions().size())
-						botonSiguiente.setEnabled(false);
+						botonResolver.setEnabled(false);
 					// Desbloquear botón anterior si no está en el principio
 					if (accion_actual!=0 && b)
 						botonAnterior.setEnabled(true);
@@ -223,7 +253,7 @@ public abstract class Puzzle extends Thread {
 		botonReset.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				reiniciar();
-				botonSiguiente.setEnabled(false);
+				botonResolver.setEnabled(false);
 				botonAnterior.setEnabled(false);
 				actualizarTablero();
 				tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
@@ -318,7 +348,7 @@ public abstract class Puzzle extends Thread {
 		tabIntro.setText("Reglas");
 		tabIntro.setControl(cReglas);
 		cReglas.setLayout(new GridLayout());
-		final Label textoIntro = new Label(cReglas, SWT.WRAP);
+		textoIntro = new Label(cReglas, SWT.WRAP);
 		String s = reglas + "\n\nSelecciona una pestaña para elegir un método de resolución y " +
 		"pulsa el botón resolver.\n" +
 		"Si quieres ver cómo funciona la solución pulsa ";
@@ -330,13 +360,13 @@ public abstract class Puzzle extends Thread {
 		return cReglas;
 	}
 
-	private void mostrarSolucion(String salida, long ms) {
+	protected void mostrarSolucion(String salida, long ms) {
 		if (agent==null)
 			salida += "Se ha superado el tiempo de espera.";
 		else if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
 			salida += "La solución es trivial.\n";
-		else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
-			salida += "No se ha encontrado solución.\n";
+		else if (agent.getInstrumentation().getProperty("pathCost")==null || agent.getInstrumentation().getProperty("pathCost").equals("0"))
+			  salida += "No se ha encontrado solución.\n";
 		else {
 			// TODO Quitarle el punto al número de pasos
 			solucionEncontrada = true;
@@ -431,7 +461,7 @@ public abstract class Puzzle extends Thread {
 							mostrarSolucion(salida, y-x);
 
 							if (agent!=null && agent.getActions().size()>0) {
-								botonSiguiente.setEnabled(true);
+								botonResolver.setEnabled(true);
 							}
 						}
 					}
@@ -507,7 +537,7 @@ public abstract class Puzzle extends Thread {
 					ex.printStackTrace();
 				}
 				if (agent!=null && agent.getActions().size()>0) {
-					botonSiguiente.setEnabled(true);
+					botonResolver.setEnabled(true);
 				}
 				}
 			}
@@ -571,7 +601,7 @@ public abstract class Puzzle extends Thread {
 						ex.printStackTrace();
 					}
 					if (agent!=null && agent.getActions().size()>0) {
-						botonSiguiente.setEnabled(true);
+						botonResolver.setEnabled(true);
 					}
 				}
 			}
@@ -638,19 +668,21 @@ public abstract class Puzzle extends Thread {
 						ex.printStackTrace();
 					}
 					if (agent!=null && agent.getActions().size()>0) {
-						botonSiguiente.setEnabled(true);
+						botonResolver.setEnabled(true);
 					}
 				}
 			}
 		});	
 	}
 
-	protected void addTabAStar(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, HeuristicFunction[] heuristica) {
+	protected void addTabAStar(Object estadoInicial, SuccessorFunction funcionSucesor, StepCostFunction funcionCoste, GoalTest estadoFinal, HeuristicFunction[] heuristica) {
 		final Object o = estadoInicial;
 		final HeuristicFunction[] heuri = heuristica;
 		final GoalTest gt = estadoFinal;
 		final SuccessorFunction fs = funcionSucesor;
-
+		final StepCostFunction fc;
+		if (funcionCoste==null) fc = new DefaultStepCostFunction();
+		else fc = funcionCoste;
 		Composite cAStar = addTabResolutor("A*");
 		cAStar.setLayout(new GridLayout(1,false));
 
@@ -690,7 +722,7 @@ public abstract class Puzzle extends Thread {
 						String salida = "Búsqueda con heurística (A*)\n";
 						salida +=       "-------------------------\n\n";
 						// Crea el problema con el tablero inicial, la función sucesor, el tablero solución y la heurística usada
-						problem = new Problem(o, fs, gt, h);
+						problem = new Problem(o, fs, gt, fc, h);
 
 						// Resolver el problema con A*
 						Date t= new Date(0);		
@@ -715,13 +747,165 @@ public abstract class Puzzle extends Thread {
 						ex.printStackTrace();
 					}
 					if (agent!=null && agent.getActions().size()>0) {
-						botonSiguiente.setEnabled(true);
+						botonResolver.setEnabled(true);
 					}
 				}
 			}
 		});
 	}
 
+	protected void addTabVoraz(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, HeuristicFunction[] heuristica) {
+		final Object o = estadoInicial;
+		final HeuristicFunction[] heuri = heuristica;
+		final GoalTest gt = estadoFinal;
+		final SuccessorFunction fs = funcionSucesor;
+		Composite cVoraz = addTabResolutor("Voraz");
+		cVoraz.setLayout(new GridLayout(1,false));
+
+		final Button botonResolverVoraz = new Button(cVoraz, SWT.PUSH);
+		botonResolverVoraz.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		botonResolverVoraz.setText("Resolver");
+
+		if(heuri.length > 1){
+			botonResolverVoraz.setEnabled(false);
+
+			final Combo combo = new Combo(cVoraz, SWT.NONE | SWT.READ_ONLY);
+
+			for(int i=0;i<heuri.length;i++){
+				combo.add(heuri[i].toString());
+			}
+			combo.addSelectionListener(new SelectionListener() {
+				public void widgetDefaultSelected(SelectionEvent e) {}
+				public void widgetSelected(SelectionEvent e) {
+					h = heuri[combo.getSelectionIndex()];
+					botonResolverVoraz.setEnabled(true);
+				}
+			});
+		}
+		else h = heuri[0];
+
+		// Resolución Voraz
+		botonResolverVoraz.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setText("Error");
+					m.open();
+				}
+				else {
+					try {
+						String salida = "Búsqueda Voraz\n";
+						salida +=       "-------------------------\n\n";
+						// Crea el problema con el tablero inicial, la función sucesor, el tablero solución y la heurística usada
+						problem = new Problem(o, fs, gt, h);
+
+						// Resolver el problema con Voraz
+						Date t= new Date(0);		
+						Long x,y;
+						t = new Date();
+						x = t.getTime();
+
+						Thread solver = new Thread(new VorazSolver());
+						solver.start();
+						while (tiempo>=0 && agent==null) {
+							tiempo-=500;
+							pb.setSelection((100*tiempo)/TMAX);
+							solver.join(500);
+						}
+						solver.interrupt();
+
+						t = new Date();
+						y = t.getTime();
+
+						mostrarSolucion(salida, y-x);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					if (agent!=null && agent.getActions().size()>0) {
+						botonResolver.setEnabled(true);
+					}
+				}
+			}
+		});
+	}
+	
+	protected void addTabEscalada(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, HeuristicFunction[] heuristica) {
+		final Object o = estadoInicial;
+		final HeuristicFunction[] heuri = heuristica;
+		final GoalTest gt = estadoFinal;
+		final SuccessorFunction fs = funcionSucesor;
+		Composite cEscalada = addTabResolutor("Escalada");
+		cEscalada.setLayout(new GridLayout(1,false));
+
+		final Button botonResolverEscalada = new Button(cEscalada, SWT.PUSH);
+		botonResolverEscalada.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		botonResolverEscalada.setText("Resolver");
+
+		if(heuri.length > 1){
+			botonResolverEscalada.setEnabled(false);
+
+			final Combo combo = new Combo(cEscalada, SWT.NONE | SWT.READ_ONLY);
+
+			for(int i=0;i<heuri.length;i++){
+				combo.add(heuri[i].toString());
+			}
+			combo.addSelectionListener(new SelectionListener() {
+				public void widgetDefaultSelected(SelectionEvent e) {}
+				public void widgetSelected(SelectionEvent e) {
+					h = heuri[combo.getSelectionIndex()];
+					botonResolverEscalada.setEnabled(true);
+				}
+			});
+		}
+		else h = heuri[0];
+
+		// Resolución Voraz
+		botonResolverEscalada.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setText("Error");
+					m.open();
+				}
+				else {
+					try {
+						String salida = "Búsqueda Escalada\n";
+						salida +=       "-------------------------\n\n";
+						// Crea el problema con el tablero inicial, la función sucesor, el tablero solución y la heurística usada
+						problem = new Problem(o, fs, gt, h);
+
+						// Resolver el problema con Voraz
+						Date t= new Date(0);		
+						Long x,y;
+						t = new Date();
+						x = t.getTime();
+
+						Thread solver = new Thread(new EscaladaSolver());
+						solver.start();
+						while (tiempo>=0 && agent==null) {
+							tiempo-=500;
+							pb.setSelection((100*tiempo)/TMAX);
+							solver.join(500);
+						}
+						solver.interrupt();
+
+						t = new Date();
+						y = t.getTime();
+
+						mostrarSolucion(salida, y-x);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					if (agent!=null && agent.getActions().size()>0) {
+						botonResolver.setEnabled(true);
+					}
+				}
+			}
+		});
+	}
+	
 	/**
 	 * Añade el tab que muestra la solución. Debería añadirse el último.
 	 */

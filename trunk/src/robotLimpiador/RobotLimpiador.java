@@ -11,6 +11,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import aima.search.framework.HeuristicFunction;
+import aima.search.framework.StepCostFunction;
 import main.Puzzle;
 
 public class RobotLimpiador extends Puzzle {
@@ -56,7 +57,8 @@ public class RobotLimpiador extends Puzzle {
 
 		addTabIntro("El objetivo es de limiar las habitaciones en un minimo de pasos");
 		HeuristicFunction h[] = { new FuncionHeuristicManhattan() };
-		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), h );
+		FuncionCoste scf = new FuncionCoste();
+		addTabAStar(tab, new FuncionSucesor(), scf, new EstadoFinal(), h );
 		addTabIDS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(tab, new FuncionSucesor(), new EstadoFinal());
