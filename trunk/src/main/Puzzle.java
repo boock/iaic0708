@@ -743,7 +743,7 @@ public abstract class Puzzle extends Thread {
 	 */
 	protected void open() {
 		// Tamaño de la ventana
-		shell.setSize(ancho+420, alto+160);
+		shell.setSize(ancho+420, alto+140);
 		// Centrar ventana
 		shell.setLocation(shell.getDisplay().getClientArea().width/2 - shell.getSize().x/2, shell.getDisplay().getClientArea().height/2 - shell.getSize().y/2);
 		shell.open();		
