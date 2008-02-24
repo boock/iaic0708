@@ -15,11 +15,11 @@ public class NegrasBlancas extends main.Puzzle{
 	public NegrasBlancas(Display display) {
 		super(display, "Negras y blancas", "negrasblancas", 300, 300, true);
 		
-		canvas = addCanvas(false);
+		canvas = addCanvas(true);
 		
 		final Image blanca	= new Image(display, NegrasBlancas.class.getResourceAsStream("blanca.png"));
 		final Image negra	= new Image(display, NegrasBlancas.class.getResourceAsStream("negra.png"));
-			
+		final Image tablero = new Image(display, NegrasBlancas.class.getResourceAsStream("tablero.png"));
 		addTabIntro("El objetivo es mover las blancas a la derecha y las negras a la izquierda.");
 		
 		addTabDLS(tab, 15, new FuncionSucesor(), new EstadoFinal());
@@ -28,10 +28,26 @@ public class NegrasBlancas extends main.Puzzle{
 		
 
 		// Dibujar puzzle
+		canvas.setBackgroundImage(tablero);
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
-				//gc.drawImage(negra, 50*i, 50*j);
+				if (tab.getValueAt(0)=='B') gc.drawImage(blanca, 25, 180);
+				else  gc.drawImage(negra, 25, 180);
+				if (tab.getValueAt(1)=='B') gc.drawImage(blanca, 53, 155);
+				else  gc.drawImage(negra, 53, 155);
+				if (tab.getValueAt(2)=='B') gc.drawImage(blanca, 92, 135);
+				else  gc.drawImage(negra, 90, 135);
+				if (tab.getValueAt(3)=='B') gc.drawImage(blanca, 136, 125);
+				else  gc.drawImage(negra, 136, 125);
+				
+				if (tab.getValueAt(4)=='B') gc.drawImage(blanca, 110, 135);
+				else  gc.drawImage(negra, 90, 135);
+				if (tab.getValueAt(5)=='B') gc.drawImage(blanca, 125, 155);
+				else  gc.drawImage(negra, 53, 155);
+				if (tab.getValueAt(6)=='B') gc.drawImage(blanca, 140, 180);
+				else  gc.drawImage(negra, 25, 180);
+
 			}
 		});
 		addTabSolucion();
@@ -47,6 +63,7 @@ public class NegrasBlancas extends main.Puzzle{
 	protected boolean avanzar() {
 		String accion = (String) agent.getActions().get(accion_actual);
 		//hacer movimiento
+		
 		accion_actual++;
 		actualizarTablero();
 		return true;
