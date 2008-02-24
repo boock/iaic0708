@@ -39,22 +39,20 @@ public class NegrasBlancas extends main.Puzzle{
 		canvas.addPaintListener(new PaintListener () {
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
-				if (tab.getValueAt(0)=='B') gc.drawImage(blanca, 25, 180);
-				else  gc.drawImage(negra, 25, 180);
-				if (tab.getValueAt(1)=='B') gc.drawImage(blanca, 53, 155);
-				else  gc.drawImage(negra, 53, 155);
-				if (tab.getValueAt(2)=='B') gc.drawImage(blanca, 92, 135);
-				else  gc.drawImage(negra, 90, 135);
-				if (tab.getValueAt(3)=='B') gc.drawImage(blanca, 136, 125);
-				else  gc.drawImage(negra, 136, 125);
-				
-				if (tab.getValueAt(4)=='B') gc.drawImage(blanca, 110, 135);
-				else  gc.drawImage(negra, 90, 135);
-				if (tab.getValueAt(5)=='B') gc.drawImage(blanca, 125, 155);
-				else  gc.drawImage(negra, 53, 155);
-				if (tab.getValueAt(6)=='B') gc.drawImage(blanca, 140, 180);
-				else  gc.drawImage(negra, 25, 180);
-
+				if      (tab.getValueAt(0)=='B') gc.drawImage(blanca, 25,  180);
+				else if (tab.getValueAt(0)=='N') gc.drawImage(negra,  25,  180);
+				if      (tab.getValueAt(1)=='B') gc.drawImage(blanca, 53,  155);
+				else if (tab.getValueAt(1)=='N') gc.drawImage(negra,  53,  155);
+				if      (tab.getValueAt(2)=='B') gc.drawImage(blanca, 92,  137);
+				else if (tab.getValueAt(2)=='N') gc.drawImage(negra,  90,  137);
+				if      (tab.getValueAt(3)=='B') gc.drawImage(blanca, 136, 125);
+				else if (tab.getValueAt(3)=='N') gc.drawImage(negra,  136, 125);
+				if      (tab.getValueAt(4)=='B') gc.drawImage(blanca, 181, 137);
+				else if (tab.getValueAt(4)=='N') gc.drawImage(negra,  181, 137);
+				if      (tab.getValueAt(5)=='B') gc.drawImage(blanca, 220, 155);
+				else if (tab.getValueAt(5)=='N') gc.drawImage(negra,  220, 155);
+				if      (tab.getValueAt(6)=='B') gc.drawImage(blanca, 250, 180);
+				else if (tab.getValueAt(6)=='N') gc.drawImage(negra,  250, 180);
 			}
 		});
 		addTabSolucion();
