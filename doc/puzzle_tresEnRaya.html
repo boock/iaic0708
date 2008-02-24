@@ -21,11 +21,11 @@
 </div>
 <div id="header">
 <ul id="topmenu">
-<li class="active"><a href="index.html">Inicio</a>
+<li><a href="index.html">Inicio</a>
 </li>
-<li><a href="puzzles.html">Puzzles</a>
+<li class="active"><a href="styles.html">Puzzles</a>
 </li>
-<li><a href="implementacion.html">Implementaci&oacute;n</a>
+<li><a href="implementacion.html">Implementación</a>
 </li>
 <li><a href="referencias.html">Referencias</a>
 </li>
@@ -35,22 +35,26 @@
 </div>
 <div id="content">
 <div id="mainpage">
-<h2>Acerca de la práctica</h2>
-<table><tr><td>
-	<img align="left" src="images/cubo.png"></img></td>
-	<td><p> Hemos titulado la práctica Cube-Sapiens, como referencia a la conocida película de culto,
-	y al intento de introducir el concepto de sabiduría en un programa informático.</p>
-	<p>Por suerte, salir del cubo es bastante más fácil que en la película de ficción, ya que basta
-	con llegar a una esquina y no hay desplazamientos de habitaciones.</p>
-	</td>
-	</tr>
-</table>
-<span class="subhead">Autores</span>
-	<ul class="postlist">
-		<li>Daniel Dionne González</li>
-		<li>Jorge Lastras Hernansanz</li>
-		<li>Jim Mainprice</li>
+<h2>Tres en Raya</h2>
+<span class="subhead">Descripción</span>
+    <table><tr><td>
+    <img src="images/3enraya.jpg">
+    </td><td>
+    <p> Para el juego del 3 en raya tenemos un tablero de 3x3 en el que colocaremos fichas X y fichas O.</p> 
+	</td></tr></table>
+	<p> El objetivo de este juego es que alguno de los 2 contrincantes logren colocar 3 de sus fichas en una fila, en una columna o en una diagonal.</p>
+<span class="subhead">Representación</span>
+    <p> A partir de este enunciado hemos tomado como estado cómo está el tablero en cada momento.</p> 
+	<ul>
+	<li> Estado inicial: Tablero vacío.</li>
+	<li> Estado objetivo: Que sobre el tablero, haya tres en raya con las fichas de uno de los 2 oponentes.</li>
 	</ul>
+			
+	<p> Cada uno de los 2 jugadores irán colocando alternativamente, una ficha en una de las casillas que estén vacías, para lograr el objetivo de las 3 en raya.</p>
+		
+<span class="subhead">Estrategias</span>
+    <p> Utilizamos una Búsqueda con adversario para solucionar el problema, más concretamente un algoritmo MINIMAX.</p> 
+
 </div>
 
 <div id="sidebar">
@@ -72,7 +76,7 @@
         <li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
         <li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
         <li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
-        <li><a href="puzzle_tictactoe.html"    >Tres en raya</a></li>
+        <li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
         <li><a href="puzzle_viaje.html"        >El viaje</a></li>
    </ul>
 </li>
