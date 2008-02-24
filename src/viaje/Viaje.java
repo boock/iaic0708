@@ -56,7 +56,7 @@ public class Viaje extends main.Puzzle{
 		addTabDFS(situacion, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(situacion, 7, new FuncionSucesor(), new EstadoFinal());
 		HeuristicFunction h[] = {new HeuristicaViaje()};
-		addTabAStar(situacion, new FuncionSucesor(), new EstadoFinal(), h);
+		addTabAStar(situacion, new FuncionSucesor(), null, new EstadoFinal(), h);
 
 		// Dibujar puzzle
 		canvas.addPaintListener(new PaintListener () {

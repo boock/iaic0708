@@ -1,5 +1,7 @@
 package laberinto2D;
 
+import main.xmlReader;
+
 /**
  * Esta clase representa la Mapa del laberinto con la posicion del jugador
  * @author Jim Mainprice
@@ -18,6 +20,8 @@ public class Mapa {
 
 	public int x_pos;
 	public int y_pos;
+	public int x_obj;
+	public int y_obj;
 
 
 	/**
@@ -29,7 +33,7 @@ public class Mapa {
 				{ 1 , 1 , 0 , 1 , 0 , 1 , 1 , 1 },
 				{ 1 , 0 , 0 , 1 , 1 , 1 , 0 , 1 },
 				{ 1 , 0 , 0 , 1 , 1 , 1 , 0 , 1 },
-				{ 1 , 0 , 1 , 1 , 1 , 1 , 0 , 1 },
+				{ 1 , 0 , 1 , 1 , 2 , 1 , 0 , 1 },
 				{ 1 , 0 , 0 , 0 , 1 , 0 , 0 , 1 },
 				{ 1 , 0 , 0 , 1 , 1 , 0 , 0 , 1 },
 				{ 1 , 0 , 0 , 1 , 1 , 0 , 0 , 1 }
@@ -45,13 +49,13 @@ public class Mapa {
 	 * @param x x_position del jugador
 	 * @param y y_position del jugador
 	 */
-	public Mapa(int x , int y) {
+	public Mapa(int x , int y, int x_obj, int y_obj) {
 		context = new int[][] { 
 				{ 1 , 1 , 1 , 1 , 0 , 1 , 1 , 1 },
 				{ 1 , 1 , 0 , 1 , 0 , 1 , 1 , 1 },
 				{ 1 , 0 , 0 , 1 , 1 , 1 , 0 , 1 },
 				{ 1 , 0 , 0 , 1 , 1 , 1 , 0 , 1 },
-				{ 1 , 0 , 1 , 1 , 1 , 1 , 0 , 1 },
+				{ 1 , 0 , 1 , 1 , 2 , 1 , 0 , 1 },
 				{ 1 , 0 , 0 , 0 , 1 , 0 , 0 , 1 },
 				{ 1 , 0 , 0 , 1 , 1 , 0 , 0 , 1 },
 				{ 1 , 0 , 0 , 1 , 1 , 0 , 0 , 1 }
@@ -59,7 +63,8 @@ public class Mapa {
 
 		x_pos = x;
 		y_pos = y;
-
+		this.x_obj = x_obj;
+		this.y_obj = y_obj;
 	}
 
 	/**
@@ -68,10 +73,12 @@ public class Mapa {
 	 * @param x x_position del jugador
 	 * @param y y_position del jugador
 	 */
-	public Mapa(int[][] aMap , int x , int y) {
+	public Mapa(int[][] aMap , int x , int y, int x_obj, int y_obj) {
 		context = aMap;
 		x_pos = x;
 		y_pos = y;
+		this.x_obj = x_obj;
+		this.y_obj = y_obj;
 	}
 
 	public int getXpos() {
@@ -95,10 +102,10 @@ public class Mapa {
 				(s.equals(DOWN) 	&& (y_pos == 7))	||
 				(s.equals(UP) 		&& (y_pos == 0)) )	return false;
 
-		if ( 	(s.equals(LEFT)  	&& (context[y_pos][x_pos-1] == 1) )||
-				(s.equals(RIGHT)  	&& (context[y_pos][x_pos+1] == 1) )||
-				(s.equals(DOWN)  	&& (context[y_pos+1][x_pos] == 1) )||
-				(s.equals(UP)  		&& (context[y_pos-1][x_pos] == 1) )) return true;
+		if ( 	(s.equals(LEFT)  	&& (context[y_pos][x_pos-1] >0) )||
+				(s.equals(RIGHT)  	&& (context[y_pos][x_pos+1] >0) )||
+				(s.equals(DOWN)  	&& (context[y_pos+1][x_pos] >0) )||
+				(s.equals(UP)  		&& (context[y_pos-1][x_pos] >0) )) return true;
 		else return false;
 	}
 

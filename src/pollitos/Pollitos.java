@@ -56,7 +56,7 @@ public class Pollitos extends main.Puzzle{
 		addTabDFS(huevera, new FuncionSucesor(), new EstadoFinal());
 		addTabDLS(huevera, 7, new FuncionSucesor(), new EstadoFinal());
 		HeuristicFunction h[] = {new HeuristicaPollitos()};
-		addTabAStar(huevera, new FuncionSucesor(), new EstadoFinal(), h);
+		addTabAStar(huevera, new FuncionSucesor(), null, new EstadoFinal(), h);
 
 		
 		// Dibujar puzzle

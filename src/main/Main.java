@@ -1,7 +1,7 @@
 package main;
 
 
-import granjero.Granjero;
+
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
@@ -17,6 +17,9 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Combo;
 
+import alpujarras.Alpujarras;
+
+import granjero.Granjero;
 import puzzle8.Puzzle8;
 import misioneros.Misioneros;
 import nReinas.nReinas;
@@ -39,7 +42,7 @@ public class Main {
 		final Display display = new Display();
 		final Shell shell = new Shell(display);
 		shell.setLayout(new GridLayout(1,false));
-
+		shell.setImage(new Image(display, Main.class.getResourceAsStream("icono.gif")));
 		final Canvas canvas = new Canvas(shell, SWT.NONE);
 		final Image intro = new Image(display, Main.class.getResourceAsStream("intro.png"));
 		final Button bEmpezar = new Button(shell, SWT.PUSH);
@@ -86,6 +89,7 @@ public class Main {
 			combo.add("Blancas y negras");
 			combo.add("Robot Limpiador");
 			combo.add("Rojos y Azules");
+//			combo.add("mapa");
 
 			combo.addSelectionListener(new SelectionListener() {
 
@@ -137,6 +141,9 @@ public class Main {
 					case 14:
 						new RojosAzules(display);
 						break;
+//					case 15:
+//						new Alpujarras(display);
+						
 					}
 				}
 			});
