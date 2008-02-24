@@ -22,7 +22,7 @@ public class NegrasBlancas extends main.Puzzle{
 		final Image tablero = new Image(display, NegrasBlancas.class.getResourceAsStream("tablero.png"));
 		addTabIntro("El objetivo es mover las blancas a la derecha y las negras a la izquierda.");
 		
-		addTabDLS(tab, 15, new FuncionSucesor(), new EstadoFinal());
+		addTabDLS(tab, 30, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabIDS(tab, new FuncionSucesor(), new EstadoFinal());
 		
@@ -80,7 +80,7 @@ public class NegrasBlancas extends main.Puzzle{
 			for (int i=0; i<7; i++) {
 				aux[i] = data.charAt(i);
 			}
-			tab = new Tablero(aux);
+			tab = new Tablero(/*aux*/);
 		}
 		catch (Exception e) {
 			System.out.println("El archivo de configuración no es correcto");

@@ -28,7 +28,7 @@ public class FuncionHeuristicManhattan implements HeuristicFunction {
 		for(int i=0;i<board.MaxR;i++){
 			if(board.getValueAt(i) == 'B'){
 				for(int j=0;j<i;j++){
-					if(board.getValueAt(i) == 'N')retVal++;
+					if(board.getValueAt(j) == 'N')retVal++;
 				}
 			}
 		}
