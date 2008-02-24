@@ -30,6 +30,7 @@ import tresEnRaya.TresEnRaya;
 import viaje.Viaje;
 import pollitos.Pollitos;
 import robotLimpiador.RobotLimpiador;
+import rojosAzules.RojosAzules;
 
 /**************************************************************************************************/
 
@@ -85,6 +86,7 @@ public class Main {
 			combo.add("Los Pollitos");
 			combo.add("Blancas y negras");
 			combo.add("Robot Limpiador");
+			combo.add("Rojos y Azules");
 
 			combo.addSelectionListener(new SelectionListener() {
 
@@ -132,6 +134,9 @@ public class Main {
 						break;
 					case 13:
 						new RobotLimpiador(display);
+						break;
+					case 14:
+						new RojosAzules(display);
 						break;
 					}
 				}
