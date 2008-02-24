@@ -13,7 +13,7 @@ public class EstadoFinal implements GoalTest {
 	
 	Tablero goal = new Tablero(	new boolean[][] {	{true,true,true},
 													{true,true,true},
-													{true,true,true} } );
+													{false,false,false} } );
 	
 	/**
 	 * Comprueba si el tablero est� en un estado final.

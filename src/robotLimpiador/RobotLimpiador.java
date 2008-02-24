@@ -68,14 +68,12 @@ public class RobotLimpiador extends Puzzle {
 			public void paintControl(PaintEvent e) {
 				GC gc = e.gc;
 				
-
 					for (int i=0; i<3; i++)
 						for (int j=0; j<3; j++) 
 					{
 						dibujarCasilla(i,j, gc);
 					}
 			}
-			
 		});
 
 		addTabSolucion();

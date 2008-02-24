@@ -74,7 +74,14 @@ public class Tablero {
 	 * @see 
 	 */
 	public Tablero(Tablero Tab) {
-		board = Tab.board;
+		
+		board = new boolean[3][3];
+		
+		for(int i=0;i<3;i++){
+			for(int j=0;j<3;j++)
+				board[i][j] = Tab.getEstadoAt(j,i);
+		}
+		
 		x = Tab.x;
 		y = Tab.y;
 	}
