@@ -69,7 +69,7 @@ public class Tablero {
 	public void mezclar(int i) {
 		int k;
 		for (int j = 0; j < i; j++) {
-			k = (int)(Math.random()*2);
+			k = (int)(Math.random()*9);
 			if(k>0)switchAt(j);
 		}
 	}
@@ -81,17 +81,16 @@ public class Tablero {
 	 * @return el valor almacenado
 	 */
 	public char getValueAt(int i) {
-		char c;
 		if(i<MaxX){
-			c = board[0][i];
+			return board[0][i];
 		}
 		if(i<2*MaxX){
-			c = board[1][i-MaxX];
+			return board[1][i-MaxX];
 		}
 		else{
-			c = board[0][i-2*MaxX];
+			return board[0][i-2*MaxX];
 		}
-		return c;
+
 	}
 	
 	/**
@@ -101,26 +100,28 @@ public class Tablero {
 	 */
 	public char inverse(char c) {
 	if(c == 'R') return 'A';
-	else return 'A';
+	else return 'R';
 	}
 	
 	/**
 	 * Cambia el Valor
 	 */
 	public void switchAt(int i) {
-		char c;
 			if(i<MaxX){
-				c = board[0][i];
-				board[0][i] = inverse(c);
+				switchAt(i,0); return;
 			}
 			if(i<2*MaxX){
-				c = board[1][i-MaxX];
-				board[0][i] = inverse(c);
+				switchAt(i-MaxX,1); return;
 			}
-			else{
-				c = board[0][i-2*MaxX];
-				board[0][i-2*MaxX] = inverse(c);
+			if(i<3*MaxX){
+				switchAt(i-2*MaxX,2); return;
 			}
+			System.out.println("ERRROOR!!!");
+	}
+	
+	public void switchAt(int i,int j){
+		char c =board[j][i];
+		board[j][i] = inverse(c);
 	}
 
 	
@@ -131,6 +132,16 @@ public class Tablero {
 				switchAt(i);
 			}
 		}
+	}
+	
+	public boolean canMove(String mov){
+		// TODO es aqui !!!
+		/*for(int i =0; i<operadores.length; i++){
+			if ( mov.equals(operadores[i]) ){
+				switchAt(i);
+			}
+		}*/
+		return true;
 	}
 
 	@Override
@@ -152,23 +163,12 @@ public class Tablero {
 		return true;
 	}
 
-	/**
-	 * Determina si el hueco se puede mover o no (porque esté en un extremo)
-	 * @param where hacia dónde queremos moverlo
-	 * @return si se puede mover o no
-	 */
-	public boolean canMoveGap(String where) {
-		
-		boolean retVal = true;
-		return retVal;
-	}
-
 	@Override
 	public String toString() {
 		String retVal = "";
 		return retVal;
 	}
-
+	
 	public void setBoard(char[][] board) {
 		this.board = board;
 	}
