@@ -48,12 +48,77 @@
 <span class="subhead">Representación</span>
     <p>El tablero se representa con una matriz de 1's y 0's. Los 1's son pasillos, y los 0's paredes. La posición se guarda como un par X,Y.</p>
 	<ul>
-	<li>Estado inicial: 0, 7</li>
-	<li>Posición final: 7, 7</li>
+	<li>Estado inicial:  (0,7), En la posición se encuentra la salida.</li>
+	<li>Posición final: (7,7), En esta la llegada.</li>
 	</ul>
+	
+	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<ul>
+	<li> LEFT	"Izquierda"
+	<li> RIGHT	"Derecha"
+	<li> UP		"Arriba"
+	<li> DOWN	"Abajo"
+	</ul>
+	
+	<p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
+	<ul>
+	<li> Ejemplo:  LEFT, este operador sólo se podrá utilizar cuando no nos encontremos en el borde izquierdo de la matriz que contiene el laberinto.</li>
+	</ul>
+	
 <span class="subhead">Estrategias</span>
-    <p>Para el laberinto 2D hemos utilizado una matriz</p>
-
+    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado estrategias no informadas:</p>
+    <ul>
+    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    	<ul>
+    	<li> Tiempo de ejecución: Aprox. 180 ms.</li>
+		<li> Número de nodos expandidos: 48370</li>
+		<li> Solución: En 17 pasos.</li>
+		</ul>    	
+	<li> Búsqueda Primero en Anchura (BFS)</li>
+		<ul>
+		<li> Tiempo de ejecución: Aprox. 1593 ms.</li>
+		<li> Número de nodos expandidos: 52725</li>	
+		<li> Solución: En 17 pasos.</li>
+		</ul>		
+	<li> Búsqueda Primero en Profundidad (DFS)</li>
+		<ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>
+	<li> Búsqueda con límite de Profundidad (DLS)</li>
+		<ul>
+		<li> El límite en profundidad utilizado es 23.</li>
+		<li> Tiempo de ejecución: Aprox. 50 ms.</li>
+		<li> Número de nodos expandidos: 14173</li>
+		<li> Solución: En 23 pasos.</li>
+		</ul>
+	</ul>
+	
+	<p> Además de 3 heurísticas, basadas en la distancia de Manhattan, que asocia a cada estado el número mínimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado: </p>
+	<ul>
+    <li> Manhattan</li>
+    	<ul>
+    	<li> Tiempo de ejecución: Aprox. 120 ms.</li>
+		<li> Número de nodos expandidos: 2923</li>
+		<li> Solución: En 21 pasos.</li>
+		</ul>    	
+	<li> Manhattan Extendida</li>
+		<ul>
+		<li> Tiempo de ejecución: Aprox. 10 ms.</li>
+		<li> Número de nodos expandidos: 1023</li>	
+		<li> Solución: En 21 pasos.</li>
+		</ul>
+	<li> Pytagore</li>
+		<ul>
+		<li> Tiempo de ejecución: Aprox. 2404 ms.</li>
+		<li> Número de nodos expandidos: 96824</li>	
+		<li> Solución: En 21 pasos.</li>
+		</ul>
+	</ul>
+	
+	<p> Parece que entre las tres heurísticas implementadas, Manhattan Extendida es la más rápida, además de la que menos nodos expande para encontrar la solución.</p>
+	
+	<p> Además para este problema, hemos implementado algoritmos de mejora iterativa, como es Escalada, y otro algoritmo de primero el mejor aparte de A*, como es Búsqueda Voraz.</p>
+	
 </div>
 
 <div id="sidebar">
