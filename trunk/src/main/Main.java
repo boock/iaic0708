@@ -65,8 +65,7 @@ public class Main {
 		bAyuda.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 			public void widgetSelected(SelectionEvent arg0) {
-				shell.close();
-				new Laberinto3D(display);
+				new Ayuda(display);
 			}
 		});
 
