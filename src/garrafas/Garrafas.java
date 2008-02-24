@@ -24,7 +24,7 @@ public class Garrafas extends main.Puzzle{
 	 * Constructor por defecto. Genera la ventana principal.
 	 */
 	public Garrafas(Display display) {
-		super (display, "Garrafas", "garrafas",300,300, true);
+		super (display, "Garrafas", "garrafas",300,300, false);
 		compPuzzle.setLayout(new GridLayout(1,true));
 		fondo  = new Image(display, Garrafas.class.getResourceAsStream("fondo.png"));
 		grifo  = new Image(display, Garrafas.class.getResourceAsStream("grifo.png"));
@@ -69,7 +69,7 @@ public class Garrafas extends main.Puzzle{
 				if (agent!=null && accion_actual>0 && accion_actual<=agent.getActions().size()) {
 					String accion = (String) agent.getActions().get(accion_actual-1);
 					if (accion.equals(Contenido.g3_con_g4)) {
-						gc.drawImage(vierte2_1, 150, 100);
+						gc.drawImage(vierte2_1, 90, 15);
 						dibujadoJ4=true;
 					}
 					else if (accion.equals(Contenido.g3_en_g4)) {
@@ -77,7 +77,7 @@ public class Garrafas extends main.Puzzle{
 						dibujadoJ3=true;
 					}
 					else if (accion.equals(Contenido.v_g3)) {
-						gc.drawImage(vierte1_2, 150, 100);
+						gc.drawImage(vierte1_2, 25, 160);
 						dibujadoJ3=true;
 					}
 					else if (accion.equals(Contenido.ll_g3)) {
@@ -89,17 +89,18 @@ public class Garrafas extends main.Puzzle{
 						dibujadoJ4=true;
 					}
 					else if (accion.equals(Contenido.ll_g4)) {
-						gc.drawImage(grifo, 150, 0);
+						gc.drawImage(grifo, 175, 0);
 					}
 					else if (accion.equals(Contenido.g4_con_g3)) {
 						gc.drawImage(vierte1_2, 60, 15);
 						dibujadoJ3=true;
 					}
 					else if (accion.equals(Contenido.g4_en_g3)) {
-						gc.drawImage(vierte2_1, 150, 100);
+						gc.drawImage(vierte2_1, 90, 15);
 						dibujadoJ4=true;
 					}
 				}
+				
 				if (!dibujadoJ3) dibujarJarra3(gc);
 				if (!dibujadoJ4) dibujarJarra4(gc);
 			}
@@ -193,39 +194,8 @@ public class Garrafas extends main.Puzzle{
 	 * Este método es para la representación UI. Modifica el tablero del interfaz al pulsar el botón "anterior".
 	 */
 	protected boolean retroceder() {
-		boolean b = true;
-		accion_actual--;
-		String accion = (String) agent.getActions().get(accion_actual);
-
-		if (accion.equals(Contenido.ll_g4)) {
-			contenido.mover(Contenido.ll_g4);
-		}
-		else if (accion.equals(Contenido.ll_g3)) {
-			contenido.mover(Contenido.ll_g3);
-		}
-		else if (accion.equals(Contenido.v_g4)) {
-			contenido.mover(Contenido.v_g4);
-		}
-		else if (accion.equals(Contenido.v_g3)) {
-			contenido.mover(Contenido.v_g3);
-		}
-		else if (accion.equals(Contenido.g4_con_g3)) {
-			contenido.mover(Contenido.g4_con_g3);
-		}
-		else if (accion.equals(Contenido.g3_con_g4)) {
-			contenido.mover(Contenido.g3_con_g4);
-		}
-		else if (accion.equals(Contenido.g3_en_g4)) {
-			contenido.mover(Contenido.g3_en_g4);
-		}
-		else if (accion.equals(Contenido.g4_en_g3)) {
-			contenido.mover(Contenido.g4_en_g3);
-		}				
-		else {
-			b = false;
-			accion_actual++;
-		}
-		return b;
+		// No biyectiva
+		return false;
 	}
 	
 

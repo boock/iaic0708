@@ -228,6 +228,7 @@ public abstract class Puzzle extends Thread {
 				actualizarTablero();
 				tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
 				"el puzzle con uno de los algoritmos disponibles.");
+				tabFolder.setSelection(0);
 			}
 		});
 		pb = new ProgressBar(shell, SWT.NONE);
@@ -261,11 +262,11 @@ public abstract class Puzzle extends Thread {
 	 * Este método reinicia el tablero.
 	 */
 	protected void reiniciar() {
-		cargar();
 		agent = null;
 		search = null;
 		problem = null;
 		accion_actual=0;
+		cargar();
 	}
 
 	/**

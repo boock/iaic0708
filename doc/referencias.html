@@ -21,13 +21,13 @@
 </div>
 <div id="header">
 <ul id="topmenu">
-<li class="active"><a href="index.html">Inicio</a>
+<li><a href="index.html">Inicio</a>
 </li>
 <li><a href="puzzles.html">Puzzles</a>
 </li>
-<li><a href="implementacion.html">Implementaci&oacute;n</a>
+<li><a href="implementacion.html">Implementación</a>
 </li>
-<li><a href="referencias.html">Referencias</a>
+<li class="active"><a href="referencias.html">Referencias</a>
 </li>
 <li><a href="conclusiones.html">Conclusiones</a>
 </li>
@@ -35,22 +35,28 @@
 </div>
 <div id="content">
 <div id="mainpage">
-<h2>Acerca de la práctica</h2>
+<h2>Referencias</h2>
+<span class="subhead">Aima</span>
 <table><tr><td>
-	<img align="left" src="images/cubo.png"></img></td>
-	<td><p> Hemos titulado la práctica Cube-Sapiens, como referencia a la conocida película de culto,
-	y al intento de introducir el concepto de sabiduría en un programa informático.</p>
-	<p>Por suerte, salir del cubo es bastante más fácil que en la película de ficción, ya que basta
-	con llegar a una esquina y no hay desplazamientos de habitaciones.</p>
-	</td>
-	</tr>
-</table>
-<span class="subhead">Autores</span>
-	<ul class="postlist">
-		<li>Daniel Dionne González</li>
-		<li>Jorge Lastras Hernansanz</li>
-		<li>Jim Mainprice</li>
-	</ul>
+	<img src="images/cubo.png"></img></td>
+	<td><p>Hemos utilizado la librería <a target="_blank" href="http://code.google.com/p/aima-java/">Aima</a>
+	para Java. Se trata de una basta librería de algoritmos de búsqueda. Una vez implementada la clase <i>Puzzle.java</i>
+	ha sido muy sencillo incorporar distintos puzzles a la aplicación, pudiéndonos centrar en la creación de reglas y
+	heurísticas para cada puzzle.</p>
+	</td></tr></table>
+<span class="subhead">SWT - Standard Widget Toolkit</span>
+<table><tr><td>
+	<img src="images/eclipse.jpg"></img></td>
+	<td><p>Para tener un entorno gráfico amigable y similar al del sistema operativo sobre el que se ejecuta
+	la aplicación, hemos utilizado la librería <a target="_blank" href="http://www.eclipse.org/swt/">SWT</a>
+	para Eclipse.</p>
+	</td></tr></table>
+<span class="subhead">XML Read</span>
+	<p>El código para leer archivos XML se ha copiado, en parte, de <a target="_blank" href="http://www.developerfusion.co.uk/show/2064/">aquí</a>.</p>
+	
+<span class="subhead">Clean & Green</span>
+	<p>Plantilla con hoja de estilos CSS usada para esta documentación.</p>
+	<div id="credit"><a href="http://www.ramblingsoul.com">CSS Layout</a> by Rambling Soul</div>
 </div>
 
 <div id="sidebar">
@@ -61,7 +67,7 @@
    <ul>
     	<li><a href="puzzle_laberinto3D.html"  >Laberinto 3D</a></li>
     	<li><a href="puzzle_garrafas.html"     >Las garrafas</a></li>
-	<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
+		<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
         <li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
         <li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
         <li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
