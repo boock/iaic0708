@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cUbE-sAPiEnS :: IAIC 2007-2008 </title>
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+  <style>
+  /*<![CDATA[*/
+#sidebarbottom {background:url(images/sidebarbottom.jpg) no-repeat -3px;}
+  /*]]>*/
+  </style>
+<![endif]-->
+</head>
+
+<body>
+<div id="wrap">
+<div id="topbar">
+  
+</div>
+<div id="header">
+<ul id="topmenu">
+<li><a href="index.html">Inicio</a>
+</li>
+<li class="active"><a href="puzzles.html">Puzzles</a>
+</li>
+<li><a href="implementacion.html">Implementación</a>
+</li>
+<li><a href="referencias.html">Referencias</a>
+</li>
+<li><a href="conclusiones.html">Conclusiones</a>
+</li>
+</ul>
+</div>
+<div id="content">
+<div id="mainpage">
+<h2>Las torres de Hanoi 4</h2>
+<span class="subhead">Descripción</span>
+    <table><tr><td><img src="images/hanoi4.jpg"></td>
+
+    <td><p>Para el problema de representación de las torres de Hanoi 3, se plantea lo siguiente: Nos encontramos con una torre de cuatro piezas de distinto tamaño.</p>
+	</td></tr></table>
+	<p> Tenemos tres lugares en la mesa donde podemos colocar la torre, en un primer lugar la torre se encuentra en el lado izquierdo en orden decreciente, al final se tiene que encontrar en orden decreciente pero en el lado derecho.</p>
+<span class="subhead">Representación</span>
+    <p> A partir de este enunciado hemos tomado como estado sobre dónde se encuentran cada una de las fichas en cada momento.</p>
+	<ul>
+	<li> Estado inicial: (B,C,D,1), En un primer momento la pieza A(pequeúa) está sobre la B(mediana), la B sobre la C(grande)y esta sobre la D(más grande) todas ellas en el lado izquierdo de la mesa.</li>
+	<li> Estado objetivo: (B,C,D,3), La misma colocación que en el estado inicial pero ahora sobre el lado derecho de la mesa.</li>
+	</ul>
+	
+	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<ul>
+	<li> MA_1	"Mover A en 1"</li>
+	<li> MB_1	"Mover B en 1"</li>
+	<li> MC_1	"Mover C en 1"</li>
+	<li> MD_1	"Mover D en 1"</li>
+	<li> MA_2	"Mover A en 2"</li>
+	<li> MB_2	"Mover B en 2"</li>
+	<li> MC_2	"Mover C en 2"</li>
+	<li> MD_2	"Mover D en 2"</li>
+	<li> MA_3	"Mover A en 3"</li>
+	<li> MB_3	"Mover B en 3"</li>
+	<li> MC_3	"Mover C en 3"</li>
+	<li> MD_3	"Mover D en 3"</li>
+	</ul>
+	
+	<p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
+    <ul>
+    <li> Ejemplo: MA_1, sólo se puede aplicar si A se encuentra en 2 ó 3.</li>
+    </ul>
+	
+<span class="subhead">Estrategias</span>
+    <p> Para las estrategias no informadas que hemos incluido, no llegamos a la solución, hemos tenido que implementar 3 heurísticas basadas todas ellas en las distancia de Manhattan, pero en las que varía la función de evaluación de la misma. Pasamos a exponer sus resultados a continuación:</p>
+    <ul>
+    <li> HeurísticaPrimera</li>
+    	<ul>
+		<li> Tiempo de ejecución: Aprox. 6600 ms.</li>
+		<li> Número de nodos expandidos: 39663</li>
+		<li> Solución: En 15 pasos(MA_2,MB_3,MA_3,MC_2,MA_1,MB_2,MA_2,MD_3,MA_3, MB_1,MA_1,MC_,MA_2,MB_3,MA_3)</li>
+		</ul>    
+	<li> HeurísticaSegunda</li>
+		<ul>
+		<li> Tiempo de ejecución: Aprox. 20 ms.</li>
+		<li> Número de nodos expandidos: 248</li>
+		<li> Solución: En 15 pasos(MA_2,MB_3,MA_3,MC_2,MA_1,MB_2,MA_2,MD_3,MA_3, MB_1,MA_1,MC_,MA_2,MB_3,MA_3)</li>
+		</ul>		
+	<li> HeurísticaTercera</li>
+		<ul>
+		<li> Tiempo de ejecución: Aprox. 4967 ms.</li>
+		<li> Número de nodos expandidos: 67509</li>
+		<li> Solución: En 15 pasos(MA_2,MB_3,MA_3,MC_2,MA_1,MB_2,MA_2,MD_3,MA_3, MB_1,MA_1,MC_,MA_2,MB_3,MA_3)</li>
+		</ul>
+    </ul>
+    	
+	<p> La HeurísticaSegunda es infinitamente mejor que las otras 2, no sólo por el tiempo que tarda en resolver, sino sobre todo por la cantidad de nodos expandidos, ya que expande más de 100 veces menos, los nodos de las otras dos.</p>    
+
+</div>
+
+<div id="sidebar">
+<div id="sidebarcontents"> 
+<ul id="menu">
+<li><h2>Puzzles</h2></li>
+<li>
+   <ul>
+    	<li><a href="puzzle_laberinto3D.html"  >Laberinto 3D</a></li>
+    	<li><a href="puzzle_garrafas.html"     >Las garrafas</a></li>
+	<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
+        <li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
+        <li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
+        <li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
+        <li><a href="puzzle_misioneros.html"   >Misioneros y can&iacute;bales</a></li>
+        <li><a href="puzzle_negrasBlancas.html">Negras y blancas</a></li>
+        <li><a href="puzzle_nreinas.html"      >N Reinas</a></li>
+        <li><a href="puzzle_pollitos.html"     >Los pollitos</a></li>
+        <li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
+        <li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
+        <li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
+        <li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
+        <li><a href="puzzle_viaje.html"        >El viaje</a></li>
+   </ul>
+</li>
+</ul>
+</div>
+  <div id="sidebarbottom"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="footer">
+cUbE-sAPiEnS :: IAIC 2007-2008</div>
+<div id="credit"><a href="http://www.ramblingsoul.com">CSS Layout</a> by Rambling Soul</div></div>
+
+</body>
+</html>

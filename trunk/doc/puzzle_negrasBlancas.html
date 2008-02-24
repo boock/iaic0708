@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cUbE-sAPiEnS :: IAIC 2007-2008 </title>
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+  <style>
+  /*<![CDATA[*/
+#sidebarbottom {background:url(images/sidebarbottom.jpg) no-repeat -3px;}
+  /*]]>*/
+  </style>
+<![endif]-->
+</head>
+
+<body>
+<div id="wrap">
+<div id="topbar">
+  
+</div>
+<div id="header">
+<ul id="topmenu">
+<li><a href="index.html">Inicio</a>
+</li>
+<li class="active"><a href="styles.html">Puzzles</a>
+</li>
+<li><a href="implementacion.html">Implementación</a>
+</li>
+<li><a href="referencias.html">Referencias</a>
+</li>
+<li><a href="conclusiones.html">Conclusiones</a>
+</li>
+</ul>
+</div>
+<div id="content">
+<div id="mainpage">
+<h2>Negras y Blancas</h2>
+<span class="subhead">Descripción</span>
+    <table><tr><td>
+    <img src="images/blan_neg.jpg">
+
+    </td><td>
+    <p> Para el problema de representación de Blancas y Negras, tenemos un tablero que contiene 3 fichas blancas, un hueco y 3 fichas negras.</p>
+	</td></tr></table>
+	<p> A base de intercambiar el hueco con cualquiera de las fichas, tenemos que llegar a tener las tres fichas negras a la izquierda, el hueco en el medio y las 3 fichas blancas a la derecha.</p>
+<span class="subhead">Representación</span>
+    <p> A partir de este enunciado hemos tomado como estado cómo se encuentra el tablero en cada momento.</p>
+	<ul>
+	<li> Estado inicial: {B,B,B,o,N,N,N}, blancas a la izda.</li>
+	<li> Estado objetivo: {N,N,N,o,B,B,B}, blancas a la dcha.</li>
+	</ul>
+	
+	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<ul>
+	<li> LEFT_1   "Colocar el hueco a la Izquierda de 1";
+	<li> LEFT_2	  "Colocar el hueco a la Izquierda de 2";
+	<li> LEFT_3	  "Colocar el hueco a la Izquierda de 3";
+	<li> RIGHT_1  "Colocar el hueco a la Derecha de 1";
+	<li> RIGHT_2  "Colocar el hueco a la Derecha de 2";
+	<li> RIGHT_3  "Colocar el hueco a la Derecha de 3";
+	</ul>
+	
+	<p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
+	<ul>
+	<li> Ejemplo:  LEFT_3, este operador sólo se podrá utilizar cuando el hueco se encuentre en el medio.</li>
+	</ul>
+	
+<span class="subhead">Estrategias</span>
+    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado estrategias no informadas:</p>
+    <ul>
+    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    	<ul>
+    	<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+    	</ul>    	
+	<li> Búsqueda Primero en Anchura (BFS)</li>
+		<ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>		
+	<li> Búsqueda con límite de Profundidad (DLS)</li>
+		<ul>
+		<li> El límite en profundidad utilizado es 30.</li>
+		<li> Tiempo de ejecución: Aprox. 9451 ms.</li>
+		<li> Número de nodos expandidos: 904526</li>
+		<li> Solución: En 30 pasos.</li>
+		</ul>
+	</ul>
+    
+    <p> Además de una heurística, basada en la distancia de Manhattan, que asocia a cada estado el número mínimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado FuncionHeuristicManhattan.</p>
+    <ul>
+    <li> Tiempo de ejecución: Aprox. 110 ms.</li>
+	<li> Número de nodos expandidos: 602</li>
+	<li> Solución: En 11 pasos(LEFT_2,RIGHT_3,LEFT_1,RIGHT_3, LEFT_2,LEFT_2,LEFT_2,RIGHT_3,LEFT_1,RIGHT_3,LEFT_2)</li>
+	</ul>
+	
+	<p> Para este problema el único método no informado que logra resolverlo es la búsqueda DLS, pero tarda en resolverlo 9 segundo y expande más de 900000 nodos. Parece claro que la heurística basada en la distancia de Manhattan lo resuelve de una forma muchísimo más eficiente, expandiendo únicamente 602 nodos y reduciendo el número de pasos hasta 11.</p>    
+
+</div>
+
+<div id="sidebar">
+<div id="sidebarcontents"> 
+<ul id="menu">
+<li><h2>Puzzles</h2></li>
+<li>
+   <ul>
+    	<li><a href="puzzle_laberinto3D.html"  >Laberinto 3D</a></li>
+    	<li><a href="puzzle_garrafas.html"     >Las garrafas</a></li>
+	<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
+        <li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
+        <li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
+        <li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
+        <li><a href="puzzle_misioneros.html"   >Misioneros y can&iacute;bales</a></li>
+        <li><a href="puzzle_negrasBlancas.html">Negras y blancas</a></li>
+        <li><a href="puzzle_nreinas.html"      >N Reinas</a></li>
+        <li><a href="puzzle_pollitos.html"     >Los pollitos</a></li>
+        <li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
+        <li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
+        <li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
+        <li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
+        <li><a href="puzzle_viaje.html"        >El viaje</a></li>
+   </ul>
+</li>
+</ul>
+</div>
+  <div id="sidebarbottom"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="footer">
+cUbE-sAPiEnS :: IAIC 2007-2008</div>
+<div id="credit"><a href="http://www.ramblingsoul.com">CSS Layout</a> by Rambling Soul</div></div>
+
+</body>
+</html>

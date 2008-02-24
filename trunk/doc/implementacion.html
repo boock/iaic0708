@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cUbE-sAPiEnS :: IAIC 2007-2008 </title>
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+  <style>
+  /*<![CDATA[*/
+#sidebarbottom {background:url(images/sidebarbottom.jpg) no-repeat -3px;}
+  /*]]>*/
+  </style>
+<![endif]-->
+</head>
+
+<body>
+<div id="wrap">
+<div id="topbar">
+  
+</div>
+<div id="header">
+<ul id="topmenu">
+<li ><a href="index.html">Inicio</a>
+</li>
+<li><a href="puzzles.html">Puzzles</a>
+</li>
+<li class="active"><a href="implementacion.html">Implementación</a>
+</li>
+<li><a href="referencias.html">Referencias</a>
+</li>
+<li><a href="conclusiones.html">Conclusiones</a>
+</li>
+</ul>
+</div>
+<div id="content">
+<div id="mainpage">
+<h2>Compilación y ejecución</h2>
+<span class="subhead">Compilación</span>
+    <p>Para compilar la práctica basta con usar la utilidad
+    <a target="_blank" href="http://fjep.sourceforge.net/">FatJar</a> para obtener el archivo .jar,
+    ejecutable en cualquier máquina con Windows y <i>JVM</i>.<br>
+    <b>NOTA</b>: Basta con sustituir la librería SWT por la versión correspondiente para compilar la aplicación
+    para otros sistemas operativos como Linux, MacOS o Python.</p>
+<span class="subhead">Ejecución</span>
+    <p>Hay dos formas de ejecutar la práctica. Una es ejecutando el archivo .jar adjunto directamente, 
+    y otra es en el modo de prueba, con el argumento <b>-debug</b>, que permite seleccionar desde la 
+    pantalla de inicio el puzzle que se quiere ver. De esta manera no hay que esperar a que salga en 
+    una puerta del laberinto un puzzle concreto, y se pueden probar todos de forma independiente.</p>
+<span class="subhead">Configuración</span>
+    <p>El archivo <b>config.xml</b> contiene las configuraciones de todos los puzzles. En el mismo
+    archivo se incluye información de cómo modificar los datos, para poder realizar distintas pruebas.</p>
+
+<h2>Extensibilidad y reutilización al poder</h2>
+<span class="subhead">Detalle de la implementación</span>
+	<p>El corazón de la aplicación está en la clase <b>Puzzle.java</b>. Esta clase incluye todo lo
+	necesario para que sólo con definir el puzzle, éste se pueda instanciar y resolver por cualquier
+	algoritmo de búsqueda informado o no informado.</p>
+	<p>Esta clase proporciona de la forma más general posible, las herramientas necesarias para integrar
+	<b>Aima</b>	con el interfaz <b>SWT</b>, ateniéndose a los requisitos de la práctica.</p>
+	<p>Para utilizar esta clase, hay que definir el tablero de juego, las reglas (o función de sucesión),
+	el objetivo, y si se quiere, una o varias funciones heurísticas. También hay que implementar una
+	representación gráfica.</p>
+	<p>Del interfaz de usuario (ventanas, tabs, botones, diálogos...), de la creación de las
+	búsquedas, de la medición de tiempos, de la carga de datos del archivo XML, de la instanciación del puzzle,
+	del control de excepciones... se encarga la clase <i>Puzzle.java</i>.</p>
+	<p>Esto nos ha permitido trabajar más rápido, centrarnos más en los puzzles y en su representación gráfica,
+	maximizar la reutilización de código, y ofrecer en general una aplicación agradable y robusta, pero sobre
+	todo uniforme. La uniformidad facilita el uso de la aplicación, sin tener que aprender a utilizar cada
+	puzzle por separado.</p>
+	<p>Todos los puzzles, salvo <a href="puzzle_laberinto3D.html">Laberinto 3D</a> son resueltos por el ordenador.
+	Laberinto 3D da al usuario la libertad de moverse por el laberinto, a la vez que se dan sugerencias de los
+	posibles caminos hacia la salida.</p>
+	 
+</div>
+<div id="sidebar">
+<div id="sidebarcontents"> 
+<ul id="menu">
+<li><h2>Puzzles</h2></li>
+<li>
+   <ul>
+    	<li><a href="puzzle_laberinto3D.html"  >Laberinto 3D</a></li>
+    	<li><a href="puzzle_garrafas.html"     >Las garrafas</a></li>
+		<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
+        <li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
+        <li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
+        <li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
+        <li><a href="puzzle_misioneros.html"   >Misioneros y caníbales</a></li>
+        <li><a href="puzzle_negrasBlancas.html">Negras y blancas</a></li>
+        <li><a href="puzzle_nreinas.html"      >N Reinas</a></li>
+        <li><a href="puzzle_pollitos.html"     >Los pollitos</a></li>
+        <li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
+        <li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
+        <li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
+        <li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
+        <li><a href="puzzle_viaje.html"        >El viaje</a></li>
+   </ul>
+</li>
+</ul>
+</div>
+  <div id="sidebarbottom"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="footer">
+cUbE-sAPiEnS :: IAIC 2007-2008</div>
+<div id="credit"><a href="http://www.ramblingsoul.com">CSS Layout</a> by Rambling Soul</div></div>
+
+</body>
+</html>
