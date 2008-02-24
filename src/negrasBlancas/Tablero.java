@@ -147,11 +147,8 @@ public class Tablero {
 	 */
 	public void moveGapLeft_1() {
 		int gPos = getGapPosition();
-		if (gPos >= MinL - 1) {
-			char tmp = board[gPos-1];
-			board[gPos-1] = 'o';
-			board[gPos] = tmp;
-		}
+		board[gPos] = board[gPos-1];
+		board[gPos-1] = 'o';
 	}
 	
 	/**
@@ -159,11 +156,8 @@ public class Tablero {
 	 */
 	public void moveGapLeft_2() {
 		int gPos = getGapPosition();
-		if (gPos >= MinL + 2) {
-			char tmp = board[gPos-2];
-			board[gPos] = 'o';
-			board[gPos-2] = tmp;
-		}
+		board[gPos] = board[gPos-2];
+		board[gPos-2] = 'o';
 	}
 
 	/**
@@ -171,12 +165,8 @@ public class Tablero {
 	 */
 	public void moveGapLeft_3() {
 		int gPos = getGapPosition();
-		if (gPos <= MinL + 3) {
-			char tmp = board[gPos-3];
-			board[gPos-3] = 'o';
-			board[gPos] = tmp;
-		}
-
+		board[gPos] = board[gPos-3];
+		board[gPos-3] = 'o';
 	}
 
 	/**
@@ -184,12 +174,8 @@ public class Tablero {
 	 */
 	public void moveGapRight_1() {
 		int gPos = getGapPosition();
-		if (gPos <= MaxR - 2) {
-			char tmp = board[gPos+1];
-			board[gPos] = 'o';
-			board[gPos+1] = tmp;
-		}
-
+		board[gPos] = board[gPos+1];
+		board[gPos+1] = 'o';
 	}
 	
 	/**
@@ -197,12 +183,8 @@ public class Tablero {
 	 */
 	public void moveGapRight_2() {
 		int gPos = getGapPosition();
-		if (gPos <= MaxR - 3) {
-			char tmp = board[gPos+2];
-			board[gPos+2] = 'o';
-			board[gPos] = tmp;
-		}
-
+		board[gPos] = board[gPos+2];
+		board[gPos+2] = 'o';
 	}
 	
 	/**
@@ -210,12 +192,8 @@ public class Tablero {
 	 */
 	public void moveGapRight_3() {
 		int gPos = getGapPosition();
-		if (gPos <= MaxR - 4) {
-			char tmp = board[gPos+3];
-			board[gPos] = 'o';
-			board[gPos+3] = tmp;
-		}
-
+		board[gPos] = board[gPos+3];
+		board[gPos+3] = 'o';
 	}
 	
 	public void mover(String mov){
