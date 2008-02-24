@@ -8,13 +8,8 @@ import org.eclipse.swt.widgets.Display;
 
 public class RojosAzules extends main.Puzzle{
 
-	public RojosAzules(Display display, String nombrePuzzle, int ancho, int alto) {
-		super(display, nombrePuzzle, ancho, alto, true);
-		// TODO Auto-generated constructor stub
-	}
-
-	public RojosAzules(int ancho, int alto) {
-		super(ancho, alto);
+	public RojosAzules(Display display) {
+		super(display,"Rojos Azules", "RyA" , 300, 300, true);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -42,6 +37,10 @@ public class RojosAzules extends main.Puzzle{
 		return false;
 	}
 	
-	
+	@Override
+	protected void cargar() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
