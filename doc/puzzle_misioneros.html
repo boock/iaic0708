@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cUbE-sAPiEnS :: IAIC 2007-2008 </title>
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+  <style>
+  /*<![CDATA[*/
+#sidebarbottom {background:url(images/sidebarbottom.jpg) no-repeat -3px;}
+  /*]]>*/
+  </style>
+<![endif]-->
+</head>
+
+<body>
+<div id="wrap">
+<div id="topbar">
+  
+</div>
+<div id="header">
+<ul id="topmenu">
+<li><a href="index.html">Inicio</a>
+</li>
+<li class="active"><a href="styles.html">Puzzles</a>
+</li>
+<li><a href="implementacion.html">Implementación</a>
+</li>
+<li><a href="referencias.html">Referencias</a>
+</li>
+<li><a href="conclusiones.html">Conclusiones</a>
+</li>
+</ul>
+</div>
+<div id="content">
+<div id="mainpage">
+<h2>Los misioneros y los caníbales</h2>
+<span class="subhead">Descripción</span>
+    <table><tr><td>
+    <img src="images/misioneros.jpg">
+    </td><td><p>Para el problema de los misioneros, nos indican que: Tenemos 3 misioneros y 3 caníbales en la orilla de un río junto con un bote.</p>
+	</td></tr></table>
+	 <p>El objetivo es que pasen tanto unos como otros al otro lado del río. Deben usar el bote como máximo dos personas a la vez y en ninguna de las orillas puede haber más caníbales que misioneros.</p>
+<span class="subhead">Representaci&oacute;n</span>
+    <p> A partir de este enunciado hemos tomado como estado el número de misioneros que hay en la orillas izquierda, el número de caníbales que hay en la orilla izquierda y la orilla en la que se encuentra la barca.</p>
+    <ul>
+    <li> Estado inicial:	(3,3,True), todos en la orilla izda junto a la barca</li>
+    <li> Estado objetivo:	(0,0,False), todos en la dcha, y como es lógico, junto a la barca</li>
+    </ul>
+    
+    <p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<ul>
+    <li> M  	"Pasar un misionero."</li> 
+	<li> MM   	"Pasar dos misioneros."</li>
+	<li> C   	"Pasar un caníbal."</li>
+	<li> CC   	"Pasar dos caníbales."</li>
+	<li> MC   	"Pasar un misionero y un caníbal."</li>
+    </ul>
+    
+    <p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
+    <ul>
+    <li> Ejemplo: "M" , Sólo se podrá aplicar este operador si en la orilla que abandona no se quedan más caníbales que misioneros.</li> 
+    </ul> 
+
+<span class="subhead">Estrategias</span>
+    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado únicamente estrategias no informadas:</p>
+    <ul>
+    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    	<ul>
+    	<li> Tiempo de ejecución: Aprox. 130 ms.</li>
+		<li> Número de nodos expandidos: 13434</li>
+		<li> Solución: En 11 pasos(CC,C,CC,C,MM,MC,MM,C,CC,M,MC)</li>
+    	</ul>
+	<li> Búsqueda Primero en Anchura (BFS)</li>
+		<ul>
+		<li> Tiempo de ejecución: Aprox. 220 ms.</li>
+		<li> Número de nodos expandidos: 17817</li>
+		<li> Solución: 11 pasos(CC,C,CC,C,MM,MC,MM,C,CC,M,MC)</li>
+		</ul>
+	<li> Búsqueda Primero en Profundidad (DFS)</li>
+		<ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>
+	<li> Búsqueda con límite de Profundidad (DLS)</li>
+		<ul>
+		<li> El límite en profundidad utilizado es 7.</li>
+		<li> Tiempo de ejecución: Aprox. 20 ms.</li>
+		<li> Número de nodos expandidos: 3805</li>
+		<li> Solución: En 11 pasos(CC,C,CC,C,MM,MC,MM,C,CC,M,MC)</li>
+		</ul>
+	</ul>
+	
+	<p> Por lo que se puede apreciar en este problema en concreto es que, aunque para todas las estrategias (excepto DFS) la resolución es satisfactoria y rápida, parece que la que mejor lo resuelve es DLS ya que expande una cuarta parte de los nodos que expanden las otras.</p>
+
+</div>
+
+<div id="sidebar">
+<div id="sidebarcontents"> 
+<ul id="menu">
+<li><h2>Puzzles</h2></li>
+<li>
+   <ul>
+    	<li><a href="puzzle_laberinto3D.html"  >Laberinto 3D</a></li>
+    	<li><a href="puzzle_garrafas.html"     >Las garrafas</a></li>
+	<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
+        <li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
+        <li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
+        <li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
+        <li><a href="puzzle_misioneros.html"   >Misioneros y can&iacute;bales</a></li>
+        <li><a href="puzzle_negrasBlancas.html">Negras y blancas</a></li>
+        <li><a href="puzzle_nreinas.html"      >N Reinas</a></li>
+        <li><a href="puzzle_pollitos.html"     >Los pollitos</a></li>
+        <li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
+        <li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
+        <li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
+        <li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
+        <li><a href="puzzle_viaje.html"        >El viaje</a></li>
+   </ul>
+</li>
+</ul>
+</div>
+  <div id="sidebarbottom"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="footer">
+cUbE-sAPiEnS :: IAIC 2007-2008</div>
+<div id="credit"><a href="http://www.ramblingsoul.com">CSS Layout</a> by Rambling Soul</div></div>
+
+</body>
+</html>

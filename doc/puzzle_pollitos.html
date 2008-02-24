@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cUbE-sAPiEnS :: IAIC 2007-2008 </title>
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+  <style>
+  /*<![CDATA[*/
+#sidebarbottom {background:url(images/sidebarbottom.jpg) no-repeat -3px;}
+  /*]]>*/
+  </style>
+<![endif]-->
+</head>
+
+<body>
+<div id="wrap">
+<div id="topbar">
+  
+</div>
+<div id="header">
+<ul id="topmenu">
+<li><a href="index.html">Inicio</a>
+</li>
+<li class="active"><a href="puzzles.html">Puzzles</a>
+</li>
+<li><a href="implementacion.html">Implementación</a>
+</li>
+<li><a href="referencias.html">Referencias</a>
+</li>
+<li><a href="conclusiones.html">Conclusiones</a>
+</li>
+</ul>
+</div>
+<div id="content">
+<div id="mainpage">
+<h2>Los pollitos</h2>
+<span class="subhead">Descripción</span>
+    <table><tr><td><img src="images/pollitos.jpg"></td>
+    <td><p>Para el problema de representación de los pollitos, se plantea lo siguiente: Nos encontramos con una huevera que contiene 10 huevos.</p>
+	</td></tr></table>
+	<p> En un primer momento, todos los huevos son blancos, pero cada vez que se selecciona uno cambiará a azul, de azul a rojo y de rojo, finalmente, a pollito. Cada vez que se selecciona un huevo además de cambiar el estado del mismo, cambian el de sus vecinos. Por último, hacer patente que si se selecciona un pollito, volverá a ser un huevo blanco.</p>
+<span class="subhead">Representación</span>
+    <p> A partir de este enunciado hemos tomado como estado la fase de gestación en la que se encuentran los 10 huevos que componen la huevera.</p>
+	<ul>
+	<li> Estado inicial: Todos los huevos son blancos.</li>
+	<li> Estado objetivo: En todos los huevos hay un pollito.</li>
+	</ul>
+	
+	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<ul>
+	<li> SEL_00 	 "Selecciona el huevo (0,0)"</li>
+	<li> SEL_01 	 "Selecciona el huevo (0,1)"</li>
+	<li> SEL_02 	 "Selecciona el huevo (0,2)"</li>
+	<li> SEL_03 	 "Selecciona el huevo (0,3)"</li>
+	<li> SEL_04 	 "Selecciona el huevo (0,4)"</li>
+	<li> SEL_10 	 "Selecciona el huevo (1,0)"</li>
+	<li> SEL_11 	 "Selecciona el huevo (1,1)"</li>	
+	<li> SEL_12 	 "Selecciona el huevo (1,2)"</li>
+	<li> SEL_13 	 "Selecciona el huevo (1,3)"</li>
+	<li> SEL_14 	 "Selecciona el huevo (1,4)"</li>
+	</ul>
+	
+	<p> Para este problema se pueden aplicar todos y cada uno de los operadores independientemente del estado en el que nos encontremos, estos operadores carecen de precondición.</p>
+	
+<span class="subhead">Estrategias</span>
+    <p>Las estrategias no informadas que hemos incluido, son:</p>
+    <ul>
+    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    	<ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>    
+	<li> Búsqueda Primero en Anchura (BFS)</li>
+		<ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>		
+	<li> Búsqueda Primero en Profundidad (DFS)</li>
+		<ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>
+	<li> Búsqueda con límite de Profundidad (DLS)</li>
+		<ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>
+    </ul>
+    
+    <p> Además de una heurística, que consiste en la suma total de los pasos que les quedan para llegar a ser pollito a todos los huevos que componen la huevera, a estas estrategia la hemos denominando HeurísticaPollitos.</p>
+    <ul>
+    <li> Tiempo de ejecución: Aprox. 521 ms.</li>
+	<li> Número de nodos expandidos: 3547</li>
+	<li> Solución: En 13 pasos(SEL_01, SEL_01, SEL_01, SEL_14, SEL_04, SEL_04, SEL_12, 	SEL_12, SEL_02, SEL_01, SEL_00, SEL_00, SEL_10)</li>
+	</ul>
+	
+	<p> En este problema nos encontramos que las estrategias no informadas, no nos ayudan para la resolución del problema. Esto se debe a que ninguno de los operadores tiene precondición, por lo que todos ellos se pueden aplicar a cualquier estado, esto hace que el árbol sea enorme, y se acabe incurriendo en ciclos. Gracias a la heurística que hemos implementado, conseguimos que el problema se solucione en un número de pasos bastante aceptable.</p>    
+
+</div>
+
+<div id="sidebar">
+<div id="sidebarcontents"> 
+<ul id="menu">
+<li><h2>Puzzles</h2></li>
+<li>
+   <ul>
+    	<li><a href="puzzle_laberinto3D.html"  >Laberinto 3D</a></li>
+    	<li><a href="puzzle_garrafas.html"     >Las garrafas</a></li>
+	<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
+        <li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
+        <li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
+        <li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
+        <li><a href="puzzle_misioneros.html"   >Misioneros y can&iacute;bales</a></li>
+        <li><a href="puzzle_negrasBlancas.html">Negras y blancas</a></li>
+        <li><a href="puzzle_nreinas.html"      >N Reinas</a></li>
+        <li><a href="puzzle_pollitos.html"     >Los pollitos</a></li>
+        <li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
+        <li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
+        <li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
+        <li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
+        <li><a href="puzzle_viaje.html"        >El viaje</a></li>
+   </ul>
+</li>
+</ul>
+</div>
+  <div id="sidebarbottom"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="footer">
+cUbE-sAPiEnS :: IAIC 2007-2008</div>
+<div id="credit"><a href="http://www.ramblingsoul.com">CSS Layout</a> by Rambling Soul</div></div>
+
+</body>
+</html>

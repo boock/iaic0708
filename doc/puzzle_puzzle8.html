@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cUbE-sAPiEnS :: IAIC 2007-2008 </title>
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+  <style>
+  /*<![CDATA[*/
+#sidebarbottom {background:url(images/sidebarbottom.jpg) no-repeat -3px;}
+  /*]]>*/
+  </style>
+<![endif]-->
+</head>
+
+<body>
+<div id="wrap">
+<div id="topbar">
+  
+</div>
+<div id="header">
+<ul id="topmenu">
+<li><a href="index.html">Inicio</a>
+</li>
+<li class="active"><a href="styles.html">Puzzles</a>
+</li>
+<li><a href="implementacion.html">Implementación</a>
+</li>
+<li><a href="referencias.html">Referencias</a>
+</li>
+<li><a href="conclusiones.html">Conclusiones</a>
+</li>
+</ul>
+</div>
+<div id="content">
+<div id="mainpage">
+<h2>Puzzle-8</h2>
+<span class="subhead">Descripci&oacute;n</span>
+    <table><tr><td>
+    <img src="images/puzzle8.jpg">
+    </td><td>
+    <p>En el problema del Puzzle-8, nos plantean lo siguiente: Tenemos un tablero de 3x3 con con 8 fichas numeradas del 1 al 8.</p>
+	</td></tr></table>
+	<p> En un primer momento están descolocadas, hay que colocarlas de tal forma que el hueco quede en medio y se siga la secuencia 1-2-3-4-5-6-7-8 alrededor del perímetro del mismo.</p>
+<span class="subhead">Representaci&oacute;n</span>
+    <p> A partir de este enunciado hemos tomado como estado la colocación de las fichas en el tablero en cada instante.</p>
+    <ul>
+    <li> Estado inicial: {6,0,3,5,7,1,2,8,4}, piezas descolocadas</li>
+    <li> Estado objetivo: {1,2,3,4,0,5,6,7,8}, tablero colocado, con el hueco en medio</li>
+    </ul>
+    
+    <p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
+	<ul>
+    <li> LEFT  	"Izquierda."</li> 
+	<li> RIGHT  "Derecha."</li>
+	<li> UP   	"Arriba."</li>
+	<li> DOWN   "Abajo."</li>
+	</ul>
+    
+    <p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
+    <ul>
+    <li> Ejemplo: "Derecha" , Sólo se podrá aplicar este operador si la ficha que se pretende mover no se encuentra en el borde derecho del tablero. </li> 
+    </ul> 
+
+
+<span class="subhead">Estrategias</span>
+    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado estrategias no informadas:</p>
+    <ul>
+    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    	<ul>
+    	<li> Tiempo de ejecución: Aprox. 10 ms.</li>
+		<li> Número de nodos expandidos: 162</li>
+		<li> Solución: En 6 pasos(DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
+		</ul>    	
+	<li> Búsqueda Primero en Anchura (BFS)</li>
+		<ul>
+		<li> Tiempo de ejecución: Aprox. 10 ms.</li>
+		<li> Número de nodos expandidos: 293</li>	
+		<li> Solución: En 6 pasos(DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
+		</ul>		
+	<li> Búsqueda Primero en Profundidad (DFS)</li>
+		<ul>
+		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+		</ul>
+	<li> Búsqueda con límite de Profundidad (DLS)</li>
+		<ul>
+		<li> El límite en profundidad utilizado es 7.</li>
+		<li> Tiempo de ejecución: Aprox. 20 ms.</li>
+		<li> Número de nodos expandidos: 151</li>
+		<li> Solución: En 14 pasos(...,DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
+		</ul>
+	</ul>
+    
+    <p> Además de una heurística, basada en la distancia de Manhattan, que asocia a cada estado el núumero mínimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado FuncionHeuristicManhattan.</p>
+    <ul>
+    <li> Tiempo de ejecución: Aprox. 10 ms.</li>
+	<li> Número de nodos expandidos: 7</li>
+	<li> Solución: En 6 pasos(DOWN,DOWN,RIGHT,RIGHT,UP,LEFT)</li>
+	</ul>
+	
+	<p> Para este problema podemos observar que a pesar de que es bastante sencillo, la heurística hace que el número de nodos expandidos sea mínimo por lo que es eficiente. Además podemos ver, que la búsqueda con límite en profundidad no es óptima ya que pasamos por estados que son intrascendentes para la solución, pasando de 6 pasos que nos ofrecen el resto de estrategias a 14.</p>    
+
+
+</div>
+
+<div id="sidebar">
+<div id="sidebarcontents"> 
+<ul id="menu">
+<li><h2>Puzzles</h2></li>
+<li>
+   <ul>
+    	<li><a href="puzzle_laberinto3D.html"  >Laberinto 3D</a></li>
+    	<li><a href="puzzle_garrafas.html"     >Las garrafas</a></li>
+	<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
+        <li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
+        <li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
+        <li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
+        <li><a href="puzzle_misioneros.html"   >Misioneros y can&iacute;bales</a></li>
+        <li><a href="puzzle_negrasBlancas.html">Negras y blancas</a></li>
+        <li><a href="puzzle_nreinas.html"      >N Reinas</a></li>
+        <li><a href="puzzle_pollitos.html"     >Los pollitos</a></li>
+        <li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
+        <li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
+        <li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
+        <li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
+        <li><a href="puzzle_viaje.html"        >El viaje</a></li>
+   </ul>
+</li>
+</ul>
+</div>
+  <div id="sidebarbottom"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="footer">
+cUbE-sAPiEnS :: IAIC 2007-2008</div>
+<div id="credit"><a href="http://www.ramblingsoul.com">CSS Layout</a> by Rambling Soul</div></div>
+
+</body>
+</html>

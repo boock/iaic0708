@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>cUbE-sAPiEnS :: IAIC 2007-2008 </title>
+
+<link href="style.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+  <style>
+  /*<![CDATA[*/
+#sidebarbottom {background:url(images/sidebarbottom.jpg) no-repeat -3px;}
+  /*]]>*/
+  </style>
+<![endif]-->
+</head>
+
+<body>
+<div id="wrap">
+<div id="topbar">
+  
+</div>
+<div id="header">
+<ul id="topmenu">
+<li><a href="index.html">Inicio</a>
+</li>
+<li class="active"><a href="styles.html">Puzzles</a>
+</li>
+<li><a href="implementacion.html">Implementación</a>
+</li>
+<li><a href="referencias.html">Referencias</a>
+</li>
+<li><a href="conclusiones.html">Conclusiones</a>
+</li>
+</ul>
+</div>
+<div id="content">
+<div id="mainpage">
+<h2>N-Reinas</h2>
+<span class="subhead">Descripción</span>
+    <table><tr><td>
+    <img src="images/nreinas.jpg">
+    </td><td>
+    <p> Para el problema de representación de N-Reinas, tenemos un tablero de NxN en el cuál debemos colocar N reinas sin que se amenacen unas con otras.</p> 
+	</td></tr></table>
+	<p> Para ello sólo podemos colocarlas de tal forma que no coincidan: ni en fila, ni en columna, ni en diagonal. En cualquier otro caso provocaría que alguna de ellas amenazara a otra.</p>
+<span class="subhead">Representación</span>
+    <p> A partir de este enunciado hemos tomado como estado, cómo se encuentra el tablero en cada momento </p>
+	<ul>
+	<li> Estado inicial: Tablero de 10x10 vacío.</li>
+	<li> Estado objetivo: Tablero con 10 reinas colocadas de tal forma que ninguna amenace a otra.</li>
+	</ul>
+	
+	<p> A partir del estado inicial se crea el espacio de estados, colocando reinas en el tablero y teniendo en cuenta siempre la precondición de que no se encuentren en la misma fila, columna o diagonal.</p>
+			
+<span class="subhead">Estrategias</span>
+    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado estrategias no informadas:</p>
+    <ul>
+    <li> Búsqueda con Profundización Iterativa (IDS)</li>
+    	<ul>
+    	<li> Tiempo de ejecución: Aprox. 1102 ms.</li>
+		<li> Número de nodos expandidos: 75291</li>
+		<li> Solución: En 10 pasos((0,0),(1,2),(2,5),(3,7),(4,9), (5,4),(6,8),(7,1),(8,3),(9,6))</li>
+		</ul>    	
+	<li> Búsqueda Primero en Anchura (BFS)</li>
+		<ul>
+		<li> Tiempo de ejecución: Aprox. 1403 ms.</li>
+		<li> Número de nodos expandidos: 34815</li>	
+		<li> Solución: En 10 pasos((0,0),(1,2),(2,5),(3,7),(4,9), (5,4),(6,8),(7,1),(8,3),(9,6))</li>
+		</ul>		
+	<li> Búsqueda con límite de Profundidad (DLS)</li>
+		<ul>
+		<li> El límite en profundidad utilizado es 15.</li>
+		<li> Tiempo de ejecución: Aprox. 10 ms.</li>
+		<li> Número de nodos expandidos: 102</li>
+		<li> Solución: En 10 pasos((0,0),(1,2),(2,5),(3,7),(4,9), (5,4),(6,8),(7,1),(8,3),(9,6))</li>
+		</ul>
+	</ul>
+    
+ 	<p> Para este problema podemos observar que parece que la mejor solución es la Búsqueda con límite en profundidad, ya que resuelve el problema en los mismos pasos pero únicamente expande 102 nodos, cuando las otras expanden 75291 y 34815 respectivamente.    
+
+</div>
+
+<div id="sidebar">
+<div id="sidebarcontents"> 
+<ul id="menu">
+<li><h2>Puzzles</h2></li>
+<li>
+   <ul>
+    	<li><a href="puzzle_laberinto3D.html"  >Laberinto 3D</a></li>
+    	<li><a href="puzzle_garrafas.html"     >Las garrafas</a></li>
+	<li><a href="puzzle_granjero.html"     >El granjero, el lobo y la col</a></li>
+        <li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
+        <li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
+        <li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
+        <li><a href="puzzle_misioneros.html"   >Misioneros y can&iacute;bales</a></li>
+        <li><a href="puzzle_negrasBlancas.html">Negras y blancas</a></li>
+        <li><a href="puzzle_nreinas.html"      >N Reinas</a></li>
+        <li><a href="puzzle_pollitos.html"     >Los pollitos</a></li>
+        <li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
+        <li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
+        <li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
+        <li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
+        <li><a href="puzzle_viaje.html"        >El viaje</a></li>
+   </ul>
+</li>
+</ul>
+</div>
+  <div id="sidebarbottom"></div>
+</div>
+<div class="clear"></div>
+</div>
+<div id="footer">
+cUbE-sAPiEnS :: IAIC 2007-2008</div>
+<div id="credit"><a href="http://www.ramblingsoul.com">CSS Layout</a> by Rambling Soul</div></div>
+
+</body>
+</html>
