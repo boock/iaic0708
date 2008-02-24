@@ -68,18 +68,6 @@
 	<p>El estado también almacena la posición actual del aventurero.</p> 
 	<p>El estado inicial del laberinto es con todas las puertas cerradas (0) y el aventurero en la posición que se desee.
 	El estado final es cuando la posición del aventurero corresponde con una casilla de salida.</p>
-	<div id="gray">
-	<table>
-	<tr>
-	<td>Esto es una tabla</td>
-	<td>Dentro de un div &quot;gray&quot;.</td>
-	</tr>
-	<tr>
-	<td>Celda 3</td>
-	<td>Celda 4</td>
-	</tr>
-	</table>
-	</div>
 <span class="subhead">Estrategias</span>
     <p>Se ha implementado una función de coste que intenta impedir pasar innecesariamente
     por una puerta cerrada. Se asigna a la acción de cruzar una puerta cerrada un coste
@@ -87,6 +75,7 @@
     es preferible dar una pequeña vuelta que tener que abrir otro puzzle.</p>
     <p>Sobre esto se añade una función heurística que se calcula como la distancia de Manhattan
     desde la posición actual a cualquiera de las salidas.</p>
+    <p>Dado que la heurística es admisible, siempre se encuentra el camino óptimo a la salida.</p>
 
 
 <!-- Por debajo de aquí no hay más que editar -->

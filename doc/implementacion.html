@@ -63,7 +63,7 @@
 	representación gráfica.</p>
 	<p>Del interfaz de usuario (ventanas, tabs, botones, diálogos...), de la creación de las
 	búsquedas, de la medición de tiempos, de la carga de datos del archivo XML, de la instanciación del puzzle,
-	del control de excepciones... se encarga la clase <i>Puzzle.java</i>.</p>
+	del control de excepciones, lanzamiento de hilos de ejecución... se encarga la clase <i>Puzzle.java</i>.</p>
 	<p>Esto nos ha permitido trabajar más rápido, centrarnos más en los puzzles y en su representación gráfica,
 	maximizar la reutilización de código, y ofrecer en general una aplicación agradable y robusta, pero sobre
 	todo uniforme. La uniformidad facilita el uso de la aplicación, sin tener que aprender a utilizar cada
@@ -71,7 +71,12 @@
 	<p>Todos los puzzles, salvo <a href="puzzle_laberinto3D.html">Laberinto 3D</a> son resueltos por el ordenador.
 	Laberinto 3D da al usuario la libertad de moverse por el laberinto, a la vez que se dan sugerencias de los
 	posibles caminos hacia la salida.</p>
-	 
+	<p>Para evitar el bloqueo de la aplicación durante las búsquedas, estas se ejecutan en hilos paralelos, mientras
+	la aplicación va controlando el tiempo transcurrido. Si este excede de un tiempo máximo, se detiene el hilo
+	y se informa de que la búsqueda ha tardado demasiado (probablemente se encuentre atascada en un ciclo).</p>
+	<p>Se ha optado por el formato XML para almacenar los datos iniciales y de destino de los puzzles, ya que es un
+	formato práctico y fácil de leer para alguien ajeno al proyecto. En el mismo se pueden leer las instrucciones
+	que explican cómo se definen los datos de cada puzzle.</p>
 </div>
 <div id="sidebar">
 <div id="sidebarcontents"> 
@@ -92,7 +97,7 @@
         <li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
         <li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
         <li><a href="puzzle_rojosAzules.html"  >Rojos y azules</a></li>
-        <li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
+        <li><a href="puzzle_tictactoe.html"    >Tres en raya</a></li>
         <li><a href="puzzle_viaje.html"        >El viaje</a></li>
    </ul>
 </li>
