@@ -88,4 +88,10 @@ public class NegrasBlancas extends main.Puzzle{
 			tab = new Tablero();
 		}
 	}
+	
+	protected void reiniciar() {
+		tab.reset();
+		agent = null;
+		accion_actual=0;
+	}
 }

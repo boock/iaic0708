@@ -55,7 +55,8 @@ public class RobotLimpiador extends Puzzle {
 		}
 
 		addTabIntro("El objetivo es de limiar las habitaciones en un minimo de pasos");
-		
+		HeuristicFunction h[] = { new FuncionHeuristicManhattan() };
+		addTabAStar(tab, new FuncionSucesor(), new EstadoFinal(), h );
 		addTabIDS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(tab, new FuncionSucesor(), new EstadoFinal());
