@@ -23,7 +23,7 @@
 <ul id="topmenu">
 <li><a href="index.html">Inicio</a>
 </li>
-<li class="active"><a href="puzzles.html">Puzzles</a>
+<li class="active"><a href="styles.html">Puzzles</a>
 </li>
 <li><a href="implementacion.html">Implementación</a>
 </li>
@@ -35,73 +35,64 @@
 </div>
 <div id="content">
 <div id="mainpage">
-<h2>Las torres de Hanoi 3</h2>
+<h2>Negras y Blancas</h2>
 <span class="subhead">Descripción</span>
-    <table><tr><td><img src="images/laberinto3D.jpg"></td>
-    <td><p>Para el problema de representación de las torres de Hanoi 3, se plantea lo siguiente: Nos encontramos con una torre de tres piezas de distinto tamaúo.</p>
+    <table><tr><td>
+    <img src="images/laberinto3D.jpg">
+    </td><td>
+    <p> Para el problema de representación de Blancas y Negras, tenemos un tablero que contiene 3 fichas blancas, un hueco y 3 fichas negras.</p>
 	</td></tr></table>
-	<p> Tenemos tres lugares en la mesa donde podemos colocar la torre, en un primer lugar la torre se encuentra en el lado izquierdo en orden decreciente, al final se tiene que encontrar en orden decreciente pero en el lado derecho.</p>
+	<p> A base de intercambiar el hueco con cualquiera de las fichas, tenemos que llegar a tener las tres fichas negras a la izquierda, el hueco en el medio y las 3 fichas blancas a la derecha.</p>
 <span class="subhead">Representación</span>
-    <p> A partir de este enunciado hemos tomado como estado sobre dónde se encuentran cada una de las fichas en cada momento.</p>
+    <p> A partir de este enunciado hemos tomado como estado cómo se encuentra el tablero en cada momento.</p>
 	<ul>
-	<li> Estado inicial: (B,C,1), En un primer momento la pieza A(pequeúa) está sobre la B(mediana) y esta sobre la C(grande), todas ellas en el lado izquierdo de la mesa.</li>
-	<li> Estado objetivo: (B,C,3), La misma colocación que en el estado inicial pero ahora sobre el lado derecho de la mesa.</li>
+	<li> Estado inicial: {B,B,B,o,N,N,N}, blancas a la izda.</li>
+	<li> Estado objetivo: {N,N,N,o,B,B,B}, blancas a la dcha.</li>
 	</ul>
 	
 	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
 	<ul>
-	<li> MA_1	"Mover A en 1"</li>
-	<li> MB_1	"Mover B en 1"</li>
-	<li> MC_1	"Mover C en 1"</li>
-	<li> MA_2	"Mover A en 2"</li>
-	<li> MB_2	"Mover B en 2"</li>
-	<li> MC_2	"Mover C en 2"</li>
-	<li> MA_3	"Mover A en 3"</li>
-	<li> MB_3	"Mover B en 3"</li>
-	<li> MC_3	"Mover C en 3"</li>
+	<li> LEFT_1   "Colocar el hueco a la Izquierda de 1";
+	<li> LEFT_2	  "Colocar el hueco a la Izquierda de 2";
+	<li> LEFT_3	  "Colocar el hueco a la Izquierda de 3";
+	<li> RIGHT_1  "Colocar el hueco a la Derecha de 1";
+	<li> RIGHT_2  "Colocar el hueco a la Derecha de 2";
+	<li> RIGHT_3  "Colocar el hueco a la Derecha de 3";
 	</ul>
 	
 	<p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
-    <ul>
-    <li> Ejemplo: MA_1, sólo se puede aplicar si A se encuentra en 2 ó 3.</li>
-    </ul>
+	<ul>
+	<li> Ejemplo:  LEFT_3, este operador sólo se podrá utilizar cuando el hueco se encuentre en el medio.</li>
+	</ul>
 	
 <span class="subhead">Estrategias</span>
-    <p>Las estrategias no informadas que hemos incluido, son:</p>
+    <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado estrategias no informadas:</p>
     <ul>
     <li> Búsqueda con Profundización Iterativa (IDS)</li>
     	<ul>
-		<li> Tiempo de ejecución: Aprox. 20 ms.</li>
-		<li> Número de nodos expandidos: 844</li>
-		<li> Solución: En 7 pasos(MA_3,MB_2,MA_2,MC_3,MA_1,MB_3,MA_3)</li>
-		</ul>    
+    	<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
+    	</ul>    	
 	<li> Búsqueda Primero en Anchura (BFS)</li>
 		<ul>
-		<li> Tiempo de ejecución: Aprox. 90 ms.</li>
-		<li> Número de nodos expandidos: 1578</li>
-		<li> Solución: En 7 pasos(MA_3,MB_2,MA_2,MC_3,MA_1,MB_3,MA_3)</li>
-		</ul>		
-	<li> Búsqueda Primero en Profundidad (DFS)</li>
-		<ul>
 		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
-		</ul>
+		</ul>		
 	<li> Búsqueda con límite de Profundidad (DLS)</li>
 		<ul>
-		<li> El límite en profundidad utilizado es 15.</li>
-		<li> Tiempo de ejecución: Aprox. 10 ms.</li>
-		<li> Número de nodos expandidos: 542</li>
-		<li> Solución: En 15 pasos(...,MA_3,MB_2,MA_2,MC_3,MA_1,MB_3,MA_3)</li>
+		<li> El límite en profundidad utilizado es 30.</li>
+		<li> Tiempo de ejecución: Aprox. 9451 ms.</li>
+		<li> Número de nodos expandidos: 904526</li>
+		<li> Solución: En 30 pasos.</li>
 		</ul>
-    </ul>
+	</ul>
     
-    <p> Además de una heurística, basada en la distancia de Manhattan que asigna a cada estado un valor mayor cuanto más lejos nos encontremos del objetivo.</p>
+    <p> Además de una heurística, basada en la distancia de Manhattan, que asocia a cada estado el número mínimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado FuncionHeuristicManhattan.</p>
     <ul>
-    <li> Tiempo de ejecución: Aprox. 50 ms.</li>
-	<li> Número de nodos expandidos: 112</li>
-	<li> Solución: En 7 pasos(MA_3,MB_2,MA_2,MC_3,MA_1,MB_3,MA_3)</li>
+    <li> Tiempo de ejecución: Aprox. 110 ms.</li>
+	<li> Número de nodos expandidos: 602</li>
+	<li> Solución: En 11 pasos(LEFT_2,RIGHT_3,LEFT_1,RIGHT_3, LEFT_2,LEFT_2,LEFT_2,RIGHT_3,LEFT_1,RIGHT_3,LEFT_2)</li>
 	</ul>
 	
-	<p> Para este problema parece que de los métodos no informados, el mejor es IDS, que da la solución en 7 pasos con un número de nodos expandidos bastante aceptable. En cuanto a la heurística que hemos implementado, vemos que claramente optimiza el resultado, lo hace en 7 pasos igual pero reduce de manera drástica el número de nodos expandidos.</p>    
+	<p> Para este problema el único método no informado que logra resolverlo es la búsqueda DLS, pero tarda en resolverlo 9 segundo y expande más de 900000 nodos. Parece claro que la heurística basada en la distancia de Manhattan lo resuelve de una forma muchísimo más eficiente, expandiendo únicamente 602 nodos y reduciendo el número de pasos hasta 11.</p>    
 
 </div>
 

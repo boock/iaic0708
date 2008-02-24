@@ -35,74 +35,48 @@
 </div>
 <div id="content">
 <div id="mainpage">
-<h2>El viaje</h2>
+<h2>N-Reinas</h2>
 <span class="subhead">Descripción</span>
     <table><tr><td>
-    <img src="images/viaje.jpg">
+    <img src="images/nreinas.jpg">
     </td><td>
-    <p> Para el problema de representación del viaje, tenemos el siguiente enunciado: Nos encontramos en una ciudad andaluza (por ejemplo, Sevilla) y queremos viajar hasta otra de esa misma comunidad (en este caso, Almería).</p>
+    <p> Para el problema de representación de N-Reinas, tenemos un tablero de NxN en el cuál debemos colocar N reinas sin que se amenacen unas con otras.</p> 
 	</td></tr></table>
-	<p> Para ello sólo podemos viajar de una capital de provincia a otra siempre que sean vecinas, es decir, que sus fronteras sean colindantes.</p>
+	<p> Para ello sólo podemos colocarlas de tal forma que no coincidan: ni en fila, ni en columna, ni en diagonal. En cualquier otro caso provocaría que alguna de ellas amenazara a otra.</p>
 <span class="subhead">Representación</span>
-    <p> A partir de este enunciado hemos tomado como estado el lugar de Andalucía en el que nos encontramos en cada momento.</p>
+    <p> A partir de este enunciado hemos tomado como estado, cómo se encuentra el tablero en cada momento </p>
 	<ul>
-	<li> Estado inicial: Sevilla, ciudad de partida del viaje.</li>
-	<li> Estado objetivo: Almería, ciudad a la que se pretende llegar.</li>
+	<li> Estado inicial: Tablero de 10x10 vacío.</li>
+	<li> Estado objetivo: Tablero con 10 reinas colocadas de tal forma que ninguna amenace a otra.</li>
 	</ul>
 	
-	<p> A partir del estado inicial se crea el espacio de estados, aplicando una serie de operadores que hemos definido, basándonos en el enunciado:</p>
-	<ul>
-	<li> IR_AL 	 "Ir a Almería."</li>
-	<li> IR_CA 	 "Ir a Cádiz."</li>
-	<li> IR_CO 	 "Ir a Córdoba."</li>
-	<li> IR_GR 	 "Ir a Granada."</li>
-	<li> IR_HU 	 "Ir a Huelva."</li>
-	<li> IR_JA 	 "Ir a Jaen."</li>
-	<li> IR_MA 	 "Ir a Málaga."</li>
-	<li> IR_SE 	 "Ir a Sevilla."</li>
-	</ul>
-	
-	<p> Cada uno de  estos operadores se podrá aplicar a un estado siempre y cuando éste cumpla su precondición:</p>
-	<ul>
-	<li> Ejemplo:  IR_AL, este operador sólo se podrá utilizar cuando nos 	encontremos en provincias colindantes con Almería, en este caso,  en 	Granada o en Jaén.</li>
-	</ul>
-	
+	<p> A partir del estado inicial se crea el espacio de estados, colocando reinas en el tablero y teniendo en cuenta siempre la precondición de que no se encuentren en la misma fila, columna o diagonal.</p>
+			
 <span class="subhead">Estrategias</span>
     <p> En cuanto a las estrategias utilizadas para este problema de representación, hemos utilizado estrategias no informadas:</p>
     <ul>
     <li> Búsqueda con Profundización Iterativa (IDS)</li>
     	<ul>
-    	<li> Tiempo de ejecución: Aprox. 13 ms.</li>
-		<li> Número de nodos expandidos: 20</li>
-		<li> Solución: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
+    	<li> Tiempo de ejecución: Aprox. 1102 ms.</li>
+		<li> Número de nodos expandidos: 75291</li>
+		<li> Solución: En 10 pasos((0,0),(1,2),(2,5),(3,7),(4,9), (5,4),(6,8),(7,1),(8,3),(9,6))</li>
 		</ul>    	
 	<li> Búsqueda Primero en Anchura (BFS)</li>
 		<ul>
-		<li> Tiempo de ejecución: Aprox. 40 ms.</li>
-		<li> Número de nodos expandidos: 28</li>	
-		<li> Solución: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
+		<li> Tiempo de ejecución: Aprox. 1403 ms.</li>
+		<li> Número de nodos expandidos: 34815</li>	
+		<li> Solución: En 10 pasos((0,0),(1,2),(2,5),(3,7),(4,9), (5,4),(6,8),(7,1),(8,3),(9,6))</li>
 		</ul>		
-	<li> Búsqueda Primero en Profundidad (DFS)</li>
-		<ul>
-		<li> No se llega a la solución, debido a que se queda infinitamente ciclando.</li>
-		</ul>
 	<li> Búsqueda con límite de Profundidad (DLS)</li>
 		<ul>
-		<li> El límite en profundidad utilizado es 7.</li>
-		<li> Tiempo de ejecución: Aprox. 30 ms.</li>
-		<li> Número de nodos expandidos: 21</li>
-		<li> Solución: En 7 pasos(IR_CA, IR_HU, IR_CA, IR_MA, IR_CO, IR_GR, IR_AL)</li>
+		<li> El límite en profundidad utilizado es 15.</li>
+		<li> Tiempo de ejecución: Aprox. 10 ms.</li>
+		<li> Número de nodos expandidos: 102</li>
+		<li> Solución: En 10 pasos((0,0),(1,2),(2,5),(3,7),(4,9), (5,4),(6,8),(7,1),(8,3),(9,6))</li>
 		</ul>
 	</ul>
     
-    <p> Además de una heurística, basada en la distancia de Manhattan, que asocia a cada estado el número mínimo de pasos que le quedan para llegar hasta el objetivo, la hemos denominado HeurísticaViaje.</p>
-    <ul>
-    <li> Tiempo de ejecución: Aprox. 60 ms.</li>
-	<li> Número de nodos expandidos: 6</li>
-	<li> Solución: En 3 pasos(IR_CO, IR_GR, IR_AL)</li>
-	</ul>
-	
-	<p> Para este problema podemos observar que a pesar de que es bastante sencillo, la heurística hace que el número de nodos expandidos sea mínimo por lo que es eficiente. Además podemos ver, que la búsqueda con límite en profundidad no es óptima ya que pasamos por estados que son intrascendentes para la solución, pasando de 3 pasos que nos ofrecen el resto de estrategias a 7.</p>    
+ 	<p> Para este problema podemos observar que parece que la mejor solución es la Búsqueda con límite en profundidad, ya que resuelve el problema en los mismos pasos pero únicamente expande 102 nodos, cuando las otras expanden 75291 y 34815 respectivamente.    
 
 </div>
 
