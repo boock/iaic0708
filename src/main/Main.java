@@ -40,7 +40,8 @@ import rojosAzules.RojosAzules;
 public class Main {
 	public Main(boolean debug){
 		final Display display = new Display();
-		final Shell shell = new Shell(display);
+		final Shell shell = new Shell(display, SWT.CLOSE);
+		shell.setText("cUbE sAPiEnS");
 		shell.setLayout(new GridLayout(1,false));
 		shell.setImage(new Image(display, Main.class.getResourceAsStream("icono.gif")));
 		final Canvas canvas = new Canvas(shell, SWT.NONE);
