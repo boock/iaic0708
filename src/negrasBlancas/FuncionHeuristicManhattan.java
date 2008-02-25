@@ -29,11 +29,6 @@ public class FuncionHeuristicManhattan implements HeuristicFunction {
 				}
 			}
 		}
-		/*if(board.getValueAt(0)!='N')retVal++;
-		if(board.getValueAt(1)!='N')retVal++;
-		if(board.getValueAt(2)!='N')retVal++;
-		System.out.println(board.board);
-		System.out.println(retVal);*/
 		return retVal;
 	}
 }

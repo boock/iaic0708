@@ -1,0 +1,14 @@
+#Fat Jar Configuration File
+#Mon Feb 25 15:46:39 CET 2008
+onejar.license.required=true
+manifest.classpath=
+manifest.removesigners=true
+onejar.checkbox=false
+jarname=cubeSapiens.jar
+manifest.mergeall=true
+manifest.mainclass=main.Main
+manifest.file=<createnew>
+jarname.isextern=false
+onejar.expand=
+excludes=
+includes=

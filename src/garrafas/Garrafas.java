@@ -207,7 +207,6 @@ public class Garrafas extends main.Puzzle{
  			contenido = new Contenido(cuatro, tres);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
 			System.out.println("El archivo de configuración no es correcto.");
 			contenido = new Contenido();
 		}	

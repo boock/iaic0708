@@ -1,5 +1,6 @@
 package laberinto3D;
 
+import java.util.Date;
 import java.util.Random;
 
 import org.eclipse.swt.SWT;
@@ -84,6 +85,7 @@ public class Laberinto3D{
 		Composite compPuzzle = new Composite(compIzq,SWT.BORDER);
 		compPuzzle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 
+		// Cargar todas las imágenes utilizadas
 		fondo				= new Image(display, Laberinto3D.class.getResourceAsStream("habitacion.png"));
 		paredFondo			= new Image(display, Laberinto3D.class.getResourceAsStream("paredfondo.png"));
 		paredLado			= new Image(display, Laberinto3D.class.getResourceAsStream("paredlado.png"));
@@ -218,12 +220,12 @@ public class Laberinto3D{
 		});
 		botonGirarIzquierda.addSelectionListener(new SelectionListener(){
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
-			public void widgetSelected(SelectionEvent arg0) {direccion=(direccion+3)%4; actualizarTablero(); System.out.println(direccion);}
+			public void widgetSelected(SelectionEvent arg0) {direccion=(direccion+3)%4; actualizarTablero(); }
 		});
 
 		botonGirarDerecha.addSelectionListener(new SelectionListener(){
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
-			public void widgetSelected(SelectionEvent arg0) {direccion=(direccion+1)%4; actualizarTablero(); System.out.println(direccion);}
+			public void widgetSelected(SelectionEvent arg0) {direccion=(direccion+1)%4; actualizarTablero(); }
 		});
 		
 		Group gBitacora = new Group(compDer,SWT.NONE);
@@ -350,7 +352,12 @@ public class Laberinto3D{
 			break;
 		}
 		try {
-			// buscar una solución por puertas abiertas, y otra por puertas cerradas, y comparar los costes
+			Date t= new Date(0);		
+			Long x,y;
+			t = new Date();
+			x = t.getTime();
+
+			// Búsqueda del camino óptimo
 			GoalTest gt = new EstadoFinal();
 			HeuristicFunction h = new Manhattan();
 			StepCostFunction scf = new FuncionCoste();
@@ -359,6 +366,8 @@ public class Laberinto3D{
 			Search search = new AStarSearch(new GraphSearch());
 			SearchAgent agent = new SearchAgent(problem, search);
 
+			t = new Date();
+			y = t.getTime();
 
 			if (agent==null)
 				decir("Aima", "No encuentro salida. ¡Estamos atrapados!", true);
@@ -367,20 +376,12 @@ public class Laberinto3D{
 			else if (agent.getInstrumentation().getProperty("pathCost").equals("0"))
 				decir("Aima", "No encuentro salida. ¡Estamos atrapados!", true);
 			else {
-				decir("Aima","Creo que deberíamos ir por " + agent.getActions().get(0), true);
-				System.out.println(agent.getInstrumentation().getProperty("pathCost"));
-/*				String salida = "";
-				for (int i = 0; i < agent.getActions().size(); i++) {
-					String action = (String) agent.getActions().get(i);
-					salida += action + "\n";
-				}
-				System.out.println("______\nPosicion actual: " + 
-						String.valueOf(mapa.x_pos) + ", "+
-						String.valueOf(mapa.y_pos) + ", "+
-						String.valueOf(mapa.z_pos) + "\n"+
-						"el valor h es" + String.valueOf(h.getHeuristicValue(mapa)) + "\n" +
-						 salida);
-*/				
+				// Mostrar siguiente paso, coste y nodos
+				String salida = "Creo que deberíamos ir por " + agent.getActions().get(0) + ".\nHe calculado eso en ~" + (y-x) + "ms. y he expandido ";
+				salida += agent.getInstrumentation().getProperty("nodesExpanded") + " nodos.";
+
+				decir("Aima",salida, true);
+				
 			}
 		}
 		catch (Exception ex) {

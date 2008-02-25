@@ -121,7 +121,6 @@ public class Tablero {
 				return i;
 			}
 		}
-		/*System.out.println("Error sur '"+val+"' !!!");*/
 		return -1;
 	}
 
