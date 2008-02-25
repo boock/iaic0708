@@ -143,12 +143,6 @@ public class Tablero {
 		return size;
 	}
 
-	public void print() {
-
-		System.out.println(getBoardPic());
-
-	}
-
 	public String getBoardPic() {
 
 		StringBuffer buffer = new StringBuffer();

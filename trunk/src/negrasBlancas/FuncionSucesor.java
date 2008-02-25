@@ -25,7 +25,6 @@ public class FuncionSucesor implements SuccessorFunction {
 		for(int i=0;i<Tablero.operadores.length;i++){
 			
 			if ( board.canMoveGap( Tablero.operadores[i] ) ) {
-				/*System.out.println(board.board);*/
 				Tablero newBoard = copyOf( board );
 				newBoard.mover( Tablero.operadores[i] );
 				successors.add( new Successor( Tablero.operadores[i] , newBoard ) );

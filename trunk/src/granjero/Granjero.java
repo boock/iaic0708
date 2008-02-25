@@ -138,7 +138,6 @@ public class Granjero extends main.Puzzle {
 	
 	protected void cargar() {
 		try {
-			System.out.println(data);
 			boolean gr = data.charAt(0) == '0';
 			boolean lo = data.charAt(1) == '0';
 			boolean ca = data.charAt(2) == '0';

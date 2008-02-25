@@ -47,35 +47,41 @@
     </td>
     <td><p> Este es el puzzle principal de la aplicación. Se trata de un laberinto tridimensional.
     El laberinto tiene forma de cubo de Rubik: una serie de habitaciones cúbicas para formar un gran
-    cubo de 3x3x3 habitaciones.</p>
+    cubo de 3x3x3 habitaciones. No es complicado extender la búsqueda, la heurística y la
+    función de coste a un laberinto de mayor tamaño.</p>
     </td>
     </tr></table>
     <p>En principio, se puede abrir una puerta en cualquier pared de cualquier habitación, salvo que
     forme parte de una pared exterior, o se haya fallado en el intento de abrirla y esté bloqueada.</p>
     <p>Para abrir una puerta, hay que resolver un puzzle. Una vez resuelto, se puede pasar por la puerta, 
-    pero si no se consigue resolver, la puerta se bloquea y el aventurero tendrá que buscar un camino 
+    pero si no se consigue resolver, la puerta se bloquea y el jugador tendrá que buscar un camino 
     alternativo.</p>
     <p>El laberinto tiene salidas en las cuatro esquinas del cubo.</p>
 <span class="subhead">Representación</span>
-    <p>Para representar el estado de las puertas del puzzle hemos utilizado tres arrays de arrays bidimensionales.</p>
+    <p>Para representar el estado de las puertas del puzzle hemos utilizado tres arrays de arrays bidimensionales [sic].
+    Hubiera sido igual utilizar matrices tridimensionales, pero esta visión es igual de eficiente
+    y facilita la comprensión del código.</p>
     <p>De otra manera, un array representa una dimensión y contiene las paredes perpendiculares a esa dimensión.
-    Las paredes contienen el estado de las puertas, que puede ser:</p>
+    Las paredes son arrays bidimensionales que contienen el estado de las puertas, que puede ser:</p>
 	<ul>
 	<li>-1: bloqueada</li>
 	<li>0: cerrada</li>
 	<li>1: abierta</li>
 	</ul>
-	<p>El estado también almacena la posición actual del aventurero.</p> 
+	<p>El estado también almacena la posición actual del jugador.</p> 
 	<p>El estado inicial del laberinto es con todas las puertas cerradas (0) y el aventurero en la posición que se desee.
-	El estado final es cuando la posición del aventurero corresponde con una casilla de salida.</p>
+	Por defecto, en el centro del laberinto. El estado final es cuando la posición del aventurero corresponde con una casilla de salida.</p>
 <span class="subhead">Estrategias</span>
-    <p>Se ha implementado una función de coste que intenta impedir pasar innecesariamente
-    por una puerta cerrada. Se asigna a la acción de cruzar una puerta cerrada un coste
-    de 5, mientras que una puerta abierta tiene un coste de 1. Dicho de otra forma,
-    es preferible dar una pequeña vuelta que tener que abrir otro puzzle.</p>
+    <p>Se ha implementado una función de coste que intenta evitar pasar innecesariamente
+    por una puerta cerrada (i.e. resolver un puzzle). Se asigna a la acción de cruzar una
+    puerta cerrada un coste de 5, mientras que una puerta abierta tiene un coste de 1. Dicho
+    de otra forma, es preferible dar una pequeña vuelta que tener que resolver un puzzle.</p>
     <p>Sobre esto se añade una función heurística que se calcula como la distancia de Manhattan
     desde la posición actual a cualquiera de las salidas.</p>
-    <p>Dado que la heurística es admisible, siempre se encuentra el camino óptimo a la salida.</p>
+    <p>Dado que la heurística es admisible, siempre se encuentra el camino óptimo a la salida,
+    utilizando el algoritmo A*. Aunque no sería difícil de implementar, para evitar sobrecargar el 
+    interfaz, este es el único puzzle que no permite elección de estrategia.</p>
+    
 
 
 <!-- Por debajo de aquí no hay más que editar -->
@@ -93,13 +99,13 @@
 		<li><a href="puzzle_hanoi3.html"       >Torre Hanoi 3</a></li>
 		<li><a href="puzzle_hanoi4.html"       >Torre Hanoi 4</a></li>
 		<li><a href="puzzle_laberinto2D.html"  >Laberinto 2D</a></li>
-		<li><a href="puzzle_misioneros.html"   >Misioneros y can&iacute;bales</a></li>
+		<li><a href="puzzle_misioneros.html"   >Misioneros y caníbales</a></li>
 		<li><a href="puzzle_negrasBlancas.html">Negras y blancas</a></li>
 		<li><a href="puzzle_nreinas.html"      >N Reinas</a></li>
 		<li><a href="puzzle_pollitos.html"     >Los pollitos</a></li>
 		<li><a href="puzzle_puzzle8.html"      >Puzzle-8</a></li>
 		<li><a href="puzzle_robot.html"        >Robot limpiador</a></li>
-		<li><a href="puzzle_tresEnRaya.html"    >Tres en raya</a></li>
+		<li><a href="puzzle_tresEnRaya.html"   >Tres en raya</a></li>
 		<li><a href="puzzle_viaje.html"        >El viaje</a></li>
    </ul>
 </li>

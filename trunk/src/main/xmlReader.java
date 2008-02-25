@@ -1,6 +1,8 @@
 package main;
 
 import java.io.File;
+import java.io.IOException;
+
 import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,7 +18,7 @@ public class xmlReader{
 		try {
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse (new File("config"+File.separator+"config.xml"));
+			Document doc = docBuilder.parse (new File("configs"+File.separator+"config.xml"));
 
 			// normalize text representation
 			doc.getDocumentElement().normalize();
@@ -33,14 +35,15 @@ public class xmlReader{
 					r = ((Node)textDataList.item(0)).getNodeValue().trim();
 				}
 			}
+		}catch (IOException e) {
+			System.out.println("No se ha encontrado el archivo ."+File.separator+"config"+File.separator+"config.xml.");
+			System.out.println("Se utilizará configuración por defecto.");
 		}catch (SAXParseException err) {
-			System.out.println ("** Parsing error" + ", line " 
+			System.out.println ("** Error en el archivo XML: " + ", line " 
 					+ err.getLineNumber () + ", uri " + err.getSystemId ());
 			System.out.println(" " + err.getMessage ());
 
 		}catch (SAXException e) {
-			Exception x = e.getException ();
-			((x == null) ? e : x).printStackTrace ();
 
 		}catch (Throwable t) {
 			t.printStackTrace ();

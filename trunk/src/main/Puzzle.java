@@ -301,16 +301,13 @@ public abstract class Puzzle extends Thread {
 
 	/**
 	 * Devuelve el composite donde va la representación del juego.
-	 * @return
 	 */
 	protected Composite getTabJuego(){
 		return compPuzzle;
 	}
 
 	/**
-	 * Añade un tab en el menú de la izquierda.
-	 * @param nombre
-	 * @return
+	 * Añade un tab en el menú de la derecha.
 	 */
 	protected Composite addTabResolutor(String nombre) {
 		final Composite cTab = new Composite(tabFolder, SWT.NONE);
@@ -405,9 +402,15 @@ public abstract class Puzzle extends Thread {
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (tiempo<=0) {
+				if (solucionEncontrada) {
 					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setMessage("Ya has resuelto el puzzle. Debes cerrar la ventana para continuar.");
+					m.setText("Error");
+					m.open();
+				}
+				else if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana para continuar.");
 					m.setText("Error");
 					m.open();
 				}
@@ -485,9 +488,15 @@ public abstract class Puzzle extends Thread {
 		// Resolución
 		botonResolver.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (tiempo<=0) {
+				if (solucionEncontrada) {
 					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setMessage("Ya has resuelto el puzzle. Debes cerrar la ventana para continuar.");
+					m.setText("Error");
+					m.open();
+				}
+				else if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana para continuar.");
 					m.setText("Error");
 					m.open();
 				}
@@ -612,9 +621,15 @@ public abstract class Puzzle extends Thread {
 		// Resolución AStar
 		botonResolverAStar.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (tiempo<=0) {
+				if (solucionEncontrada) {
 					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setMessage("Ya has resuelto el puzzle. Debes cerrar la ventana para continuar.");
+					m.setText("Error");
+					m.open();
+				}
+				else if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana para continuar.");
 					m.setText("Error");
 					m.open();
 				}
@@ -688,9 +703,15 @@ public abstract class Puzzle extends Thread {
 		// Resolución Voraz
 		botonResolverVoraz.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (tiempo<=0) {
+				if (solucionEncontrada) {
 					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setMessage("Ya has resuelto el puzzle. Debes cerrar la ventana para continuar.");
+					m.setText("Error");
+					m.open();
+				}
+				else if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana para continuar.");
 					m.setText("Error");
 					m.open();
 				}
@@ -764,9 +785,15 @@ public abstract class Puzzle extends Thread {
 		// Resolución Voraz
 		botonResolverEscalada.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
-				if (tiempo<=0) {
+				if (solucionEncontrada) {
 					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setMessage("Ya has resuelto el puzzle. Debes cerrar la ventana para continuar.");
+					m.setText("Error");
+					m.open();
+				}
+				else if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana para continuar.");
 					m.setText("Error");
 					m.open();
 				}
