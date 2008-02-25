@@ -89,7 +89,7 @@ public class Main {
 			combo.add("Los Pollitos");
 			combo.add("Blancas y negras");
 			combo.add("Robot Limpiador");
-			combo.add("Rojos y Azules");
+//			combo.add("Rojos y Azules");
 //			combo.add("mapa");
 
 			combo.addSelectionListener(new SelectionListener() {
@@ -139,12 +139,11 @@ public class Main {
 					case 13:
 						new RobotLimpiador(display);
 						break;
-					case 14:
-						new RojosAzules(display);
-						break;
+//					case 14:
+//						new RojosAzules(display);
+//						break;
 //					case 15:
 //						new Alpujarras(display);
-						
 					}
 				}
 			});
@@ -163,7 +162,7 @@ public class Main {
 	}
 
 	public static void main (String[] args) {
-		boolean debug = true;
+		boolean debug = false;
 		if (args.length>0 && args[0].equals("-debug")) debug=true;
 		new Main(debug);
 	}

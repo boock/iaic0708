@@ -50,7 +50,7 @@ public abstract class Puzzle extends Thread {
 
 	// Este entero es para saber por qué paso vamos de la solución
 	protected int accion_actual = 0;
-	protected Button botonAnterior, botonResolver; 
+	protected Button botonAnterior, botonSiguiente; 
 	protected Text tSolucion;
 	protected Search search;
 	protected SearchAgent agent;
@@ -61,14 +61,14 @@ public abstract class Puzzle extends Thread {
 	protected Problem problem;
 	private int profMaxDLS;
 	private String salida;
-	private final int TMAX = 20000;
+	private final int TMAX = 5000;
 	private int tiempo = TMAX;
 	private HeuristicFunction h;
 	public boolean solucionEncontrada = false;
 	protected String data;
 	private ProgressBar pb;
 	protected Label textoIntro;
-	
+
 	public class DLSSolver implements Runnable { 
 		public synchronized void run() {
 			try {
@@ -76,7 +76,7 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
-				ex.printStackTrace();
+				System.gc();
 			}
 		}
 	}
@@ -88,7 +88,7 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
-				ex.printStackTrace();
+				System.gc();
 			}
 		}
 	}
@@ -100,7 +100,7 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
-				ex.printStackTrace();
+				System.gc();
 			}
 		}
 	}
@@ -112,7 +112,7 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
-				ex.printStackTrace();
+				System.gc();
 			}
 		}
 	}
@@ -124,11 +124,11 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
-				ex.printStackTrace();
+				System.gc();
 			}
 		}
 	}
-	
+
 	public class VorazSolver implements Runnable { 
 		public synchronized void run() {
 			try {
@@ -136,7 +136,7 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
-				ex.printStackTrace();
+				System.gc();
 			}
 		}
 	}
@@ -148,11 +148,11 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
-				ex.printStackTrace();
+				System.gc();
 			}
 		}
 	}
-	
+
 	/**
 	 * Constructor por defecto. Genera la ventana principal.
 	 * @param display el display de la aplicación
@@ -164,7 +164,7 @@ public abstract class Puzzle extends Thread {
 		this.ancho = ancho;
 		this.alto = alto;
 		botonAnterior = null;
-		botonResolver = null;
+		botonSiguiente = null;
 		tSolucion = null;
 		search = null;
 		agent = null;
@@ -221,23 +221,23 @@ public abstract class Puzzle extends Thread {
 						botonAnterior.setEnabled(false);
 					// Desbloquear botón siguiente si no está en el final
 					if (accion_actual!=agent.getActions().size())
-						botonResolver.setEnabled(true);
+						botonSiguiente.setEnabled(true);
 					actualizarTablero();
 				}
 			}
 		});
 		if (!biyectivo) botonAnterior.setEnabled(false);
 		final boolean b = biyectivo;
-		botonResolver = new Button(compIzq, SWT.PUSH);
-		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		botonResolver.setText("Siguiente ->");
-		botonResolver.setEnabled(false);
-		botonResolver.addSelectionListener(new SelectionAdapter() {
+		botonSiguiente = new Button(compIzq, SWT.PUSH);
+		botonSiguiente.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		botonSiguiente.setText("Siguiente ->");
+		botonSiguiente.setEnabled(false);
+		botonSiguiente.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (avanzar()) {
 					// Bloquear botón siguiente si se ha llegado al final
 					if (accion_actual==agent.getActions().size())
-						botonResolver.setEnabled(false);
+						botonSiguiente.setEnabled(false);
 					// Desbloquear botón anterior si no está en el principio
 					if (accion_actual!=0 && b)
 						botonAnterior.setEnabled(true);
@@ -253,7 +253,7 @@ public abstract class Puzzle extends Thread {
 		botonReset.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				reiniciar();
-				botonResolver.setEnabled(false);
+				botonSiguiente.setEnabled(false);
 				botonAnterior.setEnabled(false);
 				actualizarTablero();
 				tSolucion.setText("Aquí aparecerá la solución una vez se haya resuelto " +
@@ -366,7 +366,7 @@ public abstract class Puzzle extends Thread {
 		else if (agent.getInstrumentation().getProperty("nodesExpanded").equals("0"))
 			salida += "La solución es trivial.\n";
 		else if (agent.getInstrumentation().getProperty("pathCost")==null || agent.getInstrumentation().getProperty("pathCost").equals("0"))
-			  salida += "No se ha encontrado solución.\n";
+			salida += "No se ha encontrado solución.\n";
 		else {
 			// TODO Quitarle el punto al número de pasos
 			solucionEncontrada = true;
@@ -384,7 +384,74 @@ public abstract class Puzzle extends Thread {
 		tSolucion.setText(salida);
 		tabFolder.setSelection(tabFolder.getItemCount()-1);
 	}
+	private void addTabMethod(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, String text, String tabName, String methodName) {
+		final Object o = estadoInicial;
+		final GoalTest gt = estadoFinal;
+		final SuccessorFunction fs = funcionSucesor;
+		final String methodN = methodName;
+		final String tabN = tabName;
+		// Tab Bidireccional
+		Composite cTabDSL = addTabResolutor(tabName);
+		cTabDSL.setLayout(new GridLayout(2,false));
 
+		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
+		labelIntroDSL.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 2, 1));
+		labelIntroDSL.setText(methodName + ".\n\n" + text);
+
+		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
+		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		botonResolver.setText("Resolver");
+
+		// Resolución
+		botonResolver.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				if (tiempo<=0) {
+					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
+					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
+					m.setText("Error");
+					m.open();
+				}
+				else {
+					try {
+						String salida = methodN;
+						salida +=       "\n-------------------------\n\n";
+						// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
+						problem = new Problem(o, fs, gt);
+
+						// Resolver el problema con el método correspondiente
+						Date t= new Date(0);		
+						Long x,y;
+						t = new Date();
+						x = t.getTime();
+
+						Thread solver;
+						if      (tabN.equals("IDS")) solver = new Thread(new IDSSolver());
+						else if (tabN.equals("BFS")) solver = new Thread(new BFSSolver());
+						else if (tabN.equals("DFS")) solver = new Thread(new DFSSolver());
+						else solver = null;
+						solver.start();
+						while (tiempo>=0 && agent==null) {
+							tiempo-=500;
+							pb.setSelection((100*tiempo)/TMAX);
+							solver.join(500);
+						}
+						solver.stop();
+
+						t = new Date();
+						y = t.getTime();
+
+						mostrarSolucion(salida, y-x);
+					} catch (Exception ex) {
+						ex.printStackTrace();
+					}
+					if (agent!=null && agent.getActions().size()>0) {
+						botonSiguiente.setEnabled(true);
+					}
+				}
+			}
+		});	
+
+	}
 	protected void addTabDLS(Object estadoInicial, int p, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
 		profMaxDLS = p;
 		final Object o = estadoInicial;
@@ -454,14 +521,14 @@ public abstract class Puzzle extends Thread {
 								pb.setSelection((100*tiempo)/TMAX);
 								solver.join(500);
 							}
-							solver.interrupt();
+							solver.stop();
 
 							t = new Date();
 							y = t.getTime();
 							mostrarSolucion(salida, y-x);
 
 							if (agent!=null && agent.getActions().size()>0) {
-								botonResolver.setEnabled(true);
+								botonSiguiente.setEnabled(true);
 							}
 						}
 					}
@@ -479,200 +546,34 @@ public abstract class Puzzle extends Thread {
 		});	
 	}
 
+
 	protected void addTabIDS(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
-		final Object o = estadoInicial;
-		final GoalTest gt = estadoFinal;
-		final SuccessorFunction fs = funcionSucesor;
-		// Tab Bidireccional
-		Composite cTabDSL = addTabResolutor("IDS");
-		cTabDSL.setLayout(new GridLayout(2,false));
-
-		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
-		labelIntroDSL.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 2, 1));
-		labelIntroDSL.setText("Búsqueda con Profundización Iterativa.\n\n" +
-				"La búsqueda con profundización iterativa (IDS) es un tipo de búsqueda no informada " +
-				"que va variando el límite de profundidad de forma creciente.\n" +
-		"Es óptima y completa.");
-
-		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
-		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		botonResolver.setText("Resolver");
-
-		// Resolución
-		botonResolver.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (tiempo<=0) {
-					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
-					m.setText("Error");
-					m.open();
-				}
-				else {try {
-					String salida = "Búsqueda de profundización iterativa\n";
-					salida +=       "-------------------------\n\n";
-					// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-					problem = new Problem(o, fs, gt);
-
-					// Resolver el problema con IDS
-					Date t= new Date(0);		
-					Long x,y;
-					t = new Date();
-					x = t.getTime();
-
-					Thread solver = new Thread(new IDSSolver());
-					solver.start();
-					while (tiempo>=0 && agent==null) {
-						tiempo-=500;
-						pb.setSelection((100*tiempo)/TMAX);
-						solver.join(500);
-					}
-					solver.interrupt();
-
-					t = new Date();
-					y = t.getTime();
-
-					mostrarSolucion(salida, y-x);
-
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
-				if (agent!=null && agent.getActions().size()>0) {
-					botonResolver.setEnabled(true);
-				}
-				}
-			}
-		});	
+		String text = "La búsqueda con profundización iterativa (IDS) es un tipo de búsqueda no informada " +
+		"que va variando el límite de profundidad de forma creciente.\n" +
+		"Es óptima y completa.";
+		String tabName = "IDS";
+		String methodName = "Búsqueda con Profundización Iterativa";
+		addTabMethod(estadoInicial, funcionSucesor, estadoFinal, text, tabName, methodName);
 	}
 
 	protected void addTabBFS(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
-		final Object o = estadoInicial;
-		final GoalTest gt = estadoFinal;
-		final SuccessorFunction fs = funcionSucesor;
-		Composite cTabDSL = addTabResolutor("BFS");
-		cTabDSL.setLayout(new GridLayout(2,false));
-
-		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
-		labelIntroDSL.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 2, 1));
-		labelIntroDSL.setText("Búsqueda Primero en Anchura\n\n" +
-				"La búsqueda primero en anchura (BFS) es un tipo de búsqueda no informada " +
-				"que expande primero los nodos haciendo un recorrido en anchura.\n" +
-		"Es completa y óptima si coste(sucesor(n)) >= coste(n).");
-
-		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
-		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		botonResolver.setText("Resolver");
-
-		// Resolución
-		botonResolver.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (tiempo<=0) {
-					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
-					m.setText("Error");
-					m.open();
-				}
-				else {
-					try {
-						String salida = "Búsqueda primero en anchura\n";
-						salida +=       "-------------------------\n\n";
-						// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-						problem = new Problem(o, fs, gt);
-
-						// Resolver el problema con BFS
-						Date t= new Date(0);		
-						Long x,y;
-						t = new Date();
-						x = t.getTime();
-
-						Thread solver = new Thread(new BFSSolver());
-						solver.start();
-						while (tiempo>=0 && agent==null) {
-							tiempo-=500;
-							pb.setSelection((100*tiempo)/TMAX);
-							solver.join(500);
-						}
-						solver.interrupt();
-
-						t = new Date();
-						y = t.getTime();
-						mostrarSolucion(salida, y-x);
-
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-					if (agent!=null && agent.getActions().size()>0) {
-						botonResolver.setEnabled(true);
-					}
-				}
-			}
-		});	
+		String text = "La búsqueda primero en anchura (BFS) es un tipo de búsqueda no informada " +
+		"que expande primero los nodos haciendo un recorrido en anchura.\n" +
+		"Es completa y óptima si coste(sucesor(n)) >= coste(n).";
+		String tabName = "BFS";
+		String methodName = "Búsqueda Primero en Anchura";
+		addTabMethod(estadoInicial, funcionSucesor, estadoFinal, text, tabName, methodName);
 	}
 
 	protected void addTabDFS(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal) {
-		final Object o = estadoInicial;
-		final GoalTest gt = estadoFinal;
-		final SuccessorFunction fs = funcionSucesor;
-		Composite cTabDSL = addTabResolutor("DFS");
-		cTabDSL.setLayout(new GridLayout(2,false));
-
-		final Label labelIntroDSL = new Label(cTabDSL, SWT.LEFT | SWT.WRAP);
-		labelIntroDSL.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, true, 2, 1));
-		labelIntroDSL.setText("Búsqueda Primero en Profundidad.\n\n" +
-				"La búsqueda primero en profundidad (DFS) es un tipo de búsqueda no informada " +
-				"que expande los nodos haciendo un recorrido en profundidad.\n\n" +
-				"NOTA: Esta búsqueda no tiene control de ciclos ni límite de búsqueda, " +
-				"por lo que puede entrar en un bucle infinito.\n" +
-		"Si puedes, utiliza otra alternativa como DLS.");
-
-		final Button botonResolver = new Button(cTabDSL, SWT.PUSH);
-		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		botonResolver.setText("Resolver");
-
-		// Resolución
-		botonResolver.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent e) {
-				if (tiempo<=0) {
-					MessageBox m = new MessageBox(shell, SWT.ICON_ERROR);
-					m.setMessage("No te queda tiempo. Debes cerrar la ventana.");
-					m.setText("Error");
-					m.open();
-				}
-				else {
-					try {
-						String salida = "Búsqueda primero en prunfidad\n";
-						salida +=       "-------------------------\n\n";
-						// Crea el problema con el tablero inicial, la función sucesor y el tablero solución
-						problem = new Problem(o, fs, gt);
-						// Resolver el problema con DFS
-						Date t= new Date(0);		
-						Long x,y;
-
-						t = new Date();
-						x = t.getTime();
-
-						Thread solver = new Thread(new DFSSolver());
-						solver.start();
-						while (tiempo>=0 && agent==null) {
-							tiempo-=500;
-							pb.setSelection((100*tiempo)/TMAX);
-							solver.join(500);
-						}
-						solver.interrupt();
-
-						t = new Date();
-						y = t.getTime();
-
-						mostrarSolucion(salida, y-x);
-
-					} catch (Exception ex) {
-						ex.printStackTrace();
-					}
-					if (agent!=null && agent.getActions().size()>0) {
-						botonResolver.setEnabled(true);
-					}
-				}
-			}
-		});	
+		String text = "La búsqueda primero en profundidad (DFS) es un tipo de búsqueda no informada " +
+		"que expande los nodos haciendo un recorrido en profundidad.\n\n" +
+		"NOTA: Esta búsqueda no tiene control de ciclos ni límite de búsqueda, " +
+		"por lo que puede entrar en un bucle infinito.\n" +
+		"Si puedes, utiliza otra alternativa como DLS.";
+		String tabName = "DFS";
+		String methodName = "Búsqueda Primero en Profundidad";
+		addTabMethod(estadoInicial, funcionSucesor, estadoFinal, text, tabName, methodName);
 	}
 
 	protected void addTabAStar(Object estadoInicial, SuccessorFunction funcionSucesor, StepCostFunction funcionCoste, GoalTest estadoFinal, HeuristicFunction[] heuristica) {
@@ -737,7 +638,7 @@ public abstract class Puzzle extends Thread {
 							pb.setSelection((100*tiempo)/TMAX);
 							solver.join(500);
 						}
-						solver.interrupt();
+						solver.stop();
 
 						t = new Date();
 						y = t.getTime();
@@ -747,7 +648,7 @@ public abstract class Puzzle extends Thread {
 						ex.printStackTrace();
 					}
 					if (agent!=null && agent.getActions().size()>0) {
-						botonResolver.setEnabled(true);
+						botonSiguiente.setEnabled(true);
 					}
 				}
 			}
@@ -813,7 +714,7 @@ public abstract class Puzzle extends Thread {
 							pb.setSelection((100*tiempo)/TMAX);
 							solver.join(500);
 						}
-						solver.interrupt();
+						solver.stop();
 
 						t = new Date();
 						y = t.getTime();
@@ -823,13 +724,13 @@ public abstract class Puzzle extends Thread {
 						ex.printStackTrace();
 					}
 					if (agent!=null && agent.getActions().size()>0) {
-						botonResolver.setEnabled(true);
+						botonSiguiente.setEnabled(true);
 					}
 				}
 			}
 		});
 	}
-	
+
 	protected void addTabEscalada(Object estadoInicial, SuccessorFunction funcionSucesor, GoalTest estadoFinal, HeuristicFunction[] heuristica) {
 		final Object o = estadoInicial;
 		final HeuristicFunction[] heuri = heuristica;
@@ -889,7 +790,7 @@ public abstract class Puzzle extends Thread {
 							pb.setSelection((100*tiempo)/TMAX);
 							solver.join(500);
 						}
-						solver.interrupt();
+						solver.stop();
 
 						t = new Date();
 						y = t.getTime();
@@ -899,13 +800,13 @@ public abstract class Puzzle extends Thread {
 						ex.printStackTrace();
 					}
 					if (agent!=null && agent.getActions().size()>0) {
-						botonResolver.setEnabled(true);
+						botonSiguiente.setEnabled(true);
 					}
 				}
 			}
 		});
 	}
-	
+
 	/**
 	 * Añade el tab que muestra la solución. Debería añadirse el último.
 	 */

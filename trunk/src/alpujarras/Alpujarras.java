@@ -43,11 +43,11 @@ public class Alpujarras extends main.Puzzle {
 		compPuzzle = new Composite(compIzq,SWT.BORDER);
 		compPuzzle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 
-		botonResolver = new Button(compIzq, SWT.PUSH);
-		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		botonResolver.setText("Siguiente ->");
-		botonResolver.setEnabled(true);
-		botonResolver.addSelectionListener(new SelectionAdapter() {
+		botonSiguiente = new Button(compIzq, SWT.PUSH);
+		botonSiguiente.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		botonSiguiente.setText("Siguiente ->");
+		botonSiguiente.setEnabled(true);
+		botonSiguiente.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				MapEnvironment me = new MapEnvironment(MapaAlpujarras.getMapaAlpujarras());
 				MapAgent ma = new MapAgent(me, new UniformCostSearch(new GraphSearch()),
