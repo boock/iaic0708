@@ -50,16 +50,16 @@ public class TresEnRaya extends main.Puzzle{
 		compPuzzle = new Composite(compIzq,SWT.BORDER);
 		compPuzzle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 
-		botonResolver = new Button(compIzq, SWT.PUSH);
-		botonResolver.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
-		botonResolver.setText("Siguiente ->");
-		botonResolver.setEnabled(true);
-		botonResolver.addSelectionListener(new SelectionAdapter() {
+		botonSiguiente = new Button(compIzq, SWT.PUSH);
+		botonSiguiente.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
+		botonSiguiente.setText("Siguiente ->");
+		botonSiguiente.setEnabled(true);
+		botonSiguiente.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent e) {
 				if (avanzar()) {
 					// Bloquear botón siguiente si se ha llegado al final
 					if (t3.hasEnded()) 
-						botonResolver.setEnabled(false);
+						botonSiguiente.setEnabled(false);
 					actualizarTablero();
 				}
 			}
@@ -141,7 +141,7 @@ public class TresEnRaya extends main.Puzzle{
 	
 	protected void reiniciar() {
 		t3 = new TresEnRayaJuego();
-		botonResolver.setEnabled(true);
+		botonSiguiente.setEnabled(true);
 		tSolucion.setText("");
 	}
 
