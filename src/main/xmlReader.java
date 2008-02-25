@@ -18,7 +18,7 @@ public class xmlReader{
 		try {
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-			Document doc = docBuilder.parse (new File("configs"+File.separator+"config.xml"));
+			Document doc = docBuilder.parse (new File("config"+File.separator+"config.xml"));
 
 			// normalize text representation
 			doc.getDocumentElement().normalize();

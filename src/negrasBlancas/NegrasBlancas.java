@@ -23,7 +23,9 @@ public class NegrasBlancas extends main.Puzzle{
 		final Image negra	= new Image(display, NegrasBlancas.class.getResourceAsStream("negra.png"));
 		final Image tablero = new Image(display, NegrasBlancas.class.getResourceAsStream("tablero.png"));
 		HeuristicFunction h[] = { new FuncionHeuristicManhattan() };
-		addTabIntro("El objetivo es mover las blancas a la derecha y las negras a la izquierda.");
+		addTabIntro("El objetivo es mover las canicas blancas a la derecha y las negras a la izquierda. " +
+				"Para mover las canicas se pueden desplazar a un hueco, saltar sobre otra canica, " +
+				"o saltar sobre dos canicas consecutivas.");
 		addTabAStar(tab, new FuncionSucesor(), null, new EstadoFinal(), h );
 		addTabDLS(tab, 30, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());

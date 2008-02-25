@@ -78,6 +78,9 @@ public abstract class Puzzle extends Thread {
 			catch (Exception ex) {
 				System.gc();
 			}
+			catch (Error e) {
+				System.gc();
+			}
 		}
 	}
 
@@ -88,6 +91,9 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
+				System.gc();
+			}
+			catch (Error e) {
 				System.gc();
 			}
 		}
@@ -102,6 +108,9 @@ public abstract class Puzzle extends Thread {
 			catch (Exception ex) {
 				System.gc();
 			}
+			catch (Error e) {
+				System.gc();
+			}
 		}
 	}
 
@@ -112,6 +121,9 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
+				System.gc();
+			}
+			catch (Error e) {
 				System.gc();
 			}
 		}
@@ -126,6 +138,9 @@ public abstract class Puzzle extends Thread {
 			catch (Exception ex) {
 				System.gc();
 			}
+			catch (Error e) {
+				System.gc();
+			}
 		}
 	}
 
@@ -138,6 +153,9 @@ public abstract class Puzzle extends Thread {
 			catch (Exception ex) {
 				System.gc();
 			}
+			catch (Error e) {
+				System.gc();
+			}
 		}
 	}
 
@@ -148,6 +166,9 @@ public abstract class Puzzle extends Thread {
 				agent = new SearchAgent(problem, search);
 			}
 			catch (Exception ex) {
+				System.gc();
+			}
+			catch (Error e) {
 				System.gc();
 			}
 		}

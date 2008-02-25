@@ -40,6 +40,9 @@ public class HanoiTower4 extends main.Puzzle{
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
 	
+		addTabIntro("El objetivo de este puzzle es mover los discos de una posición a otra, " +
+				"teniendo en cuenta que sólo se puede mover un disco cada vez y que no " +
+				"se puede poner un disco más grande sobre otro más pequeño.");
 		addTabIDS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabBFS(tab, new FuncionSucesor(), new EstadoFinal());
 		addTabDFS(tab, new FuncionSucesor(), new EstadoFinal());

@@ -31,6 +31,7 @@ public class Situacion {
 	 */
 	public Situacion(String sit) {
 		situacion = sit;
+		if (sit.equals("")) situacion = "SEVILLA";
 	}
 		
 	
@@ -102,7 +103,7 @@ public class Situacion {
 		}
 		Situacion aSituacion = (Situacion) o;
 
-		if (situacion	!= aSituacion.isSituacion())	return false;  
+		if (!situacion.equals(aSituacion.isSituacion()))	return false;  
 				
 		return true;
 	}
