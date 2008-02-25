@@ -38,17 +38,11 @@ public class Viaje extends main.Puzzle{
 		canvas = addCanvas(true);
 		canvas.setBackgroundImage(fondo);
 
-
-	/** 
-	 * Viaje
-	 */
-
 		actualizarTablero();
 
 		// Tab Intro
-		addTabIntro("Nos encontramos en una ciudad andaluza (p.ej. Sevilla).\n"+
-					"Nos queremos desplazar hasta otra ciudad de la misma comunidad.\n" +
-					"Elegimos por ejemplo Almería. Pero ningún autobús va a ninguna\n" +
+		addTabIntro("Nos encontramos en una ciudad andaluza.\n"+
+					"Nos queremos desplazar hasta otra ciudad de la misma comunidad, pero ningún autobús va a ninguna\n" +
 					"ciudad cuya provincia no sea vecina de la ciudad de partida.");
 
 		addTabIDS(situacion, new FuncionSucesor(), new EstadoFinal());
@@ -179,6 +173,7 @@ public class Viaje extends main.Puzzle{
 	}
 
 	protected void cargar() {
+		if (data.equals("")) data = "GRANADA";
 		situacion = new Situacion(data);
 	}
 }
