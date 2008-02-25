@@ -61,7 +61,7 @@ public abstract class Puzzle extends Thread {
 	protected Problem problem;
 	private int profMaxDLS;
 	private String salida;
-	private final int TMAX = 5000;
+	private final int TMAX = 20000;
 	private int tiempo = TMAX;
 	private HeuristicFunction h;
 	public boolean solucionEncontrada = false;
